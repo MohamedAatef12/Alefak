@@ -7,6 +7,7 @@ import 'package:alefk/features/settings/views/pages/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+
 class BottomNavigationScreen extends StatelessWidget {
   const BottomNavigationScreen({super.key});
 
