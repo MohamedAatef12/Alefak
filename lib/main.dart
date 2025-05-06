@@ -1,6 +1,5 @@
 import 'package:alefk/core/themes/app_colors.dart';
-import 'package:alefk/features/login/presentation/view/login_screen.dart';
-
+import 'package:alefk/features/splash/presentation/view/splash_screen.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 
@@ -30,7 +29,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.current.primary),
         useMaterial3: true,
       ),
-      home: const LoginScreen(),
+      home: const SplashScreen(),
     );
   }
 }

@@ -1,4 +1,7 @@
+import 'package:alefk/core/constants/icons.dart';
+import 'package:alefk/core/constants/padding.dart';
 import 'package:alefk/core/themes/app_colors.dart';
+import 'package:alefk/core/widgets/custom_button.dart';
 import 'package:alefk/core/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +23,7 @@ class LoginBody extends StatelessWidget {
         height: MediaQuery.of(context).size.height * 0.02,
       ),
       Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        padding: PaddingConstants.horizontalLarge,
         child: Text(
           'Email',
           style: TextStyle(
@@ -29,19 +32,18 @@ class LoginBody extends StatelessWidget {
           ),
         ),
       ),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        child: CustomTextFormField(
-          hintText: 'Email',
-          prefixIcon: Icons.email,
-          onChanged: (value) {},
-        ),
+      CustomTextFormField(
+        hintText: 'Email',
+        prefixIcon:IconlyBrokenIcons.message,
+        onChanged: (value) {},
+        fillColor: true,
+        fillColorValue: Colors.white,
       ),
       SizedBox(
         height: MediaQuery.of(context).size.height * 0.01,
       ),
       Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        padding:  PaddingConstants.horizontalLarge,
         child: Text(
           'Password',
           style: TextStyle(
@@ -50,19 +52,18 @@ class LoginBody extends StatelessWidget {
           ),
         ),
       ),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        child: CustomTextFormField(
-          hintText: 'Password',
-          prefixIcon: Icons.lock,
-          onChanged: (value) {},
-        ),
+      CustomTextFormField(
+        hintText: 'Password',
+        prefixIcon: IconlyBrokenIcons.lock,
+        fillColor: true,
+        fillColorValue: Colors.white,
+        onChanged: (value) {},
       ),
       SizedBox(
         height: MediaQuery.of(context).size.height * 0.01,
       ),
       Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        padding: PaddingConstants.horizontalLarge,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -89,32 +90,35 @@ class LoginBody extends StatelessWidget {
           ],
         ),
       ),
-      Row(
-        children: [
-          Expanded(
-            child: Divider(
-              color: AppColors.current.text,
-              thickness: 0.7,
-              indent: screenWidth * 0.05,
-              endIndent: screenWidth * 0.02,
+      Padding(
+        padding:  PaddingConstants.horizontalLarge,
+        child: Row(
+          children: [
+            Expanded(
+              child: Divider(
+                color: AppColors.current.text,
+                thickness: 0.7,
+                indent: screenWidth * 0.05,
+                endIndent: screenWidth * 0.02,
+              ),
             ),
-          ),
-          Text(
-            'Or',
-            style: TextStyle(
-              fontSize: screenWidth * 0.04,
-              color: AppColors.current.text,
+            Text(
+              'Or',
+              style: TextStyle(
+                fontSize: screenWidth * 0.04,
+                color: AppColors.current.text,
+              ),
             ),
-          ),
-          Expanded(
-            child: Divider(
-              color: AppColors.current.text,
-              thickness: 0.7,
-              indent: screenWidth * 0.02,
-              endIndent: screenWidth * 0.05,
+            Expanded(
+              child: Divider(
+                color: AppColors.current.text,
+                thickness: 0.7,
+                indent: screenWidth * 0.02,
+                endIndent: screenWidth * 0.05,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -170,28 +174,9 @@ class LoginBody extends StatelessWidget {
       SizedBox(
         height: MediaQuery.of(context).size.height * 0.02,
       ),
-      Center(
-        child: FilledButton(
-            onPressed: () {},
-            style: ButtonStyle(
-              minimumSize: MaterialStateProperty.all<Size>(
-                  Size(screenWidth * 0.8, screenHeight * 0.06)),
-              backgroundColor:
-                  MaterialStateProperty.all<Color>(AppColors.current.blue),
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-            ),
-            child: Text(
-              'Login',
-              style: TextStyle(
-                fontSize: screenWidth * 0.04,
-                color: AppColors.current.white,
-              ),
-            )),
-      ),
+Center(
+  child: CustomFilledButton(text: 'Login', onPressed: (){}),
+)
     ]);
   }
 }

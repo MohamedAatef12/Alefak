@@ -1,3 +1,4 @@
+import 'package:alefk/core/constants/icons.dart';
 import 'package:alefk/core/themes/app_colors.dart';
 import 'package:alefk/core/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,7 @@ class CustomHomeSearchBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomTextFormField(
       hintText: 'Search',
-      prefixIcon: Icons.search,
+      prefixIcon: IconlyBrokenIcons.search,
       fillColor: true,
       contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
       border: OutlineInputBorder(

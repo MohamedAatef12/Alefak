@@ -6,8 +6,8 @@ class CustomTextFormField extends StatelessWidget {
   final String? initialValue;
   final String? hintText;
   final String? labelText;
-  final IconData? prefixIcon;
-  final IconData? suffixIcon;
+  final Icon? prefixIcon;
+  final Icon? suffixIcon;
   final bool obscureText;
   final TextInputType keyboardType;
   final TextInputAction? textInputAction;
@@ -79,8 +79,8 @@ class CustomTextFormField extends StatelessWidget {
           labelText: labelText,
           filled: fillColor,
           fillColor: fillColorValue,
-          prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
-          suffixIcon: suffixIcon != null ? Icon(suffixIcon) : null,
+          prefixIcon: prefixIcon,
+          suffixIcon: suffixIcon,
           contentPadding: contentPadding ??
               const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
           border: border ?? const OutlineInputBorder(),
