@@ -1,3 +1,4 @@
+import 'package:alefk/core/constants/padding.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextFormField extends StatelessWidget {
@@ -23,6 +24,8 @@ class CustomTextFormField extends StatelessWidget {
   final InputBorder? border;
   final InputBorder? focusedBorder;
   final InputBorder? enabledBorder;
+  final bool? fillColor;
+  final Color? fillColorValue;
 
   const CustomTextFormField({
     super.key,
@@ -48,39 +51,46 @@ class CustomTextFormField extends StatelessWidget {
     this.border,
     this.focusedBorder,
     this.enabledBorder,
+    this.fillColor,
+    this.fillColorValue,
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      initialValue: initialValue,
-      obscureText: obscureText,
-      keyboardType: keyboardType,
-      textInputAction: textInputAction,
-      validator: validator,
-      onChanged: onChanged,
-      onFieldSubmitted: onFieldSubmitted,
-      onTap: onTap,
-      focusNode: focusNode,
-      maxLines: maxLines,
-      minLines: minLines,
-      readOnly: readOnly,
-      enabled: enabled,
-      decoration: InputDecoration(
-        hintText: hintText,
-        labelText: labelText,
-        prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
-        suffixIcon: suffixIcon != null ? Icon(suffixIcon) : null,
-        contentPadding: contentPadding ??
-            const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
-        border: border ?? const OutlineInputBorder(),
-        focusedBorder: focusedBorder ??
-            const OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.blue)),
-        enabledBorder: enabledBorder ??
-            const OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey)),
+    return Padding(
+      padding: PaddingConstants.horizontalLarge,
+      child: TextFormField(
+        controller: controller,
+        initialValue: initialValue,
+        obscureText: obscureText,
+        keyboardType: keyboardType,
+        textInputAction: textInputAction,
+        validator: validator,
+        onChanged: onChanged,
+        onFieldSubmitted: onFieldSubmitted,
+        onTap: onTap,
+        focusNode: focusNode,
+        maxLines: maxLines,
+        minLines: minLines,
+        readOnly: readOnly,
+        enabled: enabled,
+        decoration: InputDecoration(
+          hintText: hintText,
+          labelText: labelText,
+          filled: fillColor,
+          fillColor: fillColorValue,
+          prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
+          suffixIcon: suffixIcon != null ? Icon(suffixIcon) : null,
+          contentPadding: contentPadding ??
+              const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+          border: border ?? const OutlineInputBorder(),
+          focusedBorder: focusedBorder ??
+              const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue)),
+          enabledBorder: enabledBorder ??
+              const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey)),
+        ),
       ),
     );
   }

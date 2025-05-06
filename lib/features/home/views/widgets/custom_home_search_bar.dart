@@ -1,3 +1,5 @@
+import 'package:alefk/core/themes/app_colors.dart';
+import 'package:alefk/core/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 
 class CustomHomeSearchBar extends StatelessWidget {
@@ -5,18 +7,30 @@ class CustomHomeSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: TextField(
-        decoration: InputDecoration(
-          hintText: 'Search',
-          prefixIcon: const Icon(Icons.search),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
-            borderSide: BorderSide.none,
-          ),
-          filled: true,
-          fillColor: Colors.grey[200],
+    return CustomTextFormField(
+      hintText: 'Search',
+      prefixIcon: Icons.search,
+      fillColor: true,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: BorderSide(
+          color: AppColors.current.gray,
+          width: 1,
+        ),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: BorderSide(
+          color: AppColors.current.primary,
+          width: 1,
+        ),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: BorderSide(
+          color: AppColors.current.gray,
+          width: 1,
         ),
       ),
     );
