@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:alefk/core/themes/app_colors.dart';
 import 'package:alefk/features/login/presentation/view/login_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class SplashBody extends StatefulWidget {
   const SplashBody({super.key});
