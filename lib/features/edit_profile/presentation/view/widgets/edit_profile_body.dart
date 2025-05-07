@@ -11,7 +11,7 @@ class EditProfileBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  SingleChildScrollView(
+    return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       child: Column(
         children: [
@@ -24,8 +24,8 @@ class EditProfileBody extends StatelessWidget {
               Expanded(
                 child: CustomTextFormField(
                   hintText: 'First Name',
-                  prefixIcon:  Icon(IconlyBroken.profile,
-                      color: AppColors.current.blue),
+                  prefixIcon:
+                      Icon(IconlyBroken.profile, color: AppColors.current.blue),
                   fillColor: true,
                   fillColorValue: AppColors.current.white,
                   obscureText: false,
@@ -41,8 +41,8 @@ class EditProfileBody extends StatelessWidget {
               Expanded(
                 child: CustomTextFormField(
                   hintText: 'Last Name',
-                  prefixIcon:  Icon(IconlyBroken.profile,
-                      color: AppColors.current.blue),
+                  prefixIcon:
+                      Icon(IconlyBroken.profile, color: AppColors.current.blue),
                   obscureText: false,
                   keyboardType: TextInputType.name,
                   fillColor: true,
@@ -62,8 +62,7 @@ class EditProfileBody extends StatelessWidget {
           ),
           CustomTextFormField(
             hintText: 'Phone Number',
-            prefixIcon:  Icon(IconlyBroken.call,
-                color: AppColors.current.blue),
+            prefixIcon: Icon(IconlyBroken.call, color: AppColors.current.blue),
             fillColor: true,
             fillColorValue: AppColors.current.white,
             obscureText: false,
@@ -81,10 +80,10 @@ class EditProfileBody extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child:CustomTextFormField(
+                child: CustomTextFormField(
                   hintText: 'Age',
-                  prefixIcon:  Icon(Icons.numbers,
-                      color: AppColors.current.blue),
+                  prefixIcon:
+                      Icon(Icons.numbers, color: AppColors.current.blue),
                   fillColor: true,
                   fillColorValue: AppColors.current.white,
                   obscureText: false,
@@ -97,22 +96,22 @@ class EditProfileBody extends StatelessWidget {
                   },
                 ),
               ),
-              Expanded(child:
-              CustomTextFormField(
-                hintText: 'Gender',
-                prefixIcon:  Icon(IconlyBroken.profile,
-                    color: AppColors.current.blue),
-                fillColor: true,
-                fillColorValue: AppColors.current.white,
-                obscureText: false,
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your email';
-                  }
-                  return null;
-                },
-              ),
+              Expanded(
+                child: CustomTextFormField(
+                  hintText: 'Gender',
+                  prefixIcon:
+                      Icon(IconlyBroken.profile, color: AppColors.current.blue),
+                  fillColor: true,
+                  fillColorValue: AppColors.current.white,
+                  obscureText: false,
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your email';
+                    }
+                    return null;
+                  },
+                ),
               )
             ],
           ),
@@ -121,8 +120,8 @@ class EditProfileBody extends StatelessWidget {
           ),
           CustomTextFormField(
             hintText: 'Address',
-            prefixIcon:  Icon(IconlyBroken.location,
-                color: AppColors.current.blue),
+            prefixIcon:
+                Icon(IconlyBroken.location, color: AppColors.current.blue),
             obscureText: false,
             keyboardType: TextInputType.emailAddress,
             fillColor: true,
@@ -174,7 +173,7 @@ class EditProfileBody extends StatelessWidget {
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.02,
                       ),
-                  Image.asset('assets/images/add_photo.png'),
+                      Image.asset('assets/images/add_photo.png'),
                     ],
                   ),
                 ),

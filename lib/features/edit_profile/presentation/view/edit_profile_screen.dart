@@ -9,16 +9,14 @@ class EditProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: AppColors.current.primary,
       appBar: AppBar(
-        title:  Text('Edit Profile',
-          style: TextStyles.largeBold
-        ),
+        title: Text('Edit Profile', style: TextStyles.largeBold),
         centerTitle: true,
         backgroundColor: Colors.transparent,
         leading: IconButton(
-          icon:  const Icon(IconlyBroken.arrow_left_2),
+          icon: const Icon(IconlyBroken.arrow_left_2),
           onPressed: () {
             Navigator.pop(context);
           },

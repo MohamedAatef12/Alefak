@@ -3,12 +3,14 @@ class Assets {
   Assets._();
 
   static const String assetsLogo = 'assets/logo.png';
+  static const String imagesAddPhoto = 'assets/images/add_photo.png';
   static const String imagesFrame1 = 'assets/images/frame1.png';
   static const String imagesFrame11 = 'assets/images/frame11.png';
   static const String imagesFrame2 = 'assets/images/frame2.png';
   static const String imagesIcon Facebook = 'assets/images/icon _facebook.png';
   static const String imagesIcon Google = 'assets/images/icon _google.png';
   static const String imagesLogo = 'assets/images/logo.png';
+  static const String imagesProfile = 'assets/images/profile.png';
   static const String imagesXIcon = 'assets/images/x_icon.png';
 
 }
