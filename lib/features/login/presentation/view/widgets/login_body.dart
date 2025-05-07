@@ -3,6 +3,7 @@ import 'package:alefk/core/constants/padding.dart';
 import 'package:alefk/core/themes/app_colors.dart';
 import 'package:alefk/core/widgets/custom_button.dart';
 import 'package:alefk/core/widgets/custom_text_form_field.dart';
+import 'package:alefk/features/register/presentation/view/register_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginBody extends StatelessWidget {
@@ -162,11 +163,21 @@ class LoginBody extends StatelessWidget {
               color: AppColors.current.text,
             ),
           ),
-          Text(
-            ' Sign Up',
-            style: TextStyle(
-              fontSize: screenWidth * 0.04,
-              color: AppColors.current.blue,
+          GestureDetector(
+            onTap: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const RegisterScreen(),
+                ),
+              );
+            },
+            child: Text(
+              ' Sign Up',
+              style: TextStyle(
+                fontSize: screenWidth * 0.04,
+                color: AppColors.current.blue,
+              ),
             ),
           ),
         ],
