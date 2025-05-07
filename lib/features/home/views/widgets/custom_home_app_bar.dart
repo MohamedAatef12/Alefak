@@ -1,3 +1,6 @@
+import 'package:alefk/core/constants/icons.dart';
+import 'package:alefk/core/constants/padding.dart';
+import 'package:alefk/core/constants/sized_box.dart';
 import 'package:flutter/cupertino.dart';
 
 class CustomHomeAppBar extends StatelessWidget {
@@ -5,14 +8,21 @@ class CustomHomeAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Image.asset(
-          'assets/logo.png',
-          width: 100,
-          height: 100,
-        ),
-      ],
+    return Padding(
+      padding: PaddingConstants.horizontalMedium,
+      child: Row(
+        children: [
+          Image.asset(
+            'assets/logo.png',
+            fit: BoxFit.cover,
+            width: 80,
+          ),
+          const Spacer(),
+          IconlyBrokenIcons.search,
+          SizedBoxConstants.horizontalMedium,
+          IconlyBrokenIcons.notification,
+        ],
+      ),
     );
   }
 }
