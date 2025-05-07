@@ -1,7 +1,7 @@
 import 'package:alefk/core/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 
-class FilledButton extends StatelessWidget {
+class CustomFilledButton extends StatelessWidget {
   final String text; // Button text
   final VoidCallback onPressed; // Callback on press
   final double? widthFactor; // Width factor relative to screen size (optional)
@@ -13,7 +13,7 @@ class FilledButton extends StatelessWidget {
   final TextStyle? textStyle; // Custom text style (optional)
 
   // Constructor with default properties
-  const FilledButton({
+  const CustomFilledButton({
     super.key,
     required this.text,
     required this.onPressed,

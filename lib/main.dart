@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'features/bottom_bar/views/pages/bottom_bar_page.dart';
+import 'core/routes/router.dart';
+import 'core/themes/app_colors.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,14 +13,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    final router = goRouter();
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Alefk',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
+        scaffoldBackgroundColor: AppColors.current.primary,
       ),
-      home: const BottomNavigationScreen(),
+      routerConfig: router,
     );
   }
 }
