@@ -1,5 +1,8 @@
-import 'package:alefk/features/home/views/widgets/custom_home_app_bar.dart';
-import 'package:alefk/features/home/views/widgets/custom_home_search_bar.dart';
+import 'package:alefk/core/constants/padding.dart';
+import 'package:alefk/core/constants/sized_box.dart';
+import 'package:alefk/features/home/views/widgets/custom_add_post_button.dart';
+import 'package:alefk/features/home/views/widgets/custom_home_list.dart';
+import 'package:alefk/features/home/views/widgets/custom_sliver_delegate.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -7,14 +10,27 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            CustomHomeAppBar(),
-            SizedBox(height: 20),
-            CustomHomeSearchBar(),
+        child: CustomScrollView(
+          slivers: [
+            SliverPersistentHeader(
+              pinned: false,
+              delegate: CustomSliverAppBarDelegate(),
+            ),
+            const SliverToBoxAdapter(
+              child: SizedBoxConstants.verticalMedium,
+            ),
+            const SliverToBoxAdapter(
+              child: Padding(
+                padding: PaddingConstants.horizontalMedium,
+                child: CustomAddPostButton(),
+              ),
+            ),
+            const SliverToBoxAdapter(
+              child: SizedBoxConstants.verticalMedium,
+            ),
+            const CustomHomeList(),
           ],
         ),
       ),

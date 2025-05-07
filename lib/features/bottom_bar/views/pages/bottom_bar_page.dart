@@ -1,3 +1,4 @@
+import 'package:alefk/core/constants/icons.dart';
 import 'package:alefk/features/bottom_bar/views/bloc/bottom_bar_bloc.dart';
 import 'package:alefk/features/bottom_bar/views/bloc/bottom_bar_events.dart';
 import 'package:alefk/features/bottom_bar/views/bloc/bottom_bar_states.dart';
@@ -30,19 +31,40 @@ class BottomNavigationScreen extends StatelessWidget {
 
           return Scaffold(
             body: page,
-            bottomNavigationBar: BottomNavigationBar(
-              currentIndex: state.index,
-              onTap: (index) {
-                final bloc = context.read<BottomNavigationBloc>();
-                bloc.add(NavigateToPage(index));
-              },
-              items: const [
-                BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.shopping_cart), label: 'Cart'),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.settings), label: 'Settings'),
-              ],
+            bottomNavigationBar: Theme(
+              data: Theme.of(context).copyWith(
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+              ),
+              child: BottomNavigationBar(
+                elevation: 0,
+                type: BottomNavigationBarType.fixed,
+                backgroundColor: Colors.transparent,
+                enableFeedback: false,
+                selectedItemColor: Colors.blue,
+                unselectedItemColor: Colors.grey,
+                showUnselectedLabels: false,
+                selectedFontSize: 18,
+                selectedIconTheme: const IconThemeData(
+                  size: 30,
+                ),
+                unselectedIconTheme: const IconThemeData(
+                  size: 28,
+                ),
+                currentIndex: state.index,
+                onTap: (index) {
+                  final bloc = context.read<BottomNavigationBloc>();
+                  bloc.add(NavigateToPage(index));
+                },
+                items: const [
+                  BottomNavigationBarItem(
+                      icon: IconlyBrokenIcons.home, label: 'Home'),
+                  BottomNavigationBarItem(
+                      icon: IconlyBrokenIcons.shoppingCart, label: 'Cart'),
+                  BottomNavigationBarItem(
+                      icon: IconlyBrokenIcons.settings, label: 'Settings'),
+                ],
+              ),
             ),
           );
         },
