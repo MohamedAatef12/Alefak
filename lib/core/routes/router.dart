@@ -52,6 +52,7 @@ GoRouter goRouter() {
           return const AddPostPage();
         },
       ),
+      
     ],
   );
 }
