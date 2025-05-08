@@ -1,9 +1,9 @@
 import 'package:alefk/features/bottom_bar/views/pages/bottom_bar_page.dart';
 import 'package:alefk/features/cart/views/pages/cart_page.dart';
+import 'package:alefk/features/home/views/pages/add_post_page.dart';
 import 'package:alefk/features/home/views/pages/home_page.dart';
 import 'package:alefk/features/settings/views/pages/settings_page.dart';
 import 'package:alefk/features/splash/presentation/view/splash_screen.dart';
-
 import 'package:go_router/go_router.dart';
 
 GoRouter goRouter() {
@@ -43,6 +43,13 @@ GoRouter goRouter() {
         name: 'cart',
         builder: (context, state) {
           return const CartPage();
+        },
+      ),
+      GoRoute(
+        path: '/add-post',
+        name: 'add-post',
+        builder: (context, state) {
+          return const AddPostPage();
         },
       ),
     ],

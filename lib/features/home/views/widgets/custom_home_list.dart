@@ -17,7 +17,7 @@ class CustomHomeList extends StatelessWidget {
               timestamp: '2 hours ago',
               content: 'This is a sample post content.',
               imageUrls: [
-                'assets/logo.png',
+                'assets/images/logo.png',
                 'https://example.com/image2.jpg',
                 'https://example.com/image2.jpg',
               ],

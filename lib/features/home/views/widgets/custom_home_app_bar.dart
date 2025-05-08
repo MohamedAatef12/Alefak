@@ -13,7 +13,7 @@ class CustomHomeAppBar extends StatelessWidget {
       child: Row(
         children: [
           Image.asset(
-            'assets/logo.png',
+            'assets/images/logo.png', 
             fit: BoxFit.cover,
             width: 80,
           ),
