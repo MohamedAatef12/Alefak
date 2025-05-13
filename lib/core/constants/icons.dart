@@ -52,8 +52,14 @@ class IconlyBrokenIcons {
   static const Icon show = Icon(IconlyBroken.show);
   static const Icon hide = Icon(IconlyBroken.hide);
   static const Icon video = Icon(IconlyBroken.video);
-  static const Icon shoppingBag = Icon(IconlyBroken.bag);
-  static const Icon shoppingCart = Icon(IconlyBroken.buy);
+  static const Icon shoppingBag = Icon(
+    IconlyBroken.bag,
+  );
+  static Icon shoppingCart = Icon(
+    IconlyBroken.buy,
+    size: 30,
+    color: AppColors.current.red,
+  );
   static const Icon lock = Icon(IconlyBroken.lock);
   static const Icon unlock = Icon(IconlyBroken.unlock);
   static const Icon arrowDown_2 = Icon(IconlyBroken.arrow_down_2);
