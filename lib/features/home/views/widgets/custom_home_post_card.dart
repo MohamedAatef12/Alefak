@@ -5,6 +5,8 @@ import 'package:alefk/core/themes/app_colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
+import 'custom_bottom_sheet.dart';
+
 class FacebookPostCard extends StatelessWidget {
   final String avatarUrl;
   final String userName;
@@ -131,11 +133,22 @@ class FacebookPostCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _buildActionButton(
-                    icon: IconlyBrokenIcons.heart, label: "Like"),
+                  icon: IconlyBrokenIcons.heart,
+                  label: "Like",
+                  context: context,
+                  index: 0,
+                ),
                 _buildActionButton(
-                    icon: IconlyBrokenIcons.chat, label: "Comment"),
+                  icon: IconlyBrokenIcons.chat,
+                  label: "Comment",
+                  context: context,
+                  index: 1,
+                ),
                 _buildActionButton(
-                    icon: IconlyBrokenIcons.send, label: "Share"),
+                    icon: IconlyBrokenIcons.send,
+                    label: "Share",
+                    context: context,
+                    index: 0),
               ],
             ),
             SizedBoxConstants.verticalMedium,
@@ -145,18 +158,42 @@ class FacebookPostCard extends StatelessWidget {
     );
   }
 
-  Widget _buildActionButton({required Icon icon, required String label}) {
-    return Row(
-      children: [
-        icon,
-        const SizedBox(width: 5.0),
-        Text(
-          label,
-          style: TextStyles.medium.copyWith(
-            color: AppColors.current.text,
+  Widget _buildActionButton(
+      {required Icon icon,
+      required String label,
+      required BuildContext context,
+      required int index}) {
+    return InkWell(
+      highlightColor: AppColors.current.transparent,
+      splashColor: AppColors.current.transparent,
+      splashFactory: NoSplash.splashFactory,
+      onTap: () {
+        showModalBottomSheet(
+          context: context,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(20),
+            ),
           ),
-        ),
-      ],
+          builder: (BuildContext context) {
+            return BottomSheetContent(
+              index: index,
+            );
+          },
+        );
+      },
+      child: Row(
+        children: [
+          icon,
+          const SizedBox(width: 5.0),
+          Text(
+            label,
+            style: TextStyles.medium.copyWith(
+              color: AppColors.current.text,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

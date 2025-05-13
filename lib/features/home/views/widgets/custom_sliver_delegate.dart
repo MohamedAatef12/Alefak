@@ -10,9 +10,9 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  double get maxExtent => 90; // Adjust based on CustomHomeAppBar height
+  double get maxExtent => 110; // Adjust based on CustomHomeAppBar height
   @override
-  double get minExtent => 90; // Same as maxExtent for static height
+  double get minExtent => 110; // Same as maxExtent for static height
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {

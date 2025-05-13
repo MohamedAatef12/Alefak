@@ -17,8 +17,8 @@ class CustomFilledButton extends StatelessWidget {
     super.key,
     required this.text,
     required this.onPressed,
-    this.widthFactor = 0.8, // Default width relative to screen width (80%)
-    this.heightFactor = 0.07, // Default height relative to screen height (7%)
+    this.widthFactor = 0.9, // Default width relative to screen width (80%)
+    this.heightFactor = 0.06, // Default height relative to screen height (7%)
     this.borderRadius = 8.0, // Default border radius
     this.backgroundColor, // Custom background color
     this.textColor, // Custom text color
