@@ -22,7 +22,7 @@ dependencies:
   iconly: ^1.0.1
   carousel_slider: ^5.0.0
   go_router: ^15.1.1
-
+  awesome_dialog: ^3.2.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

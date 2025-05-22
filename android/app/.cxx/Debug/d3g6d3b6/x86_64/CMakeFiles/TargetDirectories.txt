@@ -1,0 +1,2 @@
+C:/dew/e folder/Alefk/android/app/.cxx/Debug/d3g6d3b6/x86_64/CMakeFiles/edit_cache.dir
+C:/dew/e folder/Alefk/android/app/.cxx/Debug/d3g6d3b6/x86_64/CMakeFiles/rebuild_cache.dir
