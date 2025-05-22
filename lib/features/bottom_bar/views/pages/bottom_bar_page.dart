@@ -35,34 +35,37 @@ class BottomNavigationScreen extends StatelessWidget {
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
               ),
-              child: BottomNavigationBar(
-                elevation: 0,
-                type: BottomNavigationBarType.fixed,
-                backgroundColor: Colors.transparent,
-                enableFeedback: false,
-                selectedItemColor: Colors.blue,
-                unselectedItemColor: Colors.grey,
-                showUnselectedLabels: false,
-                selectedFontSize: 18,
-                selectedIconTheme: const IconThemeData(
-                  size: 30,
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.111,
+                child: BottomNavigationBar(
+                  elevation: 0,
+                  type: BottomNavigationBarType.fixed,
+                  backgroundColor: Colors.transparent,
+                  enableFeedback: false,
+                  selectedItemColor: Colors.blue,
+                  unselectedItemColor: Colors.grey,
+                  showUnselectedLabels: false,
+                  selectedFontSize: 18,
+                  selectedIconTheme: const IconThemeData(
+                    size: 30,
+                  ),
+                  unselectedIconTheme: const IconThemeData(
+                    size: 28,
+                  ),
+                  currentIndex: state.index,
+                  onTap: (index) {
+                    final bloc = context.read<BottomNavigationBloc>();
+                    bloc.add(NavigateToPage(index));
+                  },
+                  items: const [
+                    BottomNavigationBarItem(
+                        icon: IconlyBrokenIcons.home, label: 'Home'),
+                    BottomNavigationBarItem(
+                        icon: IconlyBrokenIcons.shoppingBag, label: 'Shop'),
+                    BottomNavigationBarItem(
+                        icon: IconlyBrokenIcons.settings, label: 'Settings'),
+                  ],
                 ),
-                unselectedIconTheme: const IconThemeData(
-                  size: 28,
-                ),
-                currentIndex: state.index,
-                onTap: (index) {
-                  final bloc = context.read<BottomNavigationBloc>();
-                  bloc.add(NavigateToPage(index));
-                },
-                items: const [
-                  BottomNavigationBarItem(
-                      icon: IconlyBrokenIcons.home, label: 'Home'),
-                  BottomNavigationBarItem(
-                      icon: IconlyBrokenIcons.shoppingBag, label: 'Shop'),
-                  BottomNavigationBarItem(
-                      icon: IconlyBrokenIcons.settings, label: 'Settings'),
-                ],
               ),
             ),
           );
