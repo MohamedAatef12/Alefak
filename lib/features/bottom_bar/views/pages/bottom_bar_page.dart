@@ -2,11 +2,12 @@ import 'package:alefk/core/constants/icons.dart';
 import 'package:alefk/features/bottom_bar/views/bloc/bottom_bar_bloc.dart';
 import 'package:alefk/features/bottom_bar/views/bloc/bottom_bar_events.dart';
 import 'package:alefk/features/bottom_bar/views/bloc/bottom_bar_states.dart';
+import 'package:alefk/features/cart/views/pages/cart_page.dart';
 import 'package:alefk/features/home/views/pages/home_page.dart';
-import 'package:alefk/features/settings/views/pages/settings_page.dart';
-import 'package:alefk/features/shop/views/pages/shop_page.dart';
+import 'package:alefk/features/settings/views/pages/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 
 class BottomNavigationScreen extends StatelessWidget {
   const BottomNavigationScreen({super.key});
@@ -21,9 +22,9 @@ class BottomNavigationScreen extends StatelessWidget {
           if (state is HomePageState) {
             page = const HomePage();
           } else if (state is CartPageState) {
-            page = const ShopPage();
+            page = const CartPage();
           } else if (state is SettingsPageState) {
-            page = const SettingsPage();
+            page = const SettingsScreen();
           } else {
             page = const HomePage();
           }
@@ -59,7 +60,7 @@ class BottomNavigationScreen extends StatelessWidget {
                   BottomNavigationBarItem(
                       icon: IconlyBrokenIcons.home, label: 'Home'),
                   BottomNavigationBarItem(
-                      icon: IconlyBrokenIcons.shoppingBag, label: 'Shop'),
+                      icon: IconlyBrokenIcons.shoppingCart, label: 'Cart'),
                   BottomNavigationBarItem(
                       icon: IconlyBrokenIcons.settings, label: 'Settings'),
                 ],

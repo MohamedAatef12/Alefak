@@ -66,7 +66,7 @@ class EditProfileBody extends StatelessWidget {
             fillColor: true,
             fillColorValue: AppColors.current.white,
             obscureText: false,
-            keyboardType: TextInputType.emailAddress,
+            keyboardType: TextInputType.number,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please enter your email';
@@ -87,7 +87,7 @@ class EditProfileBody extends StatelessWidget {
                   fillColor: true,
                   fillColorValue: AppColors.current.white,
                   obscureText: false,
-                  keyboardType: TextInputType.emailAddress,
+                  keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your email';
@@ -104,7 +104,6 @@ class EditProfileBody extends StatelessWidget {
                   fillColor: true,
                   fillColorValue: AppColors.current.white,
                   obscureText: false,
-                  keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your email';
@@ -123,7 +122,6 @@ class EditProfileBody extends StatelessWidget {
             prefixIcon:
                 Icon(IconlyBroken.location, color: AppColors.current.blue),
             obscureText: false,
-            keyboardType: TextInputType.emailAddress,
             fillColor: true,
             fillColorValue: AppColors.current.white,
             validator: (value) {
