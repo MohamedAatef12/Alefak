@@ -2,6 +2,8 @@ import 'package:alefk/features/bottom_bar/views/pages/bottom_bar_page.dart';
 import 'package:alefk/features/home/views/pages/add_post_page.dart';
 import 'package:alefk/features/home/views/pages/home_page.dart';
 import 'package:alefk/features/settings/views/pages/settings_page.dart';
+import 'package:alefk/features/shop/views/pages/categories_page.dart';
+import 'package:alefk/features/shop/views/pages/product_details.dart';
 import 'package:alefk/features/shop/views/pages/shop_page.dart';
 import 'package:alefk/features/splash/presentation/view/splash_screen.dart';
 import 'package:go_router/go_router.dart';
@@ -50,6 +52,20 @@ GoRouter goRouter() {
         name: 'add-post',
         builder: (context, state) {
           return const AddPostPage();
+        },
+      ),
+      GoRoute(
+        path: '/categories',
+        name: 'categories',
+        builder: (context, state) {
+          return const CategoriesPage();
+        },
+      ),
+      GoRoute(
+        path: '/product-details',
+        name: 'productDetails',
+        builder: (context, state) {
+          return const ProductDetails();
         },
       ),
     ],

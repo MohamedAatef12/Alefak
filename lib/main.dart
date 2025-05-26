@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsFlutterBinding.ensureInitialized();
     final router = goRouter();
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
