@@ -12,7 +12,7 @@ class FacebookPostCard extends StatelessWidget {
   final String userName;
   final String timestamp;
   final String content;
-  final List<String>? imageUrls; // <-- Changed from String? to List<String>?
+  final List<String>? imageUrls;
 
   const FacebookPostCard({
     super.key,
@@ -25,6 +25,10 @@ class FacebookPostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final validImageUrls = (imageUrls ?? []).where((url) {
+      return url.startsWith('http') || url.startsWith('https');
+    }).toList();
+
     return Card(
       color: AppColors.current.white,
       margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
@@ -37,28 +41,38 @@ class FacebookPostCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // User info
+            // SizedBox
             Row(
               children: [
+                // User Avatar
                 CircleAvatar(
-                  radius: 30.0,
+                  radius: 20.0,
                   backgroundImage: NetworkImage(avatarUrl),
+                  onBackgroundImageError: (_, __) {
+                    // Handle image loading error
+                  },
                 ),
-                const SizedBox(width: 12.0),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(userName, style: TextStyles.large),
-                    Text(
-                      timestamp,
-                      style: TextStyles.mediumItalic.copyWith(
-                        color: AppColors.current.gray,
-                      ),
-                    ),
-                  ],
+                const SizedBox(width: 10.0),
+
+                // User Name
+                Text(
+                  userName,
+                  style: TextStyles.medium.copyWith(
+                    color: AppColors.current.text,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Spacer(),
+                // Timestamp
+                Text(
+                  timestamp,
+                  style: TextStyles.small.copyWith(
+                    color: AppColors.current.text,
+                  ),
                 ),
               ],
             ),
+
             SizedBoxConstants.verticalMedium,
 
             // Post content
@@ -71,7 +85,7 @@ class FacebookPostCard extends StatelessWidget {
             const SizedBox(height: 12.0),
 
             // Carousel Image Slider
-            if (imageUrls != null && imageUrls!.isNotEmpty)
+            if (validImageUrls.isNotEmpty)
               ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
                 child: CarouselSlider(
@@ -81,35 +95,29 @@ class FacebookPostCard extends StatelessWidget {
                     enableInfiniteScroll: false,
                     enlargeCenterPage: true,
                   ),
-                  items: imageUrls!.map((url) {
+                  items: validImageUrls.map((url) {
                     return Builder(
                       builder: (BuildContext context) {
                         return Stack(
                           alignment: Alignment.center,
                           children: [
-                            // Image
-                            Image.asset(
+                            Image.network(
                               url,
                               fit: BoxFit.cover,
                               width: double.infinity,
+                              loadingBuilder:
+                                  (context, child, loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              },
+                              errorBuilder: (context, error, stackTrace) {
+                                return const Center(
+                                  child: Icon(Icons.broken_image, size: 50),
+                                );
+                              },
                             ),
-                            // Image.network(
-                            //   url,
-                            //   fit: BoxFit.cover,
-                            //   width: double.infinity,
-                            //   loadingBuilder:
-                            //       (context, child, loadingProgress) {
-                            //     if (loadingProgress == null) return child;
-                            //     return const Center(
-                            //       child: CircularProgressIndicator(),
-                            //     );
-                            //   },
-                            //   errorBuilder: (context, error, stackTrace) {
-                            //     return const Center(
-                            //       child: Icon(Icons.broken_image, size: 50),
-                            //     );
-                            //   },
-                            // ),
                           ],
                         );
                       },
@@ -117,8 +125,8 @@ class FacebookPostCard extends StatelessWidget {
                   }).toList(),
                 ),
               ),
-            if (imageUrls != null && imageUrls!.isNotEmpty)
-              const SizedBox(height: 12.0),
+
+            if (validImageUrls.isNotEmpty) const SizedBox(height: 12.0),
 
             // Divider
             Divider(
@@ -145,10 +153,11 @@ class FacebookPostCard extends StatelessWidget {
                   index: 1,
                 ),
                 _buildActionButton(
-                    icon: IconlyBrokenIcons.send,
-                    label: "Share",
-                    context: context,
-                    index: 0),
+                  icon: IconlyBrokenIcons.send,
+                  label: "Share",
+                  context: context,
+                  index: 0,
+                ),
               ],
             ),
             SizedBoxConstants.verticalMedium,

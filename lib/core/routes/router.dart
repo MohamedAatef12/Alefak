@@ -62,8 +62,7 @@ GoRouter goRouter() {
         },
       ),
       GoRoute(
-        path: '/product-details',
-        name: 'productDetails',
+        path: '/product-details',        name: 'productDetails',
         builder: (context, state) {
           return const ProductDetails();
         },
