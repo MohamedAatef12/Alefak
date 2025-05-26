@@ -58,7 +58,7 @@ class CustomTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: PaddingConstants.horizontalLarge,
+      padding: PaddingConstants.horizontalMedium,
       child: TextFormField(
         controller: controller,
         initialValue: initialValue,

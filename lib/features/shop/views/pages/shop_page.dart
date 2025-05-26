@@ -1,4 +1,8 @@
+import 'package:alefk/core/constants/sized_box.dart';
 import 'package:alefk/features/shop/views/widgets/shop_app_bar.dart';
+import 'package:alefk/features/shop/views/widgets/shop_categories.dart';
+import 'package:alefk/features/shop/views/widgets/shop_search.dart';
+import 'package:alefk/features/shop/views/widgets/shop_suggestions.dart';
 import 'package:flutter/material.dart';
 
 class ShopPage extends StatelessWidget {
@@ -6,12 +10,37 @@ class ShopPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            ShopAppBar(),
-          ],
+        child: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: ShopAppBar(),
+              ),
+              SliverToBoxAdapter(
+                child: SizedBoxConstants.verticalMedium,
+              ),
+              SliverToBoxAdapter(
+                child: ShopSearch(),
+              ),
+              SliverToBoxAdapter(
+                child: SizedBoxConstants.verticalMedium,
+              ),
+              SliverToBoxAdapter(
+                child: ShopCategories(),
+              ),
+              SliverToBoxAdapter(
+                child: SizedBoxConstants.verticalMedium,
+              ),
+              SliverToBoxAdapter(
+                child: ShopSuggestions(),
+              ),
+            ],
+          ),
         ),
       ),
     );

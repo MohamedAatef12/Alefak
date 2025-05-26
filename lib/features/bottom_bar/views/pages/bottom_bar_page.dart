@@ -1,4 +1,5 @@
 import 'package:alefk/core/constants/icons.dart';
+import 'package:alefk/core/themes/app_colors.dart';
 import 'package:alefk/features/bottom_bar/views/bloc/bottom_bar_bloc.dart';
 import 'package:alefk/features/bottom_bar/views/bloc/bottom_bar_events.dart';
 import 'package:alefk/features/bottom_bar/views/bloc/bottom_bar_states.dart';
@@ -39,7 +40,7 @@ class BottomNavigationScreen extends StatelessWidget {
               child: BottomNavigationBar(
                 elevation: 0,
                 type: BottomNavigationBarType.fixed,
-                backgroundColor: Colors.transparent,
+                backgroundColor: AppColors.current.transparent,
                 enableFeedback: false,
                 selectedItemColor: Colors.blue,
                 unselectedItemColor: Colors.grey,
