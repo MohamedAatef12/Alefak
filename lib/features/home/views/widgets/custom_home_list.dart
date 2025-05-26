@@ -1,4 +1,7 @@
+import 'package:alefk/features/home/views/bloc/home_bloc.dart';
+import 'package:alefk/features/home/views/bloc/home_states.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'custom_home_post_card.dart';
 
@@ -7,24 +10,57 @@ class CustomHomeList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: SliverList(
-        delegate: SliverChildBuilderDelegate(
-          (BuildContext context, int index) {
-            return const FacebookPostCard(
-              avatarUrl:
-                  'https://i.pinimg.com/736x/24/35/cd/2435cdf87fdb794825fa5840af1ec200.jpg',
-              userName: 'Itachi Uchiha',
-              timestamp: '2 hours ago',
-              content: 'This is a sample post content.',
-              imageUrls: [
-                'assets/images/logo.png',
-              ],
-            );
-          },
-          childCount: 10,
-        ),
-      ),
-    );
+    return BlocConsumer<HomeBloc, HomeState>(
+        listener: (BuildContext context, state) {
+      if (state is PostError) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(state.message)),
+        );
+      }
+    }, builder: (BuildContext context, state) {
+      if (state is PostLoading) {
+        return const SliverToBoxAdapter(
+          child: Center(child: CircularProgressIndicator()),
+        );
+      }
+
+      if (state is PostsLoaded) {
+        final posts = state.posts;
+        return SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) {
+              final post = posts[index];
+              return FacebookPostCard(
+                avatarUrl: post.imageUrl,
+                userName: post.username,
+                timestamp: post.date,
+                content: post.text,
+                imageUrls: post.imageUrl == 'string' || post.imageUrl.isEmpty
+                    ? []
+                    : [post.imageUrl],
+              );
+            },
+            childCount: posts.length,
+          ),
+        );
+      }
+      if (state is PostError) {
+        return SliverToBoxAdapter(
+          child: Center(
+            child: Text(
+              state.message,
+              style: const TextStyle(color: Colors.red),
+            ),
+          ),
+        );
+      } else {
+        // Initial state, no posts loaded yet
+        return const SliverToBoxAdapter(
+          child: Center(
+            child: Text('No posts available'),
+          ),
+        );
+      }
+    });
   }
 }
