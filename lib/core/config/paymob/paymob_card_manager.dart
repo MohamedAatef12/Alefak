@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:alefk/core/config/paymob_constants.dart';
+import 'package:alefk/core/config/paymob/paymob_constants.dart';
 import 'package:dio/dio.dart';
 
 class PaymobCardManager {

@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:alefk/core/config/paymob/paymob_card_manager.dart';
 import 'package:alefk/core/config/paymob/paymob_wallet_manager.dart';
+import 'package:alefk/core/constants/icons.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -18,6 +20,29 @@ class ShopAppBar extends StatelessWidget {
           width: 100,
         ),
         const Spacer(),
+        Badge(
+          label: Text('0'),
+          largeSize: 20,
+          alignment: AlignmentDirectional.topEnd,
+          child: InkWell(
+            onTap: () {
+              final Dio dio = Dio();
+              dio
+                  .get(
+                'https://1102-41-235-170-55.ngrok-free.app/api/Comments',
+              )
+                  .then((response) {
+                log('Response: ${response.data}');
+              }).catchError((error) {
+                log('Error: $error');
+              }).whenComplete(() {
+                log('Request completed');
+              });
+            },
+            child: IconlyBrokenIcons.shoppingCart,
+          ),
+        ),
+        const SizedBox(width: 20),
 
         // /// Card Payment
         // InkWell(
