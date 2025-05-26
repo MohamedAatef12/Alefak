@@ -1,7 +1,7 @@
 import 'package:alefk/features/bottom_bar/views/pages/bottom_bar_page.dart';
 import 'package:alefk/features/home/views/pages/add_post_page.dart';
 import 'package:alefk/features/home/views/pages/home_page.dart';
-import 'package:alefk/features/settings/views/pages/settings_page.dart';
+import 'package:alefk/features/settings/views/pages/settings_screen.dart';
 import 'package:alefk/features/shop/views/pages/categories_page.dart';
 import 'package:alefk/features/shop/views/pages/product_details.dart';
 import 'package:alefk/features/shop/views/pages/shop_page.dart';
@@ -37,7 +37,7 @@ GoRouter goRouter() {
         path: '/settings',
         name: 'settings',
         builder: (context, state) {
-          return const SettingsPage();
+          return const SettingsScreen();
         },
       ),
       GoRoute(

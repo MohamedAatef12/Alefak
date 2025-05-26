@@ -25,6 +25,7 @@ dependencies:
   flutter_dash: ^1.0.0
   url_launcher: ^6.1.10
   dio: ^5.2.0
+  awesome_dialog: ^3.2.1
 
 dev_dependencies:
   flutter_test:
