@@ -34,7 +34,6 @@ dependencies:
   talker_flutter: ^4.8.0
   talker_dio_logger: ^4.8.0
 
-
 dev_dependencies:
   build_runner: ^2.4.15
   injectable_generator: ^2.7.0
