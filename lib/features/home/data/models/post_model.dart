@@ -1,5 +1,7 @@
 import 'package:alefk/features/home/domain/entities/post_entity.dart';
 
+import 'author_model.dart';
+
 class PostModel extends PostEntity {
   const PostModel({
     required super.id,
@@ -8,17 +10,29 @@ class PostModel extends PostEntity {
     required super.username,
     required super.date,
     required super.imageUrl,
+    required super.author,
   });
 
   factory PostModel.fromJson(Map<String, dynamic> json) {
     return PostModel(
-      id: json['id'] as int,
-      authorID: json['authorID'] as int,
-      username: json['username'] as String,
-      text: json['text'] as String,
-      date: json['date'] as String,
-      imageUrl: json['image'] as String,
-    );
+        id: json['id'] as int,
+        authorID: json['authorID'] as int,
+        username: json['username'] as String,
+        text: json['text'] as String,
+        date: json['date'] as String,
+        imageUrl: json['image'] as String,
+        author: json['author'] != null
+            ? AuthorModel.fromJson(json['author'] as Map<String, dynamic>)
+            : AuthorModel(
+                id: 0,
+                email: '',
+                phone: '',
+                password: '',
+                city: '',
+                country: '',
+                imageUrl: '',
+                userName: '',
+              ));
   }
 
   Map<String, dynamic> toJson() {
@@ -29,6 +43,7 @@ class PostModel extends PostEntity {
       'text': text,
       'date': date,
       'image': imageUrl,
+      'author': author,
     };
   }
 
@@ -40,6 +55,7 @@ class PostModel extends PostEntity {
           text: postEntity.text,
           date: postEntity.date,
           imageUrl: postEntity.imageUrl,
+          author: postEntity.author,
         );
 
   PostEntity toEntity(PostModel postModel) => PostEntity(
@@ -49,5 +65,6 @@ class PostModel extends PostEntity {
         text: postModel.text,
         date: postModel.date,
         imageUrl: postModel.imageUrl,
+        author: postModel.author,
       );
 }

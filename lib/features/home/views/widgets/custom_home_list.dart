@@ -19,8 +19,10 @@ class CustomHomeList extends StatelessWidget {
       }
     }, builder: (BuildContext context, state) {
       if (state is PostLoading) {
-        return const SliverToBoxAdapter(
-          child: Center(child: CircularProgressIndicator()),
+        return SliverToBoxAdapter(
+          child: SizedBox(
+              height: MediaQuery.of(context).size.height / 2,
+              child: Center(child: CircularProgressIndicator())),
         );
       }
 

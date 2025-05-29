@@ -1,4 +1,5 @@
 import 'package:alefk/features/bottom_bar/views/pages/bottom_bar_page.dart';
+import 'package:alefk/features/home/views/bloc/home_bloc.dart';
 import 'package:alefk/features/home/views/pages/add_post_page.dart';
 import 'package:alefk/features/home/views/pages/home_page.dart';
 import 'package:alefk/features/settings/views/pages/settings_screen.dart';
@@ -6,6 +7,7 @@ import 'package:alefk/features/shop/views/pages/categories_page.dart';
 import 'package:alefk/features/shop/views/pages/product_details.dart';
 import 'package:alefk/features/shop/views/pages/shop_page.dart';
 import 'package:alefk/features/splash/presentation/view/splash_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 GoRouter goRouter() {
@@ -51,7 +53,11 @@ GoRouter goRouter() {
         path: '/add-post',
         name: 'add-post',
         builder: (context, state) {
-          return const AddPostPage();
+          final bloc = state.extra as HomeBloc;
+          return BlocProvider.value(
+            value: bloc,
+            child: const AddPostPage(),
+          );
         },
       ),
       GoRoute(
@@ -62,7 +68,8 @@ GoRouter goRouter() {
         },
       ),
       GoRoute(
-        path: '/product-details',        name: 'productDetails',
+        path: '/product-details',
+        name: 'productDetails',
         builder: (context, state) {
           return const ProductDetails();
         },

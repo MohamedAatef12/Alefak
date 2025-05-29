@@ -25,14 +25,6 @@ class PostsLoaded extends HomeState {
   List<Object?> get props => [posts];
 }
 
-class CommentsLoaded extends HomeState {
-  final List<CommentEntity> comments;
-  CommentsLoaded(this.comments);
-
-  @override
-  List<Object?> get props => [comments];
-}
-
 class PostActionSuccess extends HomeState {
   @override
   List<Object?> get props => [];
@@ -43,4 +35,36 @@ class PostError extends HomeState {
   PostError(this.message);
   @override
   List<Object?> get props => [message];
+}
+
+class AddPostInitial extends HomeState {
+  @override
+  List<Object?> get props => [];
+}
+
+class AddPostLoading extends HomeState {
+  @override
+  List<Object?> get props => [];
+}
+
+class AddPostSuccess extends HomeState {
+  final PostEntity post;
+  AddPostSuccess(this.post);
+  @override
+  List<Object?> get props => [post];
+}
+
+class AddPostError extends HomeState {
+  final String message;
+  AddPostError(this.message);
+  @override
+  List<Object?> get props => [message];
+}
+
+class CommentsLoaded extends HomeState {
+  final List<CommentEntity> comments;
+  CommentsLoaded(this.comments);
+
+  @override
+  List<Object?> get props => [comments];
 }

@@ -55,21 +55,18 @@ class FacebookPostCard extends StatelessWidget {
                 const SizedBox(width: 10.0),
 
                 // User Name
-                Text(
-                  userName,
-                  style: TextStyles.medium.copyWith(
-                    color: AppColors.current.text,
-                    fontWeight: FontWeight.bold,
+                Flexible(
+                  child: Text(
+                    userName,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: TextStyles.large.copyWith(
+                      color: AppColors.current.text,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-                Spacer(),
                 // Timestamp
-                Text(
-                  timestamp,
-                  style: TextStyles.small.copyWith(
-                    color: AppColors.current.text,
-                  ),
-                ),
               ],
             ),
 
@@ -82,7 +79,7 @@ class FacebookPostCard extends StatelessWidget {
                 color: AppColors.current.text,
               ),
             ),
-            const SizedBox(height: 12.0),
+            SizedBoxConstants.verticalSmall,
 
             // Carousel Image Slider
             if (validImageUrls.isNotEmpty)
@@ -127,6 +124,18 @@ class FacebookPostCard extends StatelessWidget {
               ),
 
             if (validImageUrls.isNotEmpty) const SizedBox(height: 12.0),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                timestamp.replaceAll('T', ' ').substring(0, 16),
+                style: TextStyles.small.copyWith(
+                  color: AppColors.current.text,
+                ),
+              ),
+            ),
+            SizedBoxConstants.verticalSmall,
 
             // Divider
             Divider(
