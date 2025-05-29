@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:alefk/core/config/api/api_services.dart';
 import 'package:alefk/core/config/api/constants.dart';
 import 'package:alefk/core/config/api/failure.dart';
@@ -19,10 +21,19 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   @override
   Future<Either<Failure, List<PostModel>>> getPosts() async {
     try {
-      final data = await apiService.getList(endPoint: Constants.postsEndpoint);
+      final data = await apiService.getList(
+        endPoint: Constants.postsEndpoint,
+      );
+
       final posts = data.map((e) => PostModel.fromJson(e)).toList();
+
+      // Sort posts by date descending (latest first)
+      posts.sort(
+          (a, b) => DateTime.parse(b.date).compareTo(DateTime.parse(a.date)));
+
       return Right(posts);
     } catch (e) {
+      log('Error fetching posts: $e');
       return Left(DioFailure.fromDioError(e));
     }
   }
@@ -43,12 +54,18 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   @override
   Future<Either<Failure, void>> addPost(PostModel post) async {
     try {
+      log('Adding post: ${post.toJson()}');
       await apiService.post(
         endPoint: Constants.postsEndpoint,
         data: post.toJson(),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
       );
       return const Right(null);
     } catch (e) {
+      log('Error adding post: $e');
       return Left(DioFailure.fromDioError(e));
     }
   }

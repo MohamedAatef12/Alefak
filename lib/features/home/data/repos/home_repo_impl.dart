@@ -31,6 +31,7 @@ class HomeRepositoryImpl implements HomeDomainRepository {
                   date: model.date,
                   authorID: model.authorID,
                   imageUrl: model.imageUrl,
+                  author: model.author,
                 ),
               ))
           .toList()),
@@ -45,13 +46,13 @@ class HomeRepositoryImpl implements HomeDomainRepository {
       (failure) => Left(failure),
       (model) => Right(model.toEntity(
         PostModel(
-          id: model.id,
-          text: model.text,
-          username: model.username,
-          date: model.date,
-          authorID: model.authorID,
-          imageUrl: model.imageUrl,
-        ),
+            id: model.id,
+            text: model.text,
+            username: model.username,
+            date: model.date,
+            authorID: model.authorID,
+            imageUrl: model.imageUrl,
+            author: model.author),
       )),
     );
   }
@@ -96,7 +97,6 @@ class HomeRepositoryImpl implements HomeDomainRepository {
 
   @override
   Future<Either<Failure, void>> addComment(CommentEntity comment) async {
-    // Convert entity to model before sending
     final commentModel = CommentModel.fromEntity(comment);
     return remoteDataSource.addComment(commentModel);
   }
