@@ -13,3 +13,4 @@ class RegisterFailure extends RegisterState {
 
   RegisterFailure(this.message);
 }
+class RegisterPasswordVisibilityChanged extends RegisterState {}

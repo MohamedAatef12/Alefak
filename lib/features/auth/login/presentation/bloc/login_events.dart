@@ -8,3 +8,8 @@ class LoginSubmitted extends LoginEvent {
 }
 
 class CheckRemembered extends LoginEvent {}
+class TogglePasswordVisibility extends LoginEvent {}
+class ToggleRememberMe extends LoginEvent {
+  final bool value;
+  ToggleRememberMe(this.value);
+}

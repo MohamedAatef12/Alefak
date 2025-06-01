@@ -1,6 +1,8 @@
+import 'package:alefk/core/config/di/injection_container.dart';
 import 'package:alefk/core/constants/padding.dart';
 import 'package:alefk/core/constants/text_styles.dart';
 import 'package:alefk/core/themes/app_colors.dart';
+import 'package:alefk/features/auth/login/domain/usecases/login_local_use_case.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -172,13 +174,11 @@ class _SettingsBodyState extends State<SettingsBody> {
               dismissOnTouchOutside: true,
               dismissOnBackKeyPress: true,
               btnOkOnPress: () {
-                // Handle "Yes" action
-                print('Account logged out');
+                context.goNamed('login');
+                final loginLocalUseCase = getIt<LoginLocalUseCase>();
+                 loginLocalUseCase.clearLogin();
               },
-              btnCancelOnPress: () {
-                // Handle "No" action
-                print('Account logged out canceled');
-              },
+              btnCancelOnPress: () {},
               btnOkColor: AppColors.current.red,
               btnOkText: 'Yes',
               btnCancelText: 'No',
