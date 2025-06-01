@@ -11,92 +11,70 @@ import 'package:alefk/core/constants/padding.dart';
 import 'package:alefk/core/widgets/custom_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';
-class RegisterForm extends StatefulWidget {
+class RegisterForm extends StatelessWidget {
   const RegisterForm({super.key});
 
-  @override
-  State<RegisterForm> createState() => _RegisterFormState();
-}
-
-class _RegisterFormState extends State<RegisterForm> {
-  final _formKey = GlobalKey<FormState>();
-  final _firstNameController = TextEditingController();
-  final _lastNameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
-
-  @override
-  void dispose() {
-    _firstNameController.dispose();
-    _lastNameController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
-    _confirmPasswordController.dispose();
-    super.dispose();
-  }
-
-  void _onRegisterPressed() {
-    if (_formKey.currentState?.validate() ?? false) {
-      final userName = '${_firstNameController.text} ${_lastNameController.text}';
-      final randomId = Random().nextInt(900000000) + 100000000; // 9-digit random number
-
-      final entity = RegisterEntity(
-        id: randomId,
-        email: _emailController.text,
-        password: _passwordController.text,
-        userName: userName,
-      );
-      context.read<RegisterBloc>().add(RegisterSubmitted(entity));
-    }
-  }
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
-
-    return Form(
-      key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Padding(
-            padding: PaddingConstants.horizontalMedium,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: screenHeight * 0.02),
-                Row(
+    final bloc = context.read<RegisterBloc>();
+        return Form(
+          key: context.read<RegisterBloc>().formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: PaddingConstants.horizontalMedium,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Create Your Account', style: TextStyles.extraLargeBold),
-                    SizedBox(width: screenWidth * 0.05),
-                    Icon(IconlyBroken.profile, color: AppColors.current.blue, size: screenHeight * 0.03),
+                    SizedBox(height: screenHeight * 0.02),
+                    Row(
+                      children: [
+                        Text('Create Your Account',
+                            style: TextStyles.extraLargeBold),
+                        SizedBox(width: screenWidth * 0.05),
+                        Icon(
+                            IconlyBroken.profile, color: AppColors.current.blue,
+                            size: screenHeight * 0.03),
+                      ],
+                    ),
+                    SizedBox(height: screenHeight * 0.01),
+                    Text(
+                      'Sign up now to get to personalized account and start your progress.',
+                      style: TextStyles.medium,
+                    ),
+                    SizedBox(height: screenHeight * 0.05),
                   ],
                 ),
-                SizedBox(height: screenHeight * 0.01),
-                Text(
-                  'Sign up now to get to personalized account and start your progress.',
-                  style: TextStyles.medium,
-                ),
-                SizedBox(height: screenHeight * 0.05),
-              ],
-            ),
+              ),
+              SigningUpTextFields(),
+              SizedBox(height: screenHeight * 0.025),
+              SignUpWarningText(),
+              SizedBox(height: screenHeight * 0.025),
+              CustomFilledButton(
+                text: 'Create Account',
+                onPressed: () {
+                  if (bloc.formKey.currentState?.validate() ?? false) {
+                    final userName = '${bloc.firstNameController.text} ${bloc.lastNameController.text}';
+                    final randomId = Random().nextInt(900000000) + 100000000; // 9-digit random number
+
+                    final entity = RegisterEntity(
+                      id: randomId,
+                      email: bloc.emailController.text,
+                      password: bloc.passwordController.text,
+                      userName: userName,
+                    );
+                    bloc.add(RegisterSubmitted(entity));
+                  }
+                },
+                backgroundColor: AppColors.current.blue,
+                textColor: AppColors.current.white,
+              ),
+            ],
           ),
-          SigningUpTextFields(),
-          SizedBox(height: screenHeight * 0.025),
-          SignUpWarningText(),
-          SizedBox(height: screenHeight * 0.025),
-          CustomFilledButton(
-            text: 'Create Account',
-            onPressed: (){
-              _onRegisterPressed();
-            },
-            backgroundColor: AppColors.current.blue,
-            textColor: AppColors.current.white,
-          ),
-        ],
-      ),
-    );
-  }
+        );
+      }
 }
