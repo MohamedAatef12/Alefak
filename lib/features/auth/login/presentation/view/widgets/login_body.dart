@@ -23,14 +23,20 @@ class _LoginBodyState extends State<LoginBody> {
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-
+  bool rememberMe = false;
+  @override
+  void initState() {
+    super.initState();
+    // Optionally, you can check if the user is remembered and pre-fill the fields
+    context.read<LoginBloc>().add(CheckRemembered());
+  }
   void _onLoginPressed(BuildContext context) {
     if (_formKey.currentState?.validate() ?? false) {
       final model = LoginModel(
         email: emailController.text,
         password: passwordController.text,
       );
-      context.read<LoginBloc>().add(LoginSubmitted(model: model));
+      context.read<LoginBloc>().add(LoginSubmitted(model: model, rememberMe: rememberMe));
     }
   }
 
@@ -73,7 +79,11 @@ class _LoginBodyState extends State<LoginBody> {
                   SizedBox(height: screenHeight * 0.02),
                   PasswordField(controller: passwordController),
                   SizedBox(height: screenHeight * 0.05),
-                  RememberMeRow(screenWidth: screenWidth),
+                  RememberMeRow(screenWidth: screenWidth, isChecked: rememberMe, onChanged: (bool value) {
+                    setState(() {
+                      rememberMe = value;
+                    });
+                  },),
                   BlocConsumer<LoginBloc, LoginState>(
                     listener: (context, state) {
                       if (state is LoginSuccess) {

@@ -1,6 +1,7 @@
 import 'package:alefk/core/config/di/injection_container.dart';
 import 'package:alefk/core/constants/icons.dart';
 import 'package:alefk/core/themes/app_colors.dart';
+import 'package:alefk/features/auth/login/domain/usecases/login_local_use_case.dart';
 import 'package:alefk/features/auth/login/domain/usecases/login_use_case.dart';
 import 'package:alefk/features/auth/login/presentation/bloc/login_bloc.dart';
 import 'package:alefk/features/auth/login/presentation/view/widgets/login_body.dart';
@@ -22,7 +23,9 @@ class LoginScreen extends StatelessWidget {
         elevation: 0,
       ),
       body: BlocProvider(
-          create: (context)=> LoginBloc(getIt<LoginUseCase>()),
+          create: (context)=> LoginBloc(getIt<LoginUseCase>(),
+          getIt<LoginLocalUseCase>()
+          ),
           child: const LoginBody())
     );
   }
