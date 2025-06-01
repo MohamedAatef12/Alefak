@@ -16,7 +16,7 @@ class PrivacyAndPolicyScreen extends StatelessWidget {
           leading: IconButton(
             icon: const Icon(IconlyBroken.arrow_left_2),
             onPressed: () {
-              context.replace('/settings');
+              context.pop();
             },
           ),
       ),

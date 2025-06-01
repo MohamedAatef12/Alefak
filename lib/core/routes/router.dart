@@ -1,24 +1,36 @@
+import 'package:alefk/features/auth/forget_password/presentation/views/forget_password_screen.dart';
+import 'package:alefk/features/auth/login/presentation/view/login_screen.dart';
+import 'package:alefk/features/auth/register/presentation/view/register_screen.dart';
 import 'package:alefk/features/bottom_bar/views/pages/bottom_bar_page.dart';
 import 'package:alefk/features/home/views/bloc/home_bloc.dart';
 import 'package:alefk/features/home/views/pages/add_post_page.dart';
 import 'package:alefk/features/home/views/pages/home_page.dart';
+import 'package:alefk/features/privacy_and_policy/presentation/view/privacy_and_policy_screen.dart';
 import 'package:alefk/features/settings/views/pages/settings_screen.dart';
 import 'package:alefk/features/shop/views/pages/categories_page.dart';
 import 'package:alefk/features/shop/views/pages/product_details.dart';
 import 'package:alefk/features/shop/views/pages/shop_page.dart';
 import 'package:alefk/features/splash/presentation/view/splash_screen.dart';
+import 'package:alefk/features/terms_and_conditions/presentation/view/terms_and_conditions_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 GoRouter goRouter() {
   return GoRouter(
-    initialLocation: '/bottom',
+    initialLocation: '/',
     routes: <RouteBase>[
       GoRoute(
         path: '/',
         name: 'splash',
         builder: (context, state) {
           return const SplashScreen();
+        },
+      ),
+      GoRoute(
+        path: '/login',
+        name: 'login',
+        builder: (context, state) {
+          return const LoginScreen();
         },
       ),
       GoRoute(
@@ -74,6 +86,35 @@ GoRouter goRouter() {
           return const ProductDetails();
         },
       ),
+      GoRoute(
+        path: '/register',
+        name: 'register',
+        builder: (context, state) {
+          return const RegisterScreen();
+        },
+      ),
+      GoRoute(
+        path: '/terms_conditions',
+        name: 'terms_conditions',
+        builder: (context, state) {
+          // Replace with your Terms and Conditions page
+          return const TermsAndConditionsScreen();
+        },
+      ),
+      GoRoute(
+          path: '/privacy_policy',
+          name: 'privacy_policy',
+          builder: (context, state) {
+            // Replace with your Privacy Policy page
+            return const PrivacyAndPolicyScreen(); // Assuming same screen for demo
+          }),
+      GoRoute(
+          path: '/forgot_password',
+          name: 'forgot_password',
+          builder: (context, state) {
+            // Replace with your Privacy Policy page
+            return const ForgetPasswordScreen(); // Assuming same screen for demo
+          }),
     ],
   );
 }
