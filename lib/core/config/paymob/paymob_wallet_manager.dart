@@ -15,7 +15,7 @@ class PaymobWalletManager {
       final amountCents = (amountInEGP * 100).toString();
 
       final authToken = await _getAuthToken();
-      log("Auth Token Fetched ✅");
+      log("auth Token Fetched ✅");
 
       final orderId = await _createOrder(authToken, amountCents);
       log("Order Created ✅ ID: $orderId");

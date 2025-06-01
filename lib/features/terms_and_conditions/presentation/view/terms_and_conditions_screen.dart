@@ -16,7 +16,7 @@ class TermsAndConditionsScreen extends StatelessWidget {
         title: const Text('Terms and Conditions'), leading: IconButton(
       icon: const Icon(IconlyBroken.arrow_left_2),
       onPressed: () {
-        context.replace('/settings');
+        context.pop();
       },
     ),
       ),

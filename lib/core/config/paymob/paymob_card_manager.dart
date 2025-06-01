@@ -7,7 +7,7 @@ class PaymobCardManager {
   Future<String> getPaymentKey(int amount, String currency) async {
     try {
       String authenticationToken = await _getAuthenticationToken();
-      log("Auth==========================================");
+      log("auth==========================================");
 
       int orderId = await _getOrderId(
         authenticationToken: authenticationToken,

@@ -1,4 +1,5 @@
 import 'package:alefk/core/constants/padding.dart';
+import 'package:alefk/core/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextFormField extends StatelessWidget {
@@ -6,8 +7,8 @@ class CustomTextFormField extends StatelessWidget {
   final String? initialValue;
   final String? hintText;
   final String? labelText;
-  final Icon? prefixIcon;
-  final Icon? suffixIcon;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
   final bool obscureText;
   final TextInputType keyboardType;
   final TextInputAction? textInputAction;
@@ -24,8 +25,10 @@ class CustomTextFormField extends StatelessWidget {
   final InputBorder? border;
   final InputBorder? focusedBorder;
   final InputBorder? enabledBorder;
+  final InputBorder? errorBorder;
   final bool? fillColor;
   final Color? fillColorValue;
+  final Decoration? decoration;
 
   const CustomTextFormField({
     super.key,
@@ -51,8 +54,10 @@ class CustomTextFormField extends StatelessWidget {
     this.border,
     this.focusedBorder,
     this.enabledBorder,
+    this.errorBorder,
     this.fillColor,
     this.fillColorValue,
+    this.decoration,
   });
 
   @override
@@ -85,11 +90,22 @@ class CustomTextFormField extends StatelessWidget {
               const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
           border: border ?? const OutlineInputBorder(),
           focusedBorder: focusedBorder ??
-              const OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blue)),
+              OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+                  borderSide: BorderSide(
+                    color: AppColors.current.blue,
+                  )),
           enabledBorder: enabledBorder ??
-              const OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey)),
+              OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                  borderSide: BorderSide(color: AppColors.current.white)),
+          errorBorder: enabledBorder ??
+               OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                borderSide: BorderSide(
+                  color: AppColors.current.red,
+                ),
+              ),
         ),
       ),
     );
