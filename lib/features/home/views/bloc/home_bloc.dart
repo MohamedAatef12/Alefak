@@ -3,6 +3,7 @@ import 'package:alefk/features/home/domain/usecases/add_post.dart';
 import 'package:alefk/features/home/domain/usecases/delete_post.dart';
 import 'package:alefk/features/home/domain/usecases/get_comments.dart';
 import 'package:alefk/features/home/domain/usecases/get_posts.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'home_events.dart';
@@ -15,6 +16,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   final GetCommentsUseCase getCommentsUseCase;
   final AddCommentUseCase addCommentUseCase;
+
+  final TextEditingController postTextController = TextEditingController();
 
   HomeBloc({
     required this.getPostsUseCase,
@@ -44,13 +47,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   Future<void> _onAddPost(AddPostEvent event, Emitter<HomeState> emit) async {
-    emit(PostLoading());
-    final result = await addPostUseCase.call(
-      event.post,
-    );
+    emit(AddPostLoading());
+    final result = await addPostUseCase.call(event.post);
     result.fold(
-      (failure) => emit(PostError(failure.message)),
-      (_) => emit(PostActionSuccess()),
+      (failure) => emit(AddPostError(failure.message)),
+      (_) => emit(AddPostSuccess(event.post)),
     );
   }
 

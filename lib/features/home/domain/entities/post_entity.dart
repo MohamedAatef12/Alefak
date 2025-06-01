@@ -1,3 +1,4 @@
+import 'package:alefk/features/home/data/models/author_model.dart';
 import 'package:equatable/equatable.dart';
 
 class PostEntity extends Equatable {
@@ -7,6 +8,7 @@ class PostEntity extends Equatable {
   final String username;
   final String date;
   final String imageUrl;
+  final AuthorModel author;
 
   const PostEntity({
     required this.id,
@@ -15,8 +17,10 @@ class PostEntity extends Equatable {
     required this.text,
     required this.date,
     required this.imageUrl,
+    required this.author,
   });
 
   @override
-  List<Object?> get props => [id, authorID, username, text, date, imageUrl];
+  List<Object?> get props =>
+      [id, authorID, username, text, date, imageUrl, author];
 }

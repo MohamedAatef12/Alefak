@@ -2,6 +2,7 @@ import 'package:alefk/features/auth/forget_password/presentation/views/forget_pa
 import 'package:alefk/features/auth/login/presentation/view/login_screen.dart';
 import 'package:alefk/features/auth/register/presentation/view/register_screen.dart';
 import 'package:alefk/features/bottom_bar/views/pages/bottom_bar_page.dart';
+import 'package:alefk/features/home/views/bloc/home_bloc.dart';
 import 'package:alefk/features/home/views/pages/add_post_page.dart';
 import 'package:alefk/features/home/views/pages/home_page.dart';
 import 'package:alefk/features/privacy_and_policy/presentation/view/privacy_and_policy_screen.dart';
@@ -11,6 +12,7 @@ import 'package:alefk/features/shop/views/pages/product_details.dart';
 import 'package:alefk/features/shop/views/pages/shop_page.dart';
 import 'package:alefk/features/splash/presentation/view/splash_screen.dart';
 import 'package:alefk/features/terms_and_conditions/presentation/view/terms_and_conditions_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 GoRouter goRouter() {
@@ -63,7 +65,11 @@ GoRouter goRouter() {
         path: '/add-post',
         name: 'add-post',
         builder: (context, state) {
-          return const AddPostPage();
+          final bloc = state.extra as HomeBloc;
+          return BlocProvider.value(
+            value: bloc,
+            child: const AddPostPage(),
+          );
         },
       ),
       GoRoute(
