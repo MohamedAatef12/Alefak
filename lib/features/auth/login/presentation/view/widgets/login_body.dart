@@ -30,97 +30,95 @@ class LoginBody extends StatelessWidget {
           physics: NeverScrollableScrollPhysics(),
           child: Form(
             key: bloc.formKey,
-            child: Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ListTile(
-                    title: Text(
-                      'Welcome Back👋',
-                      style: TextStyle(
-                        fontSize: screenWidth * 0.06,
-                        color: AppColors.current.text,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(
-                      'Sign in to access to your personalized account and continue to your progress.',
-                      style: TextStyle(
-                        fontSize: screenWidth * 0.04,
-                        color: AppColors.current.text,
-                      ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ListTile(
+                  title: Text(
+                    'Welcome Back👋',
+                    style: TextStyle(
+                      fontSize: screenWidth * 0.06,
+                      color: AppColors.current.text,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: screenHeight * 0.2),
-                  EmailField(),
-                  SizedBox(height: screenHeight * 0.02),
-                  PasswordField(),
-                  SizedBox(height: screenHeight * 0.05),
-                  BlocBuilder<LoginBloc, LoginState>(
-                    builder: (context, state) {
-                      final bloc = context.read<LoginBloc>();
-                      return RememberMeRow(
-                        screenWidth: screenWidth,
-                        isChecked: bloc.rememberMe,
-                        onChanged: (bool value) {
-                          context.read<LoginBloc>().add(ToggleRememberMe(value));
-                        },
-                      );
-                    },
+                  subtitle: Text(
+                    'Sign in to access to your personalized account and continue to your progress.',
+                    style: TextStyle(
+                      fontSize: screenWidth * 0.04,
+                      color: AppColors.current.text,
+                    ),
                   ),
-                  BlocConsumer<LoginBloc, LoginState>(
-                    listener: (context, state) {
-                      if (state is LoginSuccess) {
-                        Flushbar(
-                          message: 'Login Successful',
-                          margin: EdgeInsets.all(20),
-                          borderRadius: BorderRadius.circular(8),
-                          backgroundColor: AppColors.current.green,
-                          duration: Duration(seconds: 5),
-                          flushbarPosition: FlushbarPosition.TOP,
-                        ).show(context);
-                        context.pushNamed('bottom');
-                      } else if (state is LoginFailure) {
-                        Flushbar(
-                          message: 'Login failed please try again.',
-                          margin: EdgeInsets.all(20),
-                          borderRadius: BorderRadius.circular(8),
-                          backgroundColor: AppColors.current.red,
-                          duration: Duration(seconds: 5),
-                          flushbarPosition: FlushbarPosition.TOP,
-                        ).show(context);
-                      }
-                    },
-                    builder: (context, state) {
-                      return Center(
-                        child: CustomFilledButton(
-                            text: state is LoginLoading ? 'Loading...' : 'Login',
-                            onPressed: () {
-                              if (state is! LoginLoading) {
-                                if (bloc.formKey.currentState?.validate() ?? false) {
-                                  final model = LoginModel(
-                                    email: bloc.emailController.text,
-                                    password: bloc.passwordController.text,
-                                  );
-                                  context.read<LoginBloc>().add(LoginSubmitted(
-                                      model: model, rememberMe: bloc.rememberMe));
-                                }
+                ),
+                SizedBox(height: screenHeight * 0.2),
+                EmailField(),
+                SizedBox(height: screenHeight * 0.02),
+                PasswordField(),
+                SizedBox(height: screenHeight * 0.05),
+                BlocBuilder<LoginBloc, LoginState>(
+                  builder: (context, state) {
+                    final bloc = context.read<LoginBloc>();
+                    return RememberMeRow(
+                      screenWidth: screenWidth,
+                      isChecked: bloc.rememberMe,
+                      onChanged: (bool value) {
+                        context.read<LoginBloc>().add(ToggleRememberMe(value));
+                      },
+                    );
+                  },
+                ),
+                BlocConsumer<LoginBloc, LoginState>(
+                  listener: (context, state) {
+                    if (state is LoginSuccess) {
+                      Flushbar(
+                        message: 'Login Successful',
+                        margin: EdgeInsets.all(20),
+                        borderRadius: BorderRadius.circular(8),
+                        backgroundColor: AppColors.current.green,
+                        duration: Duration(seconds: 5),
+                        flushbarPosition: FlushbarPosition.TOP,
+                      ).show(context);
+                      context.pushNamed('bottom');
+                    } else if (state is LoginFailure) {
+                      Flushbar(
+                        message: 'Login failed please try again.',
+                        margin: EdgeInsets.all(20),
+                        borderRadius: BorderRadius.circular(8),
+                        backgroundColor: AppColors.current.red,
+                        duration: Duration(seconds: 5),
+                        flushbarPosition: FlushbarPosition.TOP,
+                      ).show(context);
+                    }
+                  },
+                  builder: (context, state) {
+                    return Center(
+                      child: CustomFilledButton(
+                          text: state is LoginLoading ? 'Loading...' : 'Login',
+                          onPressed: () {
+                            if (state is! LoginLoading) {
+                              if (bloc.formKey.currentState?.validate() ?? false) {
+                                final model = LoginModel(
+                                  email: bloc.emailController.text,
+                                  password: bloc.passwordController.text,
+                                );
+                                context.read<LoginBloc>().add(LoginSubmitted(
+                                    model: model, rememberMe: bloc.rememberMe));
                               }
-                            }),
-                      );
-                    },
-                  ),
-                  SizedBox(
-                    height: screenHeight * 0.02,
-                  ),
-                  // OrDivider(screenWidth: screenWidth),
-                  // SizedBox(height: screenHeight * 0.01),
-                  // SocialLoginRow(screenWidth: screenWidth, screenHeight: screenHeight),
-                  // SizedBox(height: screenHeight * 0.01),
-                  SignUpPrompt(screenWidth: screenWidth),
-                  SizedBox(height: screenHeight * 0.05),
-                ],
-              ),
+                            }
+                          }),
+                    );
+                  },
+                ),
+                SizedBox(
+                  height: screenHeight * 0.02,
+                ),
+                // OrDivider(screenWidth: screenWidth),
+                // SizedBox(height: screenHeight * 0.01),
+                // SocialLoginRow(screenWidth: screenWidth, screenHeight: screenHeight),
+                // SizedBox(height: screenHeight * 0.01),
+                SignUpPrompt(screenWidth: screenWidth),
+                SizedBox(height: screenHeight * 0.05),
+              ],
             ),
           ),
         ),
