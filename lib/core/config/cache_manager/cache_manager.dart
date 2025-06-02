@@ -14,9 +14,9 @@ class CacheManager implements ICacheManager {
   }
 
   @override
-  setUserData(RegisterModel value) async {
-    String jsonString = json.encode(value.toJson());
-    await _prefs?.setString('user',jsonString );
+  Future<void> saveUserData(RegisterModel user) async {
+    final jsonString = json.encode(user.toJson());
+    await _prefs?.setString('user', jsonString);
   }
 
   @override

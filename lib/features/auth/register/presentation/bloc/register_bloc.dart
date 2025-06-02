@@ -34,7 +34,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       (failure) => emit(RegisterFailure(failure.message)),
       (_) {
         final registerModel = RegisterModel.fromEntity(event.entity);
-        DI.find<ICacheManager>().setUserData(registerModel);
+         DI.find<ICacheManager>().saveUserData(registerModel);
         emit(RegisterSuccess());
       }
     );
