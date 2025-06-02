@@ -1,3 +1,6 @@
+import 'package:alefk/core/config/cache_manager/i_cache_manager.dart';
+import 'package:alefk/core/config/di/di_wrapper.dart';
+import 'package:alefk/features/auth/register/data/models/register_model.dart';
 import 'package:alefk/features/auth/register/domain/usecases/register_domain_usecase.dart';
 import 'package:alefk/features/auth/register/presentation/bloc/register_events.dart';
 import 'package:alefk/features/auth/register/presentation/bloc/register_states.dart';
@@ -30,6 +33,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     result.fold(
       (failure) => emit(RegisterFailure(failure.message)),
       (_) {
+        final registerModel = RegisterModel.fromEntity(event.entity);
+        DI.find<ICacheManager>().setUserData(registerModel);
         emit(RegisterSuccess());
       }
     );

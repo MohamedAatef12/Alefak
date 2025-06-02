@@ -1,3 +1,7 @@
+import 'dart:developer';
+
+import 'package:alefk/core/config/cache_manager/i_cache_manager.dart';
+import 'package:alefk/core/config/di/di_wrapper.dart';
 import 'package:alefk/core/themes/app_colors.dart';
 import 'package:alefk/core/widgets/custom_button.dart';
 import 'package:alefk/features/auth/login/data/models/login_model.dart';
@@ -105,6 +109,8 @@ class LoginBody extends StatelessWidget {
                                     model: model, rememberMe: bloc.rememberMe));
                               }
                             }
+                            log(DI.find<ICacheManager>().isRemembered().toString());
+                            log(DI.find<ICacheManager>().getUserData().toString());
                           }),
                     );
                   },

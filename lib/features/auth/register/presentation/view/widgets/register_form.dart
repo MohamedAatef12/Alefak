@@ -72,6 +72,7 @@ class RegisterForm extends StatelessWidget {
                       image: 'https://example.com/default_image.png'
                     );
                     bloc.add(RegisterSubmitted(entity));
+
                   }
                 },
                 backgroundColor: AppColors.current.blue,
