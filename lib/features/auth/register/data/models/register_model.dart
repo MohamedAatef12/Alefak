@@ -5,6 +5,10 @@ class RegisterModel extends RegisterEntity {
     required super.email,
     required super.password,
     required super.userName,
+    required super.phone,
+    required super.country,
+    required super.city,
+    required super.image,
 
   }) ;
   Map<String, dynamic> toJson() => {
@@ -12,6 +16,10 @@ class RegisterModel extends RegisterEntity {
         'email': email,
         'password': password,
         'userName': userName,
+        'phone': phone,
+        'country': country,
+        'city': city,
+        'image': image,
       };
   factory RegisterModel.fromJson(Map<String, dynamic> json) {
     return RegisterModel(
@@ -19,6 +27,11 @@ class RegisterModel extends RegisterEntity {
       email: json['email'] as String,
       password: json['password'] as String,
       userName: json['userName'] as String,
+      phone: json['phone'] as int,
+      country: json['country'] as String,
+      city: json['city'] as String,
+      image: json['image'] as String,
+
 
     );
   }
@@ -28,6 +41,10 @@ RegisterModel.fromEntity(RegisterEntity entity)
           email: entity.email,
           password: entity.password,
           userName: entity.userName,
+          phone: entity.phone,
+          country: entity.country,
+          city: entity.city,
+          image: entity.image,
         );
 RegisterEntity toEntity(RegisterModel model) {
     return RegisterEntity(
@@ -35,6 +52,10 @@ RegisterEntity toEntity(RegisterModel model) {
       email: model.email,
       password: model.password,
       userName: model.userName,
+      phone: model.phone,
+      country: model.country,
+      city: model.city,
+      image: model.image,
     );
   }
 }

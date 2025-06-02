@@ -9,6 +9,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
   final emailController = TextEditingController();
+  final phoneController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   bool obscurePassword = true;
