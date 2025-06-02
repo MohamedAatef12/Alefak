@@ -1,8 +1,9 @@
-import 'package:alefk/core/config/di/injection_container.dart';
+
+import 'package:alefk/core/config/cache_manager/i_cache_manager.dart';
+import 'package:alefk/core/config/di/di_wrapper.dart';
 import 'package:alefk/core/constants/padding.dart';
 import 'package:alefk/core/constants/text_styles.dart';
 import 'package:alefk/core/themes/app_colors.dart';
-import 'package:alefk/features/auth/login/domain/usecases/login_local_use_case.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -175,8 +176,7 @@ class _SettingsBodyState extends State<SettingsBody> {
               dismissOnBackKeyPress: true,
               btnOkOnPress: () {
                 context.goNamed('login');
-                final loginLocalUseCase = getIt<LoginLocalUseCase>();
-                 loginLocalUseCase.clearLogin();
+               DI.find<ICacheManager>().clearLogin();
               },
               btnCancelOnPress: () {},
               btnOkColor: AppColors.current.red,

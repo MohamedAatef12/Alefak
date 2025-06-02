@@ -13,10 +13,6 @@ import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
-import '../../../features/auth/login/data/data_sources/local/login_local_data_source.dart'
-    as _i612;
-import '../../../features/auth/login/data/data_sources/local/login_local_data_source_impl.dart'
-    as _i44;
 import '../../../features/auth/login/data/data_sources/login_remote_data_source.dart'
     as _i525;
 import '../../../features/auth/login/data/data_sources/login_remote_data_source_impl.dart'
@@ -25,14 +21,8 @@ import '../../../features/auth/login/data/data_sources/remote/login_remote_data_
     as _i309;
 import '../../../features/auth/login/data/data_sources/remote/login_remote_data_source_impl.dart'
     as _i20;
-import '../../../features/auth/login/data/repos/login_local_repo_impl.dart'
-    as _i256;
 import '../../../features/auth/login/data/repos/login_repo_impl.dart' as _i226;
-import '../../../features/auth/login/domain/repos/login_local_repo.dart'
-    as _i941;
 import '../../../features/auth/login/domain/repos/login_repo.dart' as _i142;
-import '../../../features/auth/login/domain/usecases/login_local_use_case.dart'
-    as _i849;
 import '../../../features/auth/login/domain/usecases/login_use_case.dart'
     as _i416;
 import '../../../features/auth/register/data/repos/register_repo_impl.dart'
@@ -55,7 +45,6 @@ import '../../../features/home/domain/usecases/add_comment.dart' as _i621;
 import '../../../features/home/domain/usecases/add_post.dart' as _i627;
 import '../../../features/home/domain/usecases/delete_post.dart' as _i343;
 import '../../../features/home/domain/usecases/get_comments.dart' as _i772;
-import '../../../features/home/domain/usecases/get_comments_id.dart' as _i758;
 import '../../../features/home/domain/usecases/get_posts.dart' as _i673;
 import '../api/api_services.dart' as _i124;
 import 'injection_container.dart' as _i809;
@@ -73,13 +62,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     final registerModule = _$RegisterModule();
     gh.factory<_i361.Dio>(() => registerModule.dio);
-    gh.factory<_i612.LoginLocalDataSource>(
-        () => _i44.LoginLocalDataSourceImpl());
     gh.lazySingleton<_i124.ApiService>(() => _i124.ApiService(gh<_i361.Dio>()));
     gh.factory<_i794.RemoteDataSource>(
         () => _i299.RemoteDataSourceImpl(gh<_i124.ApiService>()));
-    gh.factory<_i941.LoginLocalRepository>(
-        () => _i256.LoginLocalRepositoryImpl(gh<_i612.LoginLocalDataSource>()));
     gh.factory<_i116.RegisterRemoteDataSource>(
         () => _i692.RegisterRemoteDataSourceImpl(gh<_i124.ApiService>()));
     gh.factory<_i309.LoginRemoteDataSource>(
@@ -98,12 +83,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i343.DeletePostUseCase(gh<_i89.HomeDomainRepository>()));
     gh.factory<_i772.GetCommentsUseCase>(
         () => _i772.GetCommentsUseCase(gh<_i89.HomeDomainRepository>()));
-    gh.factory<_i758.GetPostCommentsUseCase>(
-        () => _i758.GetPostCommentsUseCase(gh<_i89.HomeDomainRepository>()));
     gh.factory<_i673.GetPostsUseCase>(
         () => _i673.GetPostsUseCase(gh<_i89.HomeDomainRepository>()));
-    gh.factory<_i849.LoginLocalUseCase>(
-        () => _i849.LoginLocalUseCase(gh<_i941.LoginLocalRepository>()));
     gh.factory<_i726.RegisterDomainRepository>(() =>
         _i727.RegisterRepositoryImpl(gh<_i116.RegisterRemoteDataSource>()));
     gh.factory<_i274.RegisterUseCase>(
