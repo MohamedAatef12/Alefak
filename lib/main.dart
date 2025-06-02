@@ -1,3 +1,6 @@
+import 'package:alefk/core/config/cache_manager/cache_manager.dart';
+import 'package:alefk/core/config/cache_manager/i_cache_manager.dart';
+import 'package:alefk/core/config/di/di_wrapper.dart';
 import 'package:alefk/core/routes/router.dart';
 import 'package:alefk/core/themes/app_colors.dart';
 import 'package:bloc/bloc.dart';
@@ -8,10 +11,11 @@ import 'package:talker_flutter/talker_flutter.dart';
 
 import 'core/config/di/injection_container.dart';
 
-void main() {
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   configureDependencies();
-
+  DI.setSingleton<ICacheManager>(() => CacheManager());
+  await DI.find<ICacheManager>().init();
   runApp(
     DevicePreview(
       enabled: true,

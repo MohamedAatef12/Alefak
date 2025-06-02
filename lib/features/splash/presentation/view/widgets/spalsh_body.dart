@@ -1,4 +1,4 @@
-import 'package:alefk/core/config/di/injection_container.dart';
+
 import 'package:alefk/core/themes/app_colors.dart';
 import 'package:alefk/features/splash/presentation/bloc/splash_bloc.dart';
 import 'package:alefk/features/splash/presentation/bloc/splash_event.dart';
@@ -17,7 +17,7 @@ class SplashBody extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return BlocProvider(
-      create: (_) => SplashBloc(getIt())..add(CheckLoginStatus()),
+      create: (_) => SplashBloc()..add(CheckLoginStatus()),
       child: BlocListener<SplashBloc, SplashState>(
         listener: (context, state) {
           if (state is SplashNavigateToHome) {

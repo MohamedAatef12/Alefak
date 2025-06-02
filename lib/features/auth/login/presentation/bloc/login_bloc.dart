@@ -1,4 +1,5 @@
-import 'package:alefk/features/auth/login/domain/usecases/login_local_use_case.dart';
+import 'package:alefk/core/config/cache_manager/i_cache_manager.dart';
+import 'package:alefk/core/config/di/di_wrapper.dart';
 import 'package:alefk/features/auth/login/domain/usecases/login_use_case.dart';
 import 'package:alefk/features/auth/login/presentation/bloc/login_events.dart';
 import 'package:alefk/features/auth/login/presentation/bloc/login_states.dart';
@@ -6,14 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final LoginUseCase loginUseCase;
-  final LoginLocalUseCase loginLocalUseCase;
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   bool rememberMe = false;
   bool obscurePassword = true;
   @override
-  LoginBloc(this.loginUseCase, this.loginLocalUseCase, ) : super(LoginInitial()) {
+  LoginBloc(this.loginUseCase, ) : super(LoginInitial()) {
     on<CheckRemembered>(_checkRemembered);
     on<LoginSubmitted>(_loginSubmitted);
     on<TogglePasswordVisibility>((event, emit) {
@@ -33,9 +33,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           (failure) => emit(LoginFailure(failure.message)),
           (_)  {
         if (event.rememberMe) {
-           loginLocalUseCase.saveLogin(event.model, true);
+          DI.find<ICacheManager>().saveLogin(true);
+
         } else {
-           loginLocalUseCase.clearLogin();
+          DI.find<ICacheManager>().clearLogin();
         }
         emit(LoginSuccess(event.model));
       },
@@ -43,9 +44,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
   Future<void> _checkRemembered(
       CheckRemembered event, Emitter<LoginState> emit) async {
-    final isRemembered = await loginLocalUseCase.isRemembered();
+    final isRemembered = await DI.find<ICacheManager>().isRemembered();
     if (isRemembered) {
-      final saved = await loginLocalUseCase.getSavedLogin();
+      final saved = DI.find<ICacheManager>().getSavedLogin();
       if (saved != null) {
         add(LoginSubmitted(model: saved, rememberMe: true));
       }
