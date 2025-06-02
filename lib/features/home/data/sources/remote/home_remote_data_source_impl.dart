@@ -106,6 +106,22 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
+  Future<Either<Failure, List<CommentModel>>> getPostComments(
+      int postId) async {
+    try {
+      final data = await apiService.getList(
+        endPoint: '${Constants.commentsEndpoint}/PostComments/$postId',
+      );
+
+      final comments = data.map((e) => CommentModel.fromJson(e)).toList();
+
+      return Right(comments);
+    } catch (e) {
+      return Left(DioFailure.fromDioError(e));
+    }
+  }
+
+  @override
   Future<Either<Failure, void>> addComment(CommentModel comment) async {
     try {
       await apiService.post(

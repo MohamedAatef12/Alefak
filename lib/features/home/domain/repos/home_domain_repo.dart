@@ -13,6 +13,7 @@ abstract class HomeDomainRepository {
 
   // Comments
   Future<Either<Failure, List<CommentEntity>>> getComments();
+  Future<Either<Failure, List<CommentEntity>>> getPostComments(int id);
   Future<Either<Failure, void>> addComment(CommentEntity comment);
   Future<Either<Failure, void>> deleteComment(int id);
   Future<Either<Failure, void>> editComment(CommentEntity comment);

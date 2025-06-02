@@ -2,8 +2,12 @@ import 'package:alefk/core/constants/icons.dart';
 import 'package:alefk/core/constants/sized_box.dart';
 import 'package:alefk/core/constants/text_styles.dart';
 import 'package:alefk/core/themes/app_colors.dart';
+import 'package:alefk/features/home/views/bloc/home_bloc.dart';
+import 'package:alefk/features/home/views/bloc/home_events.dart';
+import 'package:alefk/features/home/views/bloc/home_states.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'custom_bottom_sheet.dart';
 
@@ -13,6 +17,7 @@ class FacebookPostCard extends StatelessWidget {
   final String timestamp;
   final String content;
   final List<String>? imageUrls;
+  final int postId;
 
   const FacebookPostCard({
     super.key,
@@ -20,6 +25,7 @@ class FacebookPostCard extends StatelessWidget {
     required this.userName,
     required this.timestamp,
     required this.content,
+    required this.postId,
     this.imageUrls,
   });
 
@@ -41,10 +47,8 @@ class FacebookPostCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // SizedBox
             Row(
               children: [
-                // User Avatar
                 CircleAvatar(
                   radius: 20.0,
                   backgroundImage: NetworkImage(avatarUrl),
@@ -145,29 +149,36 @@ class FacebookPostCard extends StatelessWidget {
             ),
             SizedBoxConstants.verticalMedium,
 
-            // Action Buttons
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _buildActionButton(
-                  icon: IconlyBrokenIcons.heart,
-                  label: "Like",
-                  context: context,
-                  index: 0,
-                ),
-                _buildActionButton(
-                  icon: IconlyBrokenIcons.chat,
-                  label: "Comment",
-                  context: context,
-                  index: 1,
-                ),
-                _buildActionButton(
-                  icon: IconlyBrokenIcons.send,
-                  label: "Share",
-                  context: context,
-                  index: 0,
-                ),
-              ],
+            BlocBuilder<HomeBloc, HomeState>(
+              builder: (context, state) {
+                context.read<HomeBloc>().add(FetchPostsCommentsEvent(postId));
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    _buildActionButton(
+                      postId: postId,
+                      icon: IconlyBrokenIcons.heart,
+                      label: "Like",
+                      context: context,
+                      index: 0,
+                    ),
+                    _buildActionButton(
+                      postId: postId,
+                      icon: IconlyBrokenIcons.chat,
+                      label: "Comment",
+                      context: context,
+                      index: 1,
+                    ),
+                    _buildActionButton(
+                      postId: postId,
+                      icon: IconlyBrokenIcons.send,
+                      label: "Share",
+                      context: context,
+                      index: 0,
+                    ),
+                  ],
+                );
+              },
             ),
             SizedBoxConstants.verticalMedium,
           ],
@@ -178,6 +189,7 @@ class FacebookPostCard extends StatelessWidget {
 
   Widget _buildActionButton(
       {required Icon icon,
+      required int? postId,
       required String label,
       required BuildContext context,
       required int index}) {
@@ -195,6 +207,7 @@ class FacebookPostCard extends StatelessWidget {
           ),
           builder: (BuildContext context) {
             return BottomSheetContent(
+              postId: postId!,
               index: index,
             );
           },

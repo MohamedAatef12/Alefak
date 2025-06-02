@@ -2,6 +2,7 @@ import 'package:alefk/features/home/domain/usecases/add_comment.dart';
 import 'package:alefk/features/home/domain/usecases/add_post.dart';
 import 'package:alefk/features/home/domain/usecases/delete_post.dart';
 import 'package:alefk/features/home/domain/usecases/get_comments.dart';
+import 'package:alefk/features/home/domain/usecases/get_comments_id.dart';
 import 'package:alefk/features/home/domain/usecases/get_posts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,9 +14,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final GetPostsUseCase getPostsUseCase;
   final AddPostUseCase addPostUseCase;
   final DeletePostUseCase deletePostUseCase;
-
   final GetCommentsUseCase getCommentsUseCase;
   final AddCommentUseCase addCommentUseCase;
+  final GetPostCommentsUseCase getCommentsIdUseCase;
 
   final TextEditingController postTextController = TextEditingController();
 
@@ -25,12 +26,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     required this.deletePostUseCase,
     required this.getCommentsUseCase,
     required this.addCommentUseCase,
+    required this.getCommentsIdUseCase,
   }) : super(PostInitial()) {
     on<FetchPostsEvent>(_onFetchPosts);
     on<AddPostEvent>(_onAddPost);
     on<DeletePostEvent>(_onDeletePost);
     // on<EditPostEvent>(_onEditPost);
     on<FetchCommentsEvent>(_onFetchComments);
+    on<FetchPostsCommentsEvent>(_onFetchPostsComments);
+
     on<AddCommentEvent>(_onAddComment);
     // on<EditCommentEvent>(_onEditComment);
     // on<DeleteCommentEvent>(_onDeleteComment);
@@ -69,6 +73,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       FetchCommentsEvent event, Emitter<HomeState> emit) async {
     emit(PostLoading());
     final result = await getCommentsUseCase.call();
+    result.fold(
+      (failure) => emit(PostError(failure.message)),
+      (comments) => emit(CommentsLoaded(comments)),
+    );
+  }
+
+  Future<void> _onFetchPostsComments(
+      FetchPostsCommentsEvent event, Emitter<HomeState> emit) async {
+    emit(PostLoading());
+    final result = await getCommentsIdUseCase.call(event.postId);
     result.fold(
       (failure) => emit(PostError(failure.message)),
       (comments) => emit(CommentsLoaded(comments)),

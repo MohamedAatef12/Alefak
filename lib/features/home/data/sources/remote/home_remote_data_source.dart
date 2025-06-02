@@ -13,6 +13,7 @@ abstract class RemoteDataSource {
 
   // Comments
   Future<Either<Failure, List<CommentModel>>> getComments();
+  Future<Either<Failure, List<CommentModel>>> getPostComments(int id);
   Future<Either<Failure, void>> addComment(CommentModel comment);
   Future<Either<Failure, void>> deleteComment(int id);
   Future<Either<Failure, void>> editComment(CommentModel comment);

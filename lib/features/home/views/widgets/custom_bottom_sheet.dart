@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 class BottomSheetContent extends StatelessWidget {
-  const BottomSheetContent({super.key, required this.index});
+  const BottomSheetContent(
+      {super.key, required this.index, required this.postId});
 
   final int index;
+  final int postId;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,6 @@ class BottomSheetContent extends StatelessWidget {
           Expanded(
             child: TabBarView(
               children: [
-                // Likes Tab
                 Center(
                   child: ListView.builder(
                     itemCount: 10,
