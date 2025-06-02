@@ -110,7 +110,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       int postId) async {
     try {
       final data = await apiService.getList(
-        endPoint: '${Constants.commentsEndpoint}/PostComments/$postId',
+        endPoint: '${Constants.commentsEndpoint}/PostComments/15055',
       );
 
       final comments = data.map((e) => CommentModel.fromJson(e)).toList();
