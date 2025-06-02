@@ -16,7 +16,7 @@ class RegisterBody extends StatelessWidget {
         if (state is RegisterLoading) {
           // Show loading indicator
         } else if (state is RegisterSuccess) {
-          context.pushNamed('login');
+          context.pop();
           Flushbar(
             message: 'Registration successful! Please log in.',
             margin: EdgeInsets.all(20),
