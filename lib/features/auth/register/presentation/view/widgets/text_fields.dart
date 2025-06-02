@@ -75,6 +75,18 @@ class SigningUpTextFields extends StatelessWidget {
               validator: Validators.validateEmail),
           SizedBox(height: screenHeight * 0.025),
           CustomTextFormField(
+              controller: context.read<RegisterBloc>().phoneController,
+              hintText: 'Phone Number',
+              textInputAction: TextInputAction.next,
+              prefixIcon:
+              Icon(IconlyBroken.call, color: AppColors.current.blue),
+              obscureText: false,
+              keyboardType: TextInputType.phone,
+              fillColor: true,
+              fillColorValue: AppColors.current.white,
+              validator: Validators.validatePhone),
+          SizedBox(height: screenHeight * 0.025),
+          CustomTextFormField(
               controller: context.read<RegisterBloc>().passwordController,
               hintText: 'Password',
               textInputAction: TextInputAction.next,

@@ -78,7 +78,7 @@ class LoginBody extends StatelessWidget {
                         duration: Duration(seconds: 5),
                         flushbarPosition: FlushbarPosition.TOP,
                       ).show(context);
-                      context.pushNamed('bottom');
+                      context.pushReplacementNamed('bottom');
                     } else if (state is LoginFailure) {
                       Flushbar(
                         message: 'Login failed please try again.',
