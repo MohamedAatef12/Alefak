@@ -34,6 +34,7 @@ class CustomHomeList extends StatelessWidget {
               final post = posts[index];
               return FacebookPostCard(
                 avatarUrl: post.imageUrl,
+                postId: post.id,
                 userName: post.username,
                 timestamp: post.date,
                 content: post.text,

@@ -96,6 +96,26 @@ class HomeRepositoryImpl implements HomeDomainRepository {
   }
 
   @override
+  Future<Either<Failure, List<CommentEntity>>> getPostComments(
+      int postId) async {
+    final result = await remoteDataSource.getPostComments(postId);
+
+    return result.fold(
+      (failure) => Left(failure),
+      (models) => Right(models
+          .map((model) => model.toEntity(
+                CommentModel(
+                  id: model.id,
+                  text: model.text,
+                  postID: model.postID,
+                  date: model.date,
+                ),
+              ))
+          .toList()),
+    );
+  }
+
+  @override
   Future<Either<Failure, void>> addComment(CommentEntity comment) async {
     final commentModel = CommentModel.fromEntity(comment);
     return remoteDataSource.addComment(commentModel);

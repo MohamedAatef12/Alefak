@@ -3,6 +3,7 @@ import 'package:alefk/features/home/domain/usecases/add_comment.dart';
 import 'package:alefk/features/home/domain/usecases/add_post.dart';
 import 'package:alefk/features/home/domain/usecases/delete_post.dart';
 import 'package:alefk/features/home/domain/usecases/get_comments.dart';
+import 'package:alefk/features/home/domain/usecases/get_comments_id.dart';
 import 'package:alefk/features/home/domain/usecases/get_posts.dart';
 import 'package:alefk/features/home/views/bloc/home_bloc.dart';
 import 'package:alefk/features/home/views/bloc/home_events.dart';
@@ -24,6 +25,7 @@ class HomePage extends StatelessWidget {
             deletePostUseCase: getIt<DeletePostUseCase>(),
             getCommentsUseCase: getIt<GetCommentsUseCase>(),
             addCommentUseCase: getIt<AddCommentUseCase>(),
+            getCommentsIdUseCase: getIt<GetPostCommentsUseCase>(),
           )..add(
               FetchPostsEvent(),
             ),

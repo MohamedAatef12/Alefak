@@ -68,3 +68,8 @@ class CommentsLoaded extends HomeState {
   @override
   List<Object?> get props => [comments];
 }
+
+class PostsCommentsLoading extends HomeState {
+  @override
+  List<Object?> get props => [];
+}
