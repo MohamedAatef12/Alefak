@@ -28,10 +28,10 @@ class RegisterBody extends StatelessWidget {
         } else if (state is RegisterFailure) {
           // Handle failure, e.g., show an error message
           Flushbar(
-            message: state.message,
+            message: 'Registration failed please try again.',
             margin: EdgeInsets.all(20),
             borderRadius: BorderRadius.circular(8),
-            backgroundColor: AppColors.current.blue,
+            backgroundColor: AppColors.current.red,
             duration: Duration(seconds: 5),
             flushbarPosition: FlushbarPosition.TOP,
           ).show(context);

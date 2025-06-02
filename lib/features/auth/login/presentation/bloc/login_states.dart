@@ -16,3 +16,9 @@ class LoginFailure extends LoginState {
   final String error;
   LoginFailure(this.error);
 }
+// register_states.dart
+class LoginPasswordVisibilityChanged extends LoginState {}
+class LoginRememberMeChanged extends LoginState {
+  final bool rememberMe;
+  LoginRememberMeChanged(this.rememberMe);
+}

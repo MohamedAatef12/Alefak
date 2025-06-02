@@ -21,7 +21,7 @@ class SignUpWarningText extends StatelessWidget {
                 onTap: (){
                   context.pushNamed('terms_conditions');
                 },
-                child: Text('Terms of Service', style: TextStyles.mediumBold.copyWith(color: AppColors.current.blue))),
+                child: Text('Terms & Conditions', style: TextStyles.mediumBold.copyWith(color: AppColors.current.blue))),
           ],
         ),
          Row(

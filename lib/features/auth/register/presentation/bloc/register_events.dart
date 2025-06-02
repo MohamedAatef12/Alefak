@@ -7,3 +7,4 @@ class RegisterSubmitted extends RegisterEvent {
 
   RegisterSubmitted(this.entity);
 }
+class TogglePasswordVisibility extends RegisterEvent {}
