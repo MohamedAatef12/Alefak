@@ -100,7 +100,8 @@ class LoginBody extends StatelessWidget {
                           text: state is LoginLoading ? 'Loading...' : 'Login',
                           onPressed: () {
                             if (state is! LoginLoading) {
-                              if (bloc.formKey.currentState?.validate() ?? false) {
+                              if (bloc.formKey.currentState?.validate() ??
+                                  false) {
                                 final model = LoginModel(
                                   email: bloc.emailController.text,
                                   password: bloc.passwordController.text,
@@ -108,6 +109,14 @@ class LoginBody extends StatelessWidget {
                                 context.read<LoginBloc>().add(LoginSubmitted(
                                     model: model, rememberMe: bloc.rememberMe));
                               }
+                              log(DI
+                                  .find<ICacheManager>()
+                                  .isRemembered()
+                                  .toString());
+                              log(DI
+                                  .find<ICacheManager>()
+                                  .getUserData()
+                                  .toString());
                             }
                             log(DI.find<ICacheManager>().isRemembered().toString());
                             log(DI.find<ICacheManager>().getUserData().toString());

@@ -41,6 +41,14 @@ class FetchCommentsEvent extends HomeEvent {
   List<Object?> get props => [];
 }
 
+class FetchPostsCommentsEvent extends HomeEvent {
+  final int postId;
+  FetchPostsCommentsEvent(this.postId);
+
+  @override
+  List<Object?> get props => [postId];
+}
+
 class AddCommentEvent extends HomeEvent {
   final CommentEntity comment;
   AddCommentEvent(this.comment);
