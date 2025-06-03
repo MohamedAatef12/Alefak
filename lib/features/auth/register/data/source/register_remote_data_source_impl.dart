@@ -17,9 +17,8 @@ class RegisterRemoteDataSourceImpl implements RegisterRemoteDataSource {
     try {
       await apiService.post(
         endPoint: Constants.usersEndpoint,
-        data: {
-          'user': model.toJson(), // wrap in 'user'
-        },
+        data: model.toJson(),
+
       );
       return Right(null);
     } catch (e) {
