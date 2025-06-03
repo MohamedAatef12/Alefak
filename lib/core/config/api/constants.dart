@@ -1,5 +1,5 @@
 class Constants {
-  static const String baseUrl = 'https://1a62-41-235-222-25.ngrok-free.app';
+  static const String baseUrl = 'https://a39a-41-235-222-25.ngrok-free.app';
 
   static const commentsEndpoint = '/api/Comments';
   static const usersEndpoint = '/api/users';

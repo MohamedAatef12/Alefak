@@ -38,6 +38,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         } else {
           DI.find<ICacheManager>().clearLogin();
         }
+        print('aaaaaaaaaaaa');
         emit(LoginSuccess(event.model));
       },
     );

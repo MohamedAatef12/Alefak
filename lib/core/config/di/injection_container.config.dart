@@ -13,10 +13,6 @@ import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
-import '../../../features/auth/login/data/data_sources/login_remote_data_source.dart'
-    as _i525;
-import '../../../features/auth/login/data/data_sources/login_remote_data_source_impl.dart'
-    as _i840;
 import '../../../features/auth/login/data/data_sources/remote/login_remote_data_source.dart'
     as _i309;
 import '../../../features/auth/login/data/data_sources/remote/login_remote_data_source_impl.dart'
@@ -70,8 +66,6 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i692.RegisterRemoteDataSourceImpl(gh<_i124.ApiService>()));
     gh.factory<_i309.LoginRemoteDataSource>(
         () => _i20.LoginRemoteDataSourceImpl(gh<_i124.ApiService>()));
-    gh.factory<_i525.LoginRemoteDataSource>(
-        () => _i840.LoginRemoteDataSourceImpl(gh<_i124.ApiService>()));
     gh.factory<_i142.LoginDomainRepository>(
         () => _i226.LoginRepositoryImpl(gh<_i309.LoginRemoteDataSource>()));
     gh.factory<_i89.HomeDomainRepository>(
@@ -84,10 +78,10 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i343.DeletePostUseCase(gh<_i89.HomeDomainRepository>()));
     gh.factory<_i772.GetCommentsUseCase>(
         () => _i772.GetCommentsUseCase(gh<_i89.HomeDomainRepository>()));
-    gh.factory<_i758.GetPostCommentsUseCase>(
-        () => _i758.GetPostCommentsUseCase(gh<_i89.HomeDomainRepository>()));
     gh.factory<_i673.GetPostsUseCase>(
         () => _i673.GetPostsUseCase(gh<_i89.HomeDomainRepository>()));
+    gh.factory<_i758.GetPostCommentsUseCase>(
+        () => _i758.GetPostCommentsUseCase(gh<_i89.HomeDomainRepository>()));
     gh.factory<_i726.RegisterDomainRepository>(() =>
         _i727.RegisterRepositoryImpl(gh<_i116.RegisterRemoteDataSource>()));
     gh.factory<_i274.RegisterUseCase>(
