@@ -1,65 +1,64 @@
-import 'package:alefk/features/auth/register/domain/entities/register_domain_entity.dart';
+import 'package:alefk/features/edit_profile/domain/entity/edit_profile_entity.dart';
 
-class RegisterModel extends RegisterEntity {
-  const RegisterModel({  required super.id,
+class EditProfileModel extends EditProfileEntity {
+  const EditProfileModel({
+    required super.id,
     required super.email,
-    required super.password,
     required super.userName,
     required super.phone,
+    required super.image,
+    required super.password,
     required super.country,
     required super.city,
-    required super.image,
-
-  }) ;
+  });
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'email': email,
-        'password': password,
         'userName': userName,
         'phone': phone,
+        'image': image,
+        'password': password,
         'country': country,
         'city': city,
-        'image': image,
       };
-  factory RegisterModel.fromJson(Map<String, dynamic> json) {
-    return RegisterModel(
-      id: json['id'] as int,
+  factory EditProfileModel.fromJson(Map<String, dynamic> json) {
+    return EditProfileModel(
+      id: json['id'] as int? ?? 0, // Assuming id can be null, default to 0
       email: json['email'] as String,
-      password: json['password'] as String,
       userName: json['userName'] as String,
       phone: json['phone'] as int,
-      country: json['country'] as String,
-      city: json['city'] as String,
       image: json['image'] as String,
-
-
+      password: json['password'] as String? ?? '',
+      country: json['country'] as String? ?? '',
+      city: json['city'] as String? ?? '',
     );
   }
-RegisterModel.fromEntity(RegisterEntity entity)
+  EditProfileModel.fromEntity(EditProfileEntity entity)
       : super(
           id: entity.id,
           email: entity.email,
-          password: entity.password,
           userName: entity.userName,
           phone: entity.phone,
+          image: entity.image,
+          password: entity.password,
           country: entity.country,
           city: entity.city,
-          image: entity.image,
         );
-RegisterEntity toEntity(RegisterModel model) {
-    return RegisterEntity(
+  EditProfileEntity toEntity(EditProfileModel model) {
+    return EditProfileEntity(
       id: model.id,
       email: model.email,
-      password: model.password,
       userName: model.userName,
       phone: model.phone,
+      image: model.image,
+      password: model.password,
       country: model.country,
       city: model.city,
-      image: model.image,
     );
   }
-  RegisterModel copyWith({
+
+  EditProfileModel copyWith({
     int? id,
     String? email,
     String? password,
@@ -69,15 +68,15 @@ RegisterEntity toEntity(RegisterModel model) {
     String? city,
     String? image,
   }) {
-    return RegisterModel(
+    return EditProfileModel(
       id: id ?? this.id,
       email: email ?? this.email,
-      password: password ?? this.password,
       userName: userName ?? this.userName,
       phone: phone ?? this.phone,
+      image: image ?? this.image,
+      password: password ?? this.password,
       country: country ?? this.country,
       city: city ?? this.city,
-      image: image ?? this.image,
     );
   }
 }
