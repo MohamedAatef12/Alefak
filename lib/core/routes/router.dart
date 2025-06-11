@@ -2,6 +2,7 @@ import 'package:alefk/features/auth/forget_password/presentation/views/forget_pa
 import 'package:alefk/features/auth/login/presentation/view/login_screen.dart';
 import 'package:alefk/features/auth/register/presentation/view/register_screen.dart';
 import 'package:alefk/features/bottom_bar/views/pages/bottom_bar_page.dart';
+import 'package:alefk/features/edit_profile/presentation/view/edit_profile_screen.dart';
 import 'package:alefk/features/home/views/bloc/home_bloc.dart';
 import 'package:alefk/features/home/views/pages/add_post_page.dart';
 import 'package:alefk/features/home/views/pages/home_page.dart';
@@ -115,6 +116,14 @@ GoRouter goRouter() {
             // Replace with your Privacy Policy page
             return const ForgetPasswordScreen(); // Assuming same screen for demo
           }),
+      GoRoute(
+      path: '/edit_profile',
+      name: 'edit_profile',
+      builder: (context, state) {
+        // Replace with your Edit Profile page
+        return const EditProfileScreen(); // Assuming same screen for demo
+      }
+      )
     ],
   );
 }
