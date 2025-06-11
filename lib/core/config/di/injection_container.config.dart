@@ -90,10 +90,10 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i343.DeletePostUseCase(gh<_i89.HomeDomainRepository>()));
     gh.factory<_i772.GetCommentsUseCase>(
         () => _i772.GetCommentsUseCase(gh<_i89.HomeDomainRepository>()));
-    gh.factory<_i758.GetPostCommentsUseCase>(
-        () => _i758.GetPostCommentsUseCase(gh<_i89.HomeDomainRepository>()));
     gh.factory<_i673.GetPostsUseCase>(
         () => _i673.GetPostsUseCase(gh<_i89.HomeDomainRepository>()));
+    gh.factory<_i758.GetPostCommentsUseCase>(
+        () => _i758.GetPostCommentsUseCase(gh<_i89.HomeDomainRepository>()));
     gh.factory<_i726.RegisterDomainRepository>(() =>
         _i727.RegisterRepositoryImpl(gh<_i116.RegisterRemoteDataSource>()));
     gh.factory<_i485.EditProfileRepo>(() => _i202.EditProfileRepositoryImpl(
