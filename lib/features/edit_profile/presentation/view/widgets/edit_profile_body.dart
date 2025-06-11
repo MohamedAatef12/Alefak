@@ -1,9 +1,16 @@
+import 'package:alefk/core/config/cache_manager/i_cache_manager.dart';
+import 'package:alefk/core/config/di/di_wrapper.dart';
 import 'package:alefk/core/constants/text_styles.dart';
 import 'package:alefk/core/themes/app_colors.dart';
 import 'package:alefk/core/widgets/custom_button.dart';
 import 'package:alefk/core/widgets/custom_text_form_field.dart';
+import 'package:alefk/features/edit_profile/domain/entity/edit_profile_entity.dart';
+import 'package:alefk/features/edit_profile/presentation/bloc/edit_profile_bloc.dart';
+import 'package:alefk/features/edit_profile/presentation/bloc/edit_profile_events.dart';
 import 'package:alefk/features/edit_profile/presentation/view/widgets/edit_profile_photo.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:iconly/iconly.dart';
 
 class EditProfileBody extends StatelessWidget {
@@ -11,11 +18,21 @@ class EditProfileBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = context.read<EditProfileBloc>();
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       child: Column(
         children: [
-          const EditProfileImage(),
+          EditProfileImage(),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.02,
+          ),
+          Text(
+            DI.find<ICacheManager>().getUserData()!.userName.toString(),
+            style: TextStyles.largeBold.copyWith(
+              color: AppColors.current.text,
+            ),
+          ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.04,
           ),
@@ -23,10 +40,11 @@ class EditProfileBody extends StatelessWidget {
             children: [
               Expanded(
                 child: CustomTextFormField(
-                  hintText: 'First Name',
+                  hintText: DI.find<ICacheManager>().getUserData()!.userName.split(' ').first.toString(),
                   prefixIcon:
                       Icon(IconlyBroken.profile, color: AppColors.current.blue),
                   fillColor: true,
+                  controller: bloc.firstNameController,
                   fillColorValue: AppColors.current.white,
                   obscureText: false,
                   keyboardType: TextInputType.name,
@@ -40,10 +58,11 @@ class EditProfileBody extends StatelessWidget {
               ),
               Expanded(
                 child: CustomTextFormField(
-                  hintText: 'Last Name',
+                  hintText: DI.find<ICacheManager>().getUserData()!.userName.split(' ').last.toString(),
                   prefixIcon:
                       Icon(IconlyBroken.profile, color: AppColors.current.blue),
                   obscureText: false,
+                  controller: bloc.lastNameController,
                   keyboardType: TextInputType.name,
                   fillColor: true,
                   fillColorValue: AppColors.current.white,
@@ -61,9 +80,10 @@ class EditProfileBody extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.02,
           ),
           CustomTextFormField(
-            hintText: 'Phone Number',
+            hintText: DI.find<ICacheManager>().getUserData()!.phone.toString(),
             prefixIcon: Icon(IconlyBroken.call, color: AppColors.current.blue),
             fillColor: true,
+            controller: bloc.phoneController,
             fillColorValue: AppColors.current.white,
             obscureText: false,
             keyboardType: TextInputType.number,
@@ -81,7 +101,7 @@ class EditProfileBody extends StatelessWidget {
             children: [
               Expanded(
                 child: CustomTextFormField(
-                  hintText: 'Age',
+                  hintText: 'age',
                   prefixIcon:
                       Icon(Icons.numbers, color: AppColors.current.blue),
                   fillColor: true,
@@ -184,7 +204,32 @@ class EditProfileBody extends StatelessWidget {
           CustomFilledButton(
             text: 'Save Changes',
             onPressed: () {
-              // Handle save changes action
+              final bloc = context.read<EditProfileBloc>();
+              final latestUser = DI.find<ICacheManager>().getUserData();
+              final updatedEntity = EditProfileEntity(
+                email: latestUser!.email,
+                userName: '${bloc.firstNameController.text.isNotEmpty ? bloc.firstNameController.text : latestUser.userName.split(' ').first} '
+                    '${bloc.lastNameController.text.isNotEmpty ? bloc.lastNameController.text : latestUser.userName.split(' ').last}',
+                phone: bloc.phoneController.text.isNotEmpty
+                    ? int.tryParse(bloc.phoneController.text) ?? latestUser.phone
+                    : latestUser.phone,
+                image: latestUser.image, // always use the latest image from cache
+                id: latestUser.id,
+                password: latestUser.password,
+                country: '',
+                city: '',
+              );
+              bloc.add(SaveProfileChangesEvent(updatedEntity));
+              final updatedUser = latestUser.copyWith(
+                userName: '${bloc.firstNameController.text.isNotEmpty ? bloc.firstNameController.text : latestUser.userName.split(' ').first} '
+                    '${bloc.lastNameController.text.isNotEmpty ? bloc.lastNameController.text : latestUser.userName.split(' ').last}',
+                phone: bloc.phoneController.text.isNotEmpty
+                    ? int.tryParse(bloc.phoneController.text) ?? latestUser.phone
+                    : latestUser.phone,
+                image: latestUser.image,
+              );
+              DI.find<ICacheManager>().setUserData(updatedUser);
+              context.replaceNamed('bottom');
             },
             backgroundColor: AppColors.current.blue,
             textColor: AppColors.current.white,
