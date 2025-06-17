@@ -66,10 +66,14 @@ class RegisterForm extends StatelessWidget {
                       email: bloc.emailController.text,
                       password: bloc.passwordController.text,
                       userName: userName,
-                      phone: int.parse(bloc.phoneController.text),
+                      phone:'' ,
                       country: '',
                       city: '',
-                      image: 'https://example.com/default_image.png'
+                      image: 'https://example.com/default_image.png',
+                      gender: '',
+                      age: 0,
+                      address: '',
+                      idImage: '',
                     );
                     bloc.add(RegisterSubmitted(entity));
 
