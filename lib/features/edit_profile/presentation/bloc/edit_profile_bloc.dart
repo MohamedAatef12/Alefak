@@ -13,6 +13,13 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   final lastNameController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
+  final addressController = TextEditingController();
+  final ageController = TextEditingController();
+  final genderController = TextEditingController();
+  final countryController = TextEditingController();
+  final cityController = TextEditingController();
+   int? selectedAge;
+   String? selectedGender;
   EditProfileBloc(
       this.editProfileUseCase,
 )

@@ -7,8 +7,12 @@ class EditProfileEntity extends Equatable{
   final String password;
   final String country;
   final String city;
-  final int phone;
+  final String phone;
   final String image;
+  final int age;
+  final String gender;
+  final String address;
+  final String idImage;
 
 
   const EditProfileEntity({
@@ -20,9 +24,15 @@ class EditProfileEntity extends Equatable{
     required this.city,
     required this.image,
     required this.id,
+    required this.age,
+    required this.gender,
+    required this.address,
+    required this.idImage,
+
 
   });
 
   @override
-  List<Object?> get props => [id,email, userName,password,city,country, phone, image];
+  List<Object?> get props => [id,email, userName,password,city,country, phone, image, age, address, gender,
+  idImage];
 }

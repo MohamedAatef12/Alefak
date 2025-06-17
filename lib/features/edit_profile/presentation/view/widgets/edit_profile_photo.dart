@@ -37,11 +37,15 @@ class EditProfileImage extends StatelessWidget {
           id: userData.id,
           email: userData.email,
           userName: userData.userName,
-          phone: userData.phone,
+          phone: userData.phone.toString(),
           image: base64Image,
           password: userData.password,
           country: userData.country,
           city: userData.city,
+          age: userData.age,
+          gender: userData.gender,
+          address: userData.address,
+          idImage: userData.idImage,
         );
         context.read<EditProfileBloc>().add(SaveProfileChangesEvent(updatedEntity));
         // Trigger UI update with new Base64 image

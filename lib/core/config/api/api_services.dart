@@ -75,6 +75,7 @@ class ApiService {
     required String endPoint,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? queryParameters,
+    Map<String, dynamic>? data,
   }) async {
     var response = await _dio.delete('${Constants.baseUrl}$endPoint',
         options: Options(headers: headers), queryParameters: queryParameters);

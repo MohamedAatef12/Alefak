@@ -5,10 +5,14 @@ class RegisterEntity extends Equatable{
   final String email;
   final String password;
   final String userName;
-  final int phone;
+  final String phone;
   final String country;
   final String city;
   final String image;
+  final String gender;
+  final int age;
+  final String address;
+  final String idImage;
 
 
   const RegisterEntity({
@@ -20,6 +24,11 @@ class RegisterEntity extends Equatable{
     required this.country,
     required this.city,
     required this.image,
+    required this.gender,
+    required this.age,
+    required this.address,
+    required this.idImage,
+
 
   });
 

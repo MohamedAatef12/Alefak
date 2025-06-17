@@ -1,4 +1,5 @@
-import 'package:alefk/features/auth/login/domain/entity/login_entity.dart';
+
+import 'package:alefk/features/auth/register/data/models/register_model.dart';
 
 
 abstract class LoginState {}
@@ -8,7 +9,7 @@ class LoginInitial extends LoginState {}
 class LoginLoading extends LoginState {}
 
 class LoginSuccess extends LoginState {
-  final LoginEntity user;
+  final RegisterModel user;
   LoginSuccess(this.user);
 }
 
