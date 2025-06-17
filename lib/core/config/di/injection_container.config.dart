@@ -51,8 +51,13 @@ import '../../../features/home/domain/usecases/add_comment.dart' as _i621;
 import '../../../features/home/domain/usecases/add_post.dart' as _i627;
 import '../../../features/home/domain/usecases/delete_post.dart' as _i343;
 import '../../../features/home/domain/usecases/get_comments.dart' as _i772;
+import '../../../features/home/domain/usecases/get_comments_count_post.dart'
+    as _i355;
 import '../../../features/home/domain/usecases/get_comments_id.dart' as _i758;
+import '../../../features/home/domain/usecases/get_likes_count_post.dart'
+    as _i1046;
 import '../../../features/home/domain/usecases/get_posts.dart' as _i673;
+import '../../../features/home/domain/usecases/get_posts_likes.dart' as _i307;
 import '../api/api_services.dart' as _i124;
 import 'injection_container.dart' as _i809;
 
@@ -90,12 +95,16 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i343.DeletePostUseCase(gh<_i89.HomeDomainRepository>()));
     gh.factory<_i772.GetCommentsUseCase>(
         () => _i772.GetCommentsUseCase(gh<_i89.HomeDomainRepository>()));
+    gh.factory<_i355.GetCommentsCountUseCase>(
+        () => _i355.GetCommentsCountUseCase(gh<_i89.HomeDomainRepository>()));
     gh.factory<_i758.GetPostCommentsUseCase>(
         () => _i758.GetPostCommentsUseCase(gh<_i89.HomeDomainRepository>()));
+    gh.factory<_i1046.GetLikesCountUseCase>(
+        () => _i1046.GetLikesCountUseCase(gh<_i89.HomeDomainRepository>()));
     gh.factory<_i673.GetPostsUseCase>(
         () => _i673.GetPostsUseCase(gh<_i89.HomeDomainRepository>()));
-    gh.factory<_i758.GetPostCommentsUseCase>(
-        () => _i758.GetPostCommentsUseCase(gh<_i89.HomeDomainRepository>()));
+    gh.factory<_i307.GetPostLikesUseCase>(
+        () => _i307.GetPostLikesUseCase(gh<_i89.HomeDomainRepository>()));
     gh.factory<_i726.RegisterDomainRepository>(() =>
         _i727.RegisterRepositoryImpl(gh<_i116.RegisterRemoteDataSource>()));
     gh.factory<_i485.EditProfileRepo>(() => _i202.EditProfileRepositoryImpl(

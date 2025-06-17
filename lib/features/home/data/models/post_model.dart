@@ -32,6 +32,9 @@ class PostModel extends PostEntity {
                 country: '',
                 imageUrl: '',
                 userName: '',
+                gender: '',
+                address: '',
+                age: 0,
               ));
   }
 

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:alefk/features/auth/forget_password/presentation/views/forget_password_screen.dart';
 import 'package:alefk/features/auth/login/presentation/view/login_screen.dart';
 import 'package:alefk/features/auth/register/presentation/view/register_screen.dart';
@@ -63,6 +65,14 @@ GoRouter goRouter() {
         },
       ),
       GoRoute(
+        path: '/post/:id',
+        builder: (context, state) {
+          final postId = int.parse(state.pathParameters['id']!);
+          log('Post ID: $postId');
+          return LoginScreen();
+        },
+      ),
+      GoRoute(
         path: '/add-post',
         name: 'add-post',
         builder: (context, state) {
@@ -117,13 +127,12 @@ GoRouter goRouter() {
             return const ForgetPasswordScreen(); // Assuming same screen for demo
           }),
       GoRoute(
-      path: '/edit_profile',
-      name: 'edit_profile',
-      builder: (context, state) {
-        // Replace with your Edit Profile page
-        return const EditProfileScreen(); // Assuming same screen for demo
-      }
-      )
+          path: '/edit_profile',
+          name: 'edit_profile',
+          builder: (context, state) {
+            // Replace with your Edit Profile page
+            return const EditProfileScreen(); // Assuming same screen for demo
+          })
     ],
   );
 }

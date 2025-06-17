@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:alefk/core/constants/icons.dart';
 import 'package:alefk/core/constants/sized_box.dart';
 import 'package:alefk/core/constants/text_styles.dart';
@@ -46,14 +48,14 @@ class AddPostPage extends StatelessWidget {
           },
           child: BlocConsumer<HomeBloc, HomeState>(
             listener: (context, state) {
-              if (state is AddPostSuccess) {
+              if (state.isPostAdded) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Post added successfully')),
                 );
-                context.pop(); // or Navigator.pop(context);
-              } else if (state is AddPostError) {
+                context.pop();
+              } else if (state.error != null) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(state.message)),
+                  SnackBar(content: Text(state.error!)),
                 );
               }
             },
@@ -192,19 +194,19 @@ class AddPostPage extends StatelessWidget {
                       ),
                       SizedBoxConstants.verticalExtraLarge,
                       CustomFilledButton(
-                        text: state is AddPostLoading ? 'Posting...' : 'Post',
-                        isLoading: state is AddPostLoading,
+                        text: state.isAddPostLoading ? 'Posting...' : 'Post',
+                        isLoading: state.isAddPostLoading,
                         onPressed: () async {
                           final post = PostEntity(
-                            id: 1507777,
-                            authorID: 66,
+                            id: Random().nextInt(1000),
+                            authorID: Random().nextInt(1000),
                             username: 'dawood',
                             text: bloc.postTextController.text.trim(),
                             date: DateTime.now().toIso8601String(),
                             imageUrl:
                                 'https://i.pinimg.com/736x/ad/a0/4b/ada04b70bc73e11555c7daabd96d2804.jpg',
-                            author: const AuthorModel(
-                              id: 66,
+                            author: AuthorModel(
+                              id: Random().nextInt(1000),
                               email: 'dawood@gmail.com',
                               password: '123456',
                               phone: '01012345678',
@@ -212,6 +214,11 @@ class AddPostPage extends StatelessWidget {
                               city: 'Cairo',
                               userName: 'dawood',
                               imageUrl:
+                                  'https://i.pinimg.com/736x/ad/a0/4b/ada04b70bc73e11555c7daabd96d2804.jpg',
+                              age: 25,
+                              gender: 'male',
+                              address: '123 Main St',
+                              idImage:
                                   'https://i.pinimg.com/736x/ad/a0/4b/ada04b70bc73e11555c7daabd96d2804.jpg',
                             ),
                           );
