@@ -31,15 +31,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     final result = await loginUseCase(event.model);
     result.fold(
           (failure) => emit(LoginFailure(failure.message)),
-          (_)  {
+          (loginResponse) {
         if (event.rememberMe) {
           DI.find<ICacheManager>().saveLogin(true);
-
         } else {
           DI.find<ICacheManager>().clearLogin();
         }
-        print('aaaaaaaaaaaa');
-        emit(LoginSuccess(event.model));
+        emit(LoginSuccess(loginResponse.user)); // or pass token if needed
       },
     );
   }

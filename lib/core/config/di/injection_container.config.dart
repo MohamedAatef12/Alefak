@@ -13,6 +13,16 @@ import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
+import '../../../features/auth/delete_account/data/data_source/remote/delete_account_remote_data_source.dart'
+    as _i123;
+import '../../../features/auth/delete_account/data/data_source/remote/delete_account_remote_data_source_impl.dart'
+    as _i720;
+import '../../../features/auth/delete_account/data/repos/delete_account_repo_impl.dart'
+    as _i767;
+import '../../../features/auth/delete_account/domain/repos/delete_account_repo.dart'
+    as _i772;
+import '../../../features/auth/delete_account/domain/use_cases/delete_account_use_case.dart'
+    as _i704;
 import '../../../features/auth/login/data/data_sources/remote/login_remote_data_source.dart'
     as _i309;
 import '../../../features/auth/login/data/data_sources/remote/login_remote_data_source_impl.dart'
@@ -51,13 +61,8 @@ import '../../../features/home/domain/usecases/add_comment.dart' as _i621;
 import '../../../features/home/domain/usecases/add_post.dart' as _i627;
 import '../../../features/home/domain/usecases/delete_post.dart' as _i343;
 import '../../../features/home/domain/usecases/get_comments.dart' as _i772;
-import '../../../features/home/domain/usecases/get_comments_count_post.dart'
-    as _i355;
 import '../../../features/home/domain/usecases/get_comments_id.dart' as _i758;
-import '../../../features/home/domain/usecases/get_likes_count_post.dart'
-    as _i1046;
 import '../../../features/home/domain/usecases/get_posts.dart' as _i673;
-import '../../../features/home/domain/usecases/get_posts_likes.dart' as _i307;
 import '../api/api_services.dart' as _i124;
 import 'injection_container.dart' as _i809;
 
@@ -77,12 +82,16 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i124.ApiService>(() => _i124.ApiService(gh<_i361.Dio>()));
     gh.factory<_i794.RemoteDataSource>(
         () => _i299.RemoteDataSourceImpl(gh<_i124.ApiService>()));
+    gh.factory<_i123.DeleteAccountRemoteDataSource>(
+        () => _i720.DeleteAccountRemoteDataSourceImpl(gh<_i124.ApiService>()));
     gh.factory<_i908.EditProfileRemoteDataSource>(
         () => _i503.EditProfileRemoteDataSourceImpl(gh<_i124.ApiService>()));
     gh.factory<_i116.RegisterRemoteDataSource>(
         () => _i692.RegisterRemoteDataSourceImpl(gh<_i124.ApiService>()));
     gh.factory<_i309.LoginRemoteDataSource>(
         () => _i20.LoginRemoteDataSourceImpl(gh<_i124.ApiService>()));
+    gh.factory<_i772.DeleteAccountRepo>(() =>
+        _i767.DeleteAccountRepoImpl(gh<_i123.DeleteAccountRemoteDataSource>()));
     gh.factory<_i142.LoginDomainRepository>(
         () => _i226.LoginRepositoryImpl(gh<_i309.LoginRemoteDataSource>()));
     gh.factory<_i89.HomeDomainRepository>(
@@ -95,20 +104,16 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i343.DeletePostUseCase(gh<_i89.HomeDomainRepository>()));
     gh.factory<_i772.GetCommentsUseCase>(
         () => _i772.GetCommentsUseCase(gh<_i89.HomeDomainRepository>()));
-    gh.factory<_i355.GetCommentsCountUseCase>(
-        () => _i355.GetCommentsCountUseCase(gh<_i89.HomeDomainRepository>()));
     gh.factory<_i758.GetPostCommentsUseCase>(
         () => _i758.GetPostCommentsUseCase(gh<_i89.HomeDomainRepository>()));
-    gh.factory<_i1046.GetLikesCountUseCase>(
-        () => _i1046.GetLikesCountUseCase(gh<_i89.HomeDomainRepository>()));
     gh.factory<_i673.GetPostsUseCase>(
         () => _i673.GetPostsUseCase(gh<_i89.HomeDomainRepository>()));
-    gh.factory<_i307.GetPostLikesUseCase>(
-        () => _i307.GetPostLikesUseCase(gh<_i89.HomeDomainRepository>()));
     gh.factory<_i726.RegisterDomainRepository>(() =>
         _i727.RegisterRepositoryImpl(gh<_i116.RegisterRemoteDataSource>()));
     gh.factory<_i485.EditProfileRepo>(() => _i202.EditProfileRepositoryImpl(
         gh<_i908.EditProfileRemoteDataSource>()));
+    gh.factory<_i704.DeleteAccountUseCase>(
+        () => _i704.DeleteAccountUseCase(gh<_i772.DeleteAccountRepo>()));
     gh.factory<_i274.RegisterUseCase>(
         () => _i274.RegisterUseCase(gh<_i726.RegisterDomainRepository>()));
     gh.factory<_i416.LoginUseCase>(

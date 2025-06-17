@@ -8,6 +8,8 @@ import 'package:alefk/features/edit_profile/domain/entity/edit_profile_entity.da
 import 'package:alefk/features/edit_profile/presentation/bloc/edit_profile_bloc.dart';
 import 'package:alefk/features/edit_profile/presentation/bloc/edit_profile_events.dart';
 import 'package:alefk/features/edit_profile/presentation/view/widgets/edit_profile_photo.dart';
+import 'package:alefk/features/edit_profile/presentation/view/widgets/select_age_widget.dart';
+import 'package:alefk/features/edit_profile/presentation/view/widgets/select_gender.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -97,53 +99,34 @@ class EditProfileBody extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.02,
           ),
-          Row(
-            children: [
-              Expanded(
-                child: CustomTextFormField(
-                  hintText: 'age',
-                  prefixIcon:
-                      Icon(Icons.numbers, color: AppColors.current.blue),
-                  fillColor: true,
-                  fillColorValue: AppColors.current.white,
-                  obscureText: false,
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your email';
-                    }
-                    return null;
-                  },
-                ),
+              GenderDropdownWidget(
+                selectedGender: bloc.selectedGender ?? DI.find<ICacheManager>().getUserData()!.gender,
+                onChanged: (value) {
+                  bloc.selectedGender = value;
+                  bloc.genderController.text = value?.toString() ?? '';
+                },
               ),
-              Expanded(
-                child: CustomTextFormField(
-                  hintText: 'Gender',
-                  prefixIcon:
-                      Icon(IconlyBroken.profile, color: AppColors.current.blue),
-                  fillColor: true,
-                  fillColorValue: AppColors.current.white,
-                  obscureText: false,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your email';
-                    }
-                    return null;
-                  },
-                ),
-              )
-            ],
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.02,
+          ),
+          AgeDropdownWidget(
+            selectedAge: bloc.selectedAge ?? DI.find<ICacheManager>().getUserData()!.age,
+            onChanged: (value) {
+              bloc.selectedAge = value;
+              bloc.ageController.text = value?.toString() ?? '';
+            },
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.02,
           ),
           CustomTextFormField(
-            hintText: 'Address',
+            hintText: DI.find<ICacheManager>().getUserData()!.address.toString(),
             prefixIcon:
                 Icon(IconlyBroken.location, color: AppColors.current.blue),
             obscureText: false,
             fillColor: true,
             fillColorValue: AppColors.current.white,
+            controller: bloc.addressController,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please enter your email';
@@ -154,6 +137,36 @@ class EditProfileBody extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.02,
           ),
+          CustomTextFormField(
+            hintText: DI.find<ICacheManager>().getUserData()!.country.toString(),
+            prefixIcon: Icon(Icons.flag_outlined, color: AppColors.current.blue),
+            controller: bloc.countryController,
+            fillColor: true,
+            fillColorValue: AppColors.current.white,
+            obscureText: false,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter your country';
+              }
+              return null;
+            },
+          ),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+          CustomTextFormField(
+            hintText: DI.find<ICacheManager>().getUserData()!.city.toString(),
+            prefixIcon: Icon(Icons.location_city_outlined, color: AppColors.current.blue),
+            controller: bloc.cityController,
+            fillColor: true,
+            fillColorValue: AppColors.current.white,
+            obscureText: false,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter your city';
+              }
+              return null;
+            },
+          ),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.02),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
             child: Container(
@@ -211,22 +224,50 @@ class EditProfileBody extends StatelessWidget {
                 userName: '${bloc.firstNameController.text.isNotEmpty ? bloc.firstNameController.text : latestUser.userName.split(' ').first} '
                     '${bloc.lastNameController.text.isNotEmpty ? bloc.lastNameController.text : latestUser.userName.split(' ').last}',
                 phone: bloc.phoneController.text.isNotEmpty
-                    ? int.tryParse(bloc.phoneController.text) ?? latestUser.phone
-                    : latestUser.phone,
+                    ? bloc.phoneController.text
+                    : latestUser.phone.toString(),
                 image: latestUser.image, // always use the latest image from cache
                 id: latestUser.id,
                 password: latestUser.password,
-                country: '',
-                city: '',
+                country: bloc.countryController.text.isNotEmpty
+                    ? bloc.countryController.text
+                    : latestUser.country,
+                city: bloc.cityController.text.isNotEmpty
+                    ? bloc.cityController.text
+                    : latestUser.city,
+                age: bloc.ageController.text.isNotEmpty
+                    ? int.tryParse(bloc.ageController.text) ?? latestUser.age
+                    : latestUser.age,
+                gender: bloc.genderController.text.isNotEmpty
+                    ? bloc.genderController.text
+                    : latestUser.gender,
+                address: bloc.addressController.text.isNotEmpty
+                    ? bloc.addressController.text
+                    : latestUser.address,
+                idImage: latestUser.idImage,
               );
               bloc.add(SaveProfileChangesEvent(updatedEntity));
               final updatedUser = latestUser.copyWith(
                 userName: '${bloc.firstNameController.text.isNotEmpty ? bloc.firstNameController.text : latestUser.userName.split(' ').first} '
                     '${bloc.lastNameController.text.isNotEmpty ? bloc.lastNameController.text : latestUser.userName.split(' ').last}',
                 phone: bloc.phoneController.text.isNotEmpty
-                    ? int.tryParse(bloc.phoneController.text) ?? latestUser.phone
-                    : latestUser.phone,
-                image: latestUser.image,
+                    ? bloc.phoneController.text
+                    : latestUser.phone.toString(),
+                age: bloc.ageController.text.isNotEmpty
+                    ? int.tryParse(bloc.ageController.text) ?? latestUser.age
+                    : latestUser.age,
+                gender: bloc.genderController.text.isNotEmpty
+                    ? bloc.genderController.text
+                    : latestUser.gender,
+                address: bloc.addressController.text.isNotEmpty
+                    ? bloc.addressController.text
+                    : latestUser.address,
+                country: bloc.countryController.text.isNotEmpty
+                    ? bloc.countryController.text
+                    : latestUser.country,
+                city: bloc.cityController.text.isNotEmpty
+                    ? bloc.cityController.text
+                    : latestUser.city,
               );
               DI.find<ICacheManager>().setUserData(updatedUser);
               context.replaceNamed('bottom');

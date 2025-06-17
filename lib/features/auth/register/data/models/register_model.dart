@@ -9,6 +9,10 @@ class RegisterModel extends RegisterEntity {
     required super.country,
     required super.city,
     required super.image,
+    required super.age,
+    required super.address,
+    required super.idImage,
+    required super.gender
 
   }) ;
 
@@ -21,17 +25,25 @@ class RegisterModel extends RegisterEntity {
         'country': country,
         'city': city,
         'image': image,
+        'age': age,
+        'address': address,
+        'idImage': idImage,
+        'gender':gender
       };
   factory RegisterModel.fromJson(Map<String, dynamic> json) {
     return RegisterModel(
-      id: json['id'] as int,
-      email: json['email'] as String,
-      password: json['password'] as String,
-      userName: json['userName'] as String,
-      phone: json['phone'] as int,
-      country: json['country'] as String,
-      city: json['city'] as String,
-      image: json['image'] as String,
+      id: json['id'] ?? 0,
+      email: json['email'] ?? '',
+      password: json['password'] ?? '',
+      userName: json['userName'] ?? '',
+      phone: json['phone'] ?? '',
+      country: json['country'] ?? '',
+      city: json['city'] ?? '',
+      image: json['image'] ?? '',
+      age: json['age'] ?? 0,
+      address: json['address'] ?? '',
+      idImage: json['idImage'] ?? '',
+      gender: json['gender'] ?? '',
 
 
     );
@@ -46,6 +58,10 @@ RegisterModel.fromEntity(RegisterEntity entity)
           country: entity.country,
           city: entity.city,
           image: entity.image,
+          age: entity.age,
+          address: entity.address,
+          idImage: entity.idImage,
+  gender: entity.gender
         );
 RegisterEntity toEntity(RegisterModel model) {
     return RegisterEntity(
@@ -57,6 +73,10 @@ RegisterEntity toEntity(RegisterModel model) {
       country: model.country,
       city: model.city,
       image: model.image,
+      age: model.age,
+      address: model.address,
+      idImage: model.idImage,
+      gender: model.gender
     );
   }
   RegisterModel copyWith({
@@ -64,10 +84,14 @@ RegisterEntity toEntity(RegisterModel model) {
     String? email,
     String? password,
     String? userName,
-    int? phone,
+    String? phone,
     String? country,
     String? city,
     String? image,
+    int? age,
+    String? address,
+    String? idImage,
+    String? gender,
   }) {
     return RegisterModel(
       id: id ?? this.id,
@@ -78,6 +102,10 @@ RegisterEntity toEntity(RegisterModel model) {
       country: country ?? this.country,
       city: city ?? this.city,
       image: image ?? this.image,
+      age: age ?? this.age,
+      address: address ?? this.address,
+      idImage: idImage ?? this.idImage,
+      gender: gender ?? this.gender
     );
   }
 }
