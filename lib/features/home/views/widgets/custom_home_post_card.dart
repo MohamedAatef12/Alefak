@@ -176,7 +176,7 @@ class FacebookPostCard extends StatelessWidget {
   }
 
   String generatePostShareLink(int postId) {
-    return '${Constants.baseUrl}/Posts/$postId';
+    return '${Constants.baseUrl}/posts/$postId';
   }
 
   void sharePost(int postId) {

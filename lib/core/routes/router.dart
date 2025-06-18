@@ -8,6 +8,7 @@ import 'package:alefk/features/edit_profile/presentation/view/edit_profile_scree
 import 'package:alefk/features/home/views/bloc/home_bloc.dart';
 import 'package:alefk/features/home/views/pages/add_post_page.dart';
 import 'package:alefk/features/home/views/pages/home_page.dart';
+import 'package:alefk/features/home/views/widgets/post_details_page.dart';
 import 'package:alefk/features/privacy_and_policy/presentation/view/privacy_and_policy_screen.dart';
 import 'package:alefk/features/settings/views/pages/settings_screen.dart';
 import 'package:alefk/features/shop/views/pages/categories_page.dart';
@@ -65,11 +66,11 @@ GoRouter goRouter() {
         },
       ),
       GoRoute(
-        path: '/post/:id',
+        path: '/posts/:id',
         builder: (context, state) {
           final postId = int.parse(state.pathParameters['id']!);
           log('Post ID: $postId');
-          return LoginScreen();
+          return PostDetailsPage(postId: postId);
         },
       ),
       GoRoute(
@@ -134,5 +135,6 @@ GoRouter goRouter() {
             return const EditProfileScreen(); // Assuming same screen for demo
           })
     ],
+    errorBuilder: (context, state) => const HomePage(),
   );
 }
