@@ -5,7 +5,7 @@ class Constants {
   static const commentsEndpoint = '/api/Comments';
   static const usersEndpoint = '/api/Users';
   static const postsEndpoint = '/api/Posts';
-
+  static const likesEndpoint = '/api/Likes';
   static const String loginEndpoint = '/api/Login/check';
 
   // Headers

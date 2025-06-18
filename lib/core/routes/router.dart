@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:alefk/features/about_us/presentation/view/about_us_screen.dart';
 import 'package:alefk/features/auth/forget_password/presentation/views/forget_password_screen.dart';
 import 'package:alefk/features/auth/login/presentation/view/login_screen.dart';
@@ -7,6 +9,7 @@ import 'package:alefk/features/edit_profile/presentation/view/edit_profile_scree
 import 'package:alefk/features/home/views/bloc/home_bloc.dart';
 import 'package:alefk/features/home/views/pages/add_post_page.dart';
 import 'package:alefk/features/home/views/pages/home_page.dart';
+import 'package:alefk/features/home/views/widgets/post_details_page.dart';
 import 'package:alefk/features/privacy_and_policy/presentation/view/privacy_and_policy_screen.dart';
 import 'package:alefk/features/settings/views/pages/settings_screen.dart';
 import 'package:alefk/features/shop/views/pages/categories_page.dart';
@@ -117,6 +120,15 @@ GoRouter goRouter() {
             // Replace with your Privacy Policy page
             return const AboutUsScreen(); // Assuming same screen for demo
           }),
+
+      GoRoute(
+        path: '/posts/:id',
+        builder: (context, state) {
+          final postId = int.parse(state.pathParameters['id']!);
+          log('Post ID: $postId');
+          return PostDetailsPage(postId: postId);
+        },
+      ),
       GoRoute(
           path: '/forgot_password',
           name: 'forgot_password',
