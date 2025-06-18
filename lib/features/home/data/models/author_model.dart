@@ -10,6 +10,10 @@ class AuthorModel extends AuthorEntity {
     required super.city,
     required super.userName,
     required super.imageUrl,
+    super.age,
+    super.address,
+    super.gender,
+    super.idImage,
   });
 
   factory AuthorModel.fromJson(Map<String, dynamic> json) {
@@ -22,6 +26,10 @@ class AuthorModel extends AuthorEntity {
       city: json['city'] as String,
       userName: json['userName'] as String,
       imageUrl: json['image'] as String? ?? '',
+      age: json['age'] as int?,
+      address: json['address'] as String,
+      gender: json['gender'] as String?,
+      idImage: json['idImage'] as String? ?? '',
     );
   }
 
@@ -35,6 +43,10 @@ class AuthorModel extends AuthorEntity {
       'city': city,
       'userName': userName,
       'image': imageUrl,
+      'age': age,
+      'address': address,
+      'gender': gender,
+      'idImage': idImage,
     };
   }
 
@@ -48,6 +60,10 @@ class AuthorModel extends AuthorEntity {
           city: author.city,
           userName: author.userName,
           imageUrl: author.imageUrl,
+          age: author.age,
+          address: author.address,
+          gender: author.gender,
+          idImage: author.idImage,
         );
 
   AuthorEntity toEntity(AuthorModel model) => AuthorEntity(
@@ -59,5 +75,9 @@ class AuthorModel extends AuthorEntity {
         city: city,
         userName: userName,
         imageUrl: imageUrl,
+        age: age,
+        address: address,
+        gender: gender,
+        idImage: idImage,
       );
 }

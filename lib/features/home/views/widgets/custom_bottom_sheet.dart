@@ -1,11 +1,20 @@
+import 'package:alefk/features/home/domain/entities/comments_entity.dart';
+import 'package:alefk/features/home/domain/entities/likes_entity.dart';
 import 'package:flutter/material.dart';
 
 class BottomSheetContent extends StatelessWidget {
-  const BottomSheetContent(
-      {super.key, required this.index, required this.postId});
+  const BottomSheetContent({
+    super.key,
+    required this.index,
+    required this.postId,
+    required this.comments,
+    required this.likes,
+  });
 
   final int index;
   final int postId;
+  final List<CommentEntity> comments;
+  final List<LikesEntity> likes;
 
   @override
   Widget build(BuildContext context) {
@@ -29,35 +38,32 @@ class BottomSheetContent extends StatelessWidget {
           Expanded(
             child: TabBarView(
               children: [
-                Center(
-                  child: ListView.builder(
-                    itemCount: 10,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        leading: const CircleAvatar(
-                          child: Icon(Icons.person),
-                        ),
-                        title: Text('User $index'),
-                        subtitle: const Text('Liked this post.'),
-                      );
-                    },
-                  ),
-                ),
-                // Comments Tab
-                Center(
-                  child: ListView.builder(
-                    itemCount: 10,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        leading: const CircleAvatar(
-                          child: Icon(Icons.person),
-                        ),
-                        title: Text('User $index'),
-                        subtitle: const Text('This is a comment.'),
-                      );
-                    },
-                  ),
-                ),
+                // Likes Tab
+                likes.isEmpty
+                    ? const Center(child: Text("No likes yet."))
+                    : ListView.builder(
+                        itemCount: likes.length,
+                        itemBuilder: (context, index) {
+                          final like = likes[index];
+                          return ListTile(
+                            title: Text(like.id.toString()),
+                            subtitle: Text(like.date),
+                          );
+                        },
+                      ),
+
+                comments.isEmpty
+                    ? const Center(child: Text("No comments yet."))
+                    : ListView.builder(
+                        itemCount: comments.length,
+                        itemBuilder: (context, index) {
+                          final comment = comments[index];
+                          return ListTile(
+                            title: Text(comment.text),
+                            subtitle: Text(comment.date),
+                          );
+                        },
+                      ),
               ],
             ),
           ),
