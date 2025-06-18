@@ -1,5 +1,6 @@
 import 'package:alefk/core/config/api/failure.dart';
 import 'package:alefk/features/home/domain/entities/comments_entity.dart';
+import 'package:alefk/features/home/domain/entities/likes_entity.dart';
 import 'package:alefk/features/home/domain/entities/post_entity.dart';
 import 'package:dartz/dartz.dart';
 
@@ -14,7 +15,14 @@ abstract class HomeDomainRepository {
   // Comments
   Future<Either<Failure, List<CommentEntity>>> getComments();
   Future<Either<Failure, List<CommentEntity>>> getPostComments(int id);
+  Future<Either<Failure, int>> getCommentCounts(int id);
   Future<Either<Failure, void>> addComment(CommentEntity comment);
   Future<Either<Failure, void>> deleteComment(int id);
   Future<Either<Failure, void>> editComment(CommentEntity comment);
+
+  // Likes
+  Future<Either<Failure, List<LikesEntity>>> getPostLikes(int postId);
+  Future<Either<Failure, int>> getLikeCounts(int postId);
+  Future<Either<Failure, void>> likePost(int postId);
+  Future<Either<Failure, void>> unlikePost(int postId);
 }

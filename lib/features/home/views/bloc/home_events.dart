@@ -57,6 +57,14 @@ class AddCommentEvent extends HomeEvent {
   List<Object?> get props => [comment];
 }
 
+class FetchCommentCountEvent extends HomeEvent {
+  final int postId;
+  FetchCommentCountEvent(this.postId);
+
+  @override
+  List<Object?> get props => [postId];
+}
+
 class EditCommentEvent extends HomeEvent {
   final CommentEntity comment;
   EditCommentEvent(this.comment);
@@ -68,4 +76,35 @@ class EditCommentEvent extends HomeEvent {
 class DeleteCommentEvent extends HomeEvent {
   final int id;
   DeleteCommentEvent(this.id);
+}
+
+class FetchPostsLikesEvent extends HomeEvent {
+  final int postId;
+  FetchPostsLikesEvent(this.postId);
+
+  @override
+  List<Object?> get props => [postId];
+}
+
+class FetchLikesCountEvent extends HomeEvent {
+  final int postId;
+  FetchLikesCountEvent(this.postId);
+  @override
+  List<Object?> get props => [postId];
+}
+
+class AddLikeEvent extends HomeEvent {
+  final int postId;
+  AddLikeEvent(this.postId);
+
+  @override
+  List<Object?> get props => [postId];
+}
+
+class DeleteLikeEvent extends HomeEvent {
+  final int postId;
+  DeleteLikeEvent(this.postId);
+
+  @override
+  List<Object?> get props => [postId];
 }

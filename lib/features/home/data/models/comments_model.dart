@@ -5,6 +5,7 @@ class CommentModel extends CommentEntity {
     required super.id,
     required super.text,
     required super.postID,
+    required super.userID,
     required super.date,
   });
 
@@ -13,6 +14,7 @@ class CommentModel extends CommentEntity {
       id: json['id'],
       text: json['text'],
       postID: json['postID'],
+      userID: json['userID'],
       date: json['date'],
     );
   }
@@ -22,6 +24,7 @@ class CommentModel extends CommentEntity {
       'id': id,
       'text': text,
       'postID': postID,
+      'userID': userID,
       'date': date,
     };
   }
@@ -31,6 +34,7 @@ class CommentModel extends CommentEntity {
           id: commentEntity.id,
           text: commentEntity.text,
           postID: commentEntity.postID,
+          userID: commentEntity.userID,
           date: commentEntity.date,
         );
 
@@ -38,6 +42,7 @@ class CommentModel extends CommentEntity {
         id: commentModel.id,
         text: commentModel.text,
         postID: commentModel.postID,
+        userID: commentModel.userID,
         date: commentModel.date,
       );
 }
