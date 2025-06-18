@@ -20,6 +20,8 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   final cityController = TextEditingController();
    int? selectedAge;
    String? selectedGender;
+   String? selectedCountry;
+   String? selectedCity;
   EditProfileBloc(
       this.editProfileUseCase,
 )
@@ -27,7 +29,9 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     on<PickProfileImageEvent>((event, emit) {
       emit(ProfileImagePicked(event.base64Image));
     });
-
+    on<PickIdImageEvent>((event, emit) {
+      emit(IdImagePicked(event.base64Image));
+    });
     on<SaveProfileChangesEvent>((event, emit) async {
       emit(EditProfileLoading());
       final result = await editProfileUseCase(event.entity);

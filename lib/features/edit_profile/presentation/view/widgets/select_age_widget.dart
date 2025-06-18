@@ -17,6 +17,13 @@ class AgeDropdownWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final value = ageOptions.contains(selectedAge) ? selectedAge : null;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final textStyle = TextStyle(
+      fontWeight: FontWeight.bold,
+      color: isDark
+          ? AppColors.current.darkText
+          : AppColors.current.text,
+    );
     return Padding(
       padding: PaddingConstants.horizontalMedium,
       child: DropdownButtonFormField<int>(
@@ -24,9 +31,9 @@ class AgeDropdownWidget extends StatelessWidget {
         menuMaxHeight: 200,
         dropdownColor: AppColors.current.white,
         value: value,
+        style: textStyle,
         decoration: InputDecoration(
           prefixIcon: Icon(IconlyBroken.heart, color: AppColors.current.blue),
-          labelText: 'Age',
           contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
           fillColor: AppColors.current.white,
           hoverColor: AppColors.current.white,

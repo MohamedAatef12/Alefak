@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:alefk/features/about_us/presentation/view/about_us_screen.dart';
 import 'package:alefk/features/auth/forget_password/presentation/views/forget_password_screen.dart';
 import 'package:alefk/features/auth/login/presentation/view/login_screen.dart';
 import 'package:alefk/features/auth/register/presentation/view/register_screen.dart';
@@ -66,14 +67,6 @@ GoRouter goRouter() {
         },
       ),
       GoRoute(
-        path: '/posts/:id',
-        builder: (context, state) {
-          final postId = int.parse(state.pathParameters['id']!);
-          log('Post ID: $postId');
-          return PostDetailsPage(postId: postId);
-        },
-      ),
-      GoRoute(
         path: '/add-post',
         name: 'add-post',
         builder: (context, state) {
@@ -121,6 +114,22 @@ GoRouter goRouter() {
             return const PrivacyAndPolicyScreen(); // Assuming same screen for demo
           }),
       GoRoute(
+          path: '/about_us',
+          name: 'about_us',
+          builder: (context, state) {
+            // Replace with your Privacy Policy page
+            return const AboutUsScreen(); // Assuming same screen for demo
+          }),
+
+      GoRoute(
+        path: '/posts/:id',
+        builder: (context, state) {
+          final postId = int.parse(state.pathParameters['id']!);
+          log('Post ID: $postId');
+          return PostDetailsPage(postId: postId);
+        },
+      ),
+      GoRoute(
           path: '/forgot_password',
           name: 'forgot_password',
           builder: (context, state) {
@@ -128,13 +137,13 @@ GoRouter goRouter() {
             return const ForgetPasswordScreen(); // Assuming same screen for demo
           }),
       GoRoute(
-          path: '/edit_profile',
-          name: 'edit_profile',
-          builder: (context, state) {
-            // Replace with your Edit Profile page
-            return const EditProfileScreen(); // Assuming same screen for demo
-          })
+      path: '/edit_profile',
+      name: 'edit_profile',
+      builder: (context, state) {
+        // Replace with your Edit Profile page
+        return const EditProfileScreen(); // Assuming same screen for demo
+      }
+      )
     ],
-    errorBuilder: (context, state) => const HomePage(),
   );
 }

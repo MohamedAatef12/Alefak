@@ -12,4 +12,6 @@ abstract class ICacheManager {
   isRemembered();
   getSavedLogin();
   clearLogin();
+  Future<void> setThemeDark(bool isDark);
+  Future<bool> isThemeDark();
 }
