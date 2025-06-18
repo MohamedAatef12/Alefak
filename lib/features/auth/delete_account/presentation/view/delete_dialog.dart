@@ -4,6 +4,7 @@ import 'package:alefk/core/themes/app_colors.dart';
 import 'package:alefk/core/widgets/custom_text_form_field.dart';
 import 'package:alefk/features/auth/delete_account/presentation/bloc/delete_account_bloc.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,9 +15,12 @@ class DeleteAccountDialog {
       }) {
     final bloc = context.read<DeleteAccountBloc>();
 
+    // ✅ Force update color based on current theme
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    AppColors.current = isDark ? defaultDarkColors : defaultLightColors;
+
     AwesomeDialog(
       context: context,
-      dialogBackgroundColor: AppColors.current.white,
       customHeader: Image.asset(
         "assets/images/logo.png",
         fit: BoxFit.cover,
@@ -25,20 +29,21 @@ class DeleteAccountDialog {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'Delete Account',
+            'delete_account'.tr(),
             style: TextStyles.mediumBold.copyWith(
               color: AppColors.current.red,
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Text(
-            'Deleting your account is permanent and cannot be undone. Please enter your password to confirm.',
+            "deleting your account is permanent and cannot be undone. please enter your password to confirm."
+                .tr(),
             style: TextStyles.medium.copyWith(
               color: AppColors.current.text.withOpacity(0.7),
             ),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           CustomTextFormField(
             controller: bloc.passwordController,
             fillColor: true,
@@ -47,18 +52,16 @@ class DeleteAccountDialog {
               borderRadius: BorderRadius.all(Radius.circular(5)),
               borderSide: BorderSide(color: Colors.grey, width: 1),
             ),
-            hintText: 'Enter your password',
-            labelText: 'Password',
+            hintText: 'enter your password'.tr(),
+            labelText: 'password'.tr(),
             obscureText: true,
-            validator: Validators.validatePassword
+            validator: Validators.validatePassword,
           ),
         ],
       ),
-      buttonsBorderRadius: const BorderRadius.all(
-        Radius.circular(5),
-      ),
-      title: 'Delete Account',
-      desc: 'Do you want to delete Your Account?',
+      buttonsBorderRadius: const BorderRadius.all(Radius.circular(5)),
+      title: 'delete_account'.tr(),
+      desc: 'do you want to delete your account?'.tr(),
       dismissOnTouchOutside: true,
       dismissOnBackKeyPress: true,
       btnOkOnPress: () {
@@ -66,12 +69,14 @@ class DeleteAccountDialog {
       },
       btnCancelOnPress: () {},
       btnOkColor: AppColors.current.red,
-      btnOkText: 'Yes',
-      btnCancelText: 'No',
+      btnOkText: 'yes'.tr(),
+      btnCancelText: 'no'.tr(),
       btnCancelColor: AppColors.current.gray,
       btnOkIcon: Icons.check_circle,
       btnCancelIcon: Icons.cancel,
       headerAnimationLoop: false,
     ).show();
   }
+
 }
+

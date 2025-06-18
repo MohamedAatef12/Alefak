@@ -29,7 +29,7 @@ class CustomTextFormField extends StatelessWidget {
   final bool? fillColor;
   final Color? fillColorValue;
   final Decoration? decoration;
-
+  final bool? boldHint;
   const CustomTextFormField({
     super.key,
     this.controller,
@@ -58,10 +58,17 @@ class CustomTextFormField extends StatelessWidget {
     this.fillColor,
     this.fillColorValue,
     this.decoration,
+    this.boldHint,
   });
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final textStyle = TextStyle(
+      fontWeight: FontWeight.bold,
+      color: isDark ? AppColors.current.darkText : AppColors.current.text,
+    );
+
     return Padding(
       padding: PaddingConstants.horizontalMedium,
       child: TextFormField(
@@ -81,6 +88,7 @@ class CustomTextFormField extends StatelessWidget {
         enabled: enabled,
         decoration: InputDecoration(
           hintText: hintText,
+          hintStyle: boldHint ?? true ? textStyle : const TextStyle(),
           labelText: labelText,
           filled: fillColor,
           fillColor: fillColorValue,
@@ -100,7 +108,7 @@ class CustomTextFormField extends StatelessWidget {
                   borderRadius: BorderRadius.all(Radius.circular(12.0)),
                   borderSide: BorderSide(color: AppColors.current.white)),
           errorBorder: enabledBorder ??
-               OutlineInputBorder(
+              OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(12.0)),
                 borderSide: BorderSide(
                   color: AppColors.current.red,

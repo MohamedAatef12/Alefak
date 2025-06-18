@@ -1,3 +1,4 @@
+import 'package:alefk/features/about_us/presentation/view/about_us_screen.dart';
 import 'package:alefk/features/auth/forget_password/presentation/views/forget_password_screen.dart';
 import 'package:alefk/features/auth/login/presentation/view/login_screen.dart';
 import 'package:alefk/features/auth/register/presentation/view/register_screen.dart';
@@ -108,6 +109,13 @@ GoRouter goRouter() {
           builder: (context, state) {
             // Replace with your Privacy Policy page
             return const PrivacyAndPolicyScreen(); // Assuming same screen for demo
+          }),
+      GoRoute(
+          path: '/about_us',
+          name: 'about_us',
+          builder: (context, state) {
+            // Replace with your Privacy Policy page
+            return const AboutUsScreen(); // Assuming same screen for demo
           }),
       GoRoute(
           path: '/forgot_password',

@@ -1,24 +1,24 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:alefk/core/constants/padding.dart';
 import 'package:alefk/core/themes/app_colors.dart';
-import 'package:iconly/iconly.dart';
 
-class GenderDropdownWidget extends StatelessWidget {
-  final String? selectedGender;
+
+class CountryDropdownWidget extends StatelessWidget {
+  final String? selectedCountry;
   final ValueChanged<String?> onChanged;
 
-  const GenderDropdownWidget({
+  const CountryDropdownWidget({
     super.key,
-    required this.selectedGender,
+    required this.selectedCountry,
     required this.onChanged,
   });
 
+
   @override
   Widget build(BuildContext context) {
-    final genderOptions = ['male'.tr(), 'female'.tr()];
-    final value = genderOptions.contains(selectedGender) ? selectedGender : null;
+    final countryOptions = ['egypt'.tr()];
+    final value = countryOptions.contains(selectedCountry) ? selectedCountry : null;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final textStyle = TextStyle(
       fontWeight: FontWeight.bold,
@@ -35,7 +35,7 @@ class GenderDropdownWidget extends StatelessWidget {
         value: value,
         style: textStyle,
         decoration: InputDecoration(
-          prefixIcon: Icon(IconlyBroken.profile, color: AppColors.current.blue),
+          prefixIcon: Icon(Icons.flag_outlined, color: AppColors.current.blue),
           contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
           fillColor: AppColors.current.white,
           hoverColor: AppColors.current.white,
@@ -55,14 +55,14 @@ class GenderDropdownWidget extends StatelessWidget {
             borderSide: BorderSide(color: AppColors.current.white, width: 1),
           ),
         ),
-        items: genderOptions
-            .map((gender) => DropdownMenuItem(
-          value: gender,
-          child: Text(gender.tr()),
+        items: countryOptions
+            .map((country) => DropdownMenuItem(
+          value: country,
+          child: Text(country.tr()),
         ))
             .toList(),
         onChanged: onChanged,
-        validator: (value) => value == null ? "please_select_your_gender".tr() : null,
+        validator: (value) => value == null ? "please_select_your_country".tr() : null,
       ),
     );
   }

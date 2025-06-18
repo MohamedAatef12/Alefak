@@ -14,6 +14,13 @@ class PickProfileImageEvent extends EditProfileEvent {
   @override
   List<Object?> get props => [base64Image];
 }
+class PickIdImageEvent extends EditProfileEvent {
+  final String base64Image;
+  PickIdImageEvent(this.base64Image);
+
+  @override
+  List<Object?> get props => [base64Image];
+}
 class SaveProfileChangesEvent extends EditProfileEvent {
   final EditProfileEntity entity;
   SaveProfileChangesEvent(this.entity);
