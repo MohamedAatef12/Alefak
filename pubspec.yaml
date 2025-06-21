@@ -45,10 +45,79 @@ dependencies:
 dev_dependencies:
   build_runner: ^2.4.15
   injectable_generator: ^2.7.0
+  flutter_flavorizr: ^2.4.1
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^5.0.0
+
+flavorizr:
+  ide: "vscode"
+
+  app:
+    android:
+      flavorDimensions: "app"
+      defaultFlavor: customerDev
+    ios:
+      targets:
+        Runner:
+          bundleId: "com.example.customerDev"
+
+  flavors:
+    customerDev:
+      app:
+        name: "Customer Dev"
+#        icon: "assets/icons/app_icon_customer_dev.png"
+      android:
+        applicationId: "com.example.customerDev"
+      ios:
+        bundleId: "com.example.customerDev"
+
+    customerProd:
+      app:
+        name: "Customer"
+#        icon: "assets/icons/app_icon_customer.png"
+      android:
+        applicationId: "com.example.customer"
+      ios:
+        bundleId: "com.example.customer"
+
+    traderDev:
+      app:
+        name: "Trader Dev"
+#        icon: "assets/icons/app_icon_trader_dev.png"
+      android:
+        applicationId: "com.example.traderDev"
+      ios:
+        bundleId: "com.example.traderDev"
+
+    traderProd:
+      app:
+        name: "Trader"
+#        icon: "assets/icons/app_icon_trader.png"
+      android:
+        applicationId: "com.example.trader"
+      ios:
+        bundleId: "com.example.trader"
+
+    adminDev:
+      app:
+        name: "Admin Dev"
+#        icon: "assets/icons/app_icon_admin_dev.png"
+      android:
+        applicationId: "com.example.adminDev"
+      ios:
+        bundleId: "com.example.adminDev"
+
+    adminProd:
+      app:
+        name: "Admin"
+#        icon: "assets/icons/app_icon_admin.png"
+      android:
+        applicationId: "com.example.admin"
+      ios:
+        bundleId: "com.example.admin"
+
 
 flutter:
 

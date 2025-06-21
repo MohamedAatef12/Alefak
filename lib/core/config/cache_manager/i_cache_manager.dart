@@ -1,5 +1,4 @@
-import 'package:alefk/features/auth/register/data/models/register_model.dart';
-
+import '../../../features/mobile_app/auth/register/data/models/register_model.dart';
 
 abstract class ICacheManager {
   Future<void> init();
@@ -8,7 +7,7 @@ abstract class ICacheManager {
   Future<void> setCrossOnBoardingPage();
   bool isCrossedOnBoardingPage();
   RegisterModel? getUserData();
-  saveLogin( bool rememberMe);
+  saveLogin(bool rememberMe);
   isRemembered();
   getSavedLogin();
   clearLogin();

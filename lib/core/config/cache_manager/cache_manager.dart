@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:alefk/features/auth/register/data/models/register_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../features/mobile_app/auth/register/data/models/register_model.dart';
 import 'i_cache_manager.dart';
 
 class CacheManager implements ICacheManager {
