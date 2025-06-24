@@ -81,4 +81,17 @@ class ApiService {
         options: Options(headers: headers), queryParameters: queryParameters);
     return response.data;
   }
+  Future<dynamic> deleteUser({
+    required String endPoint,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? queryParameters,
+    dynamic data,
+  }) async {
+    var response = await _dio.delete(
+        '${Constants.baseUrl}$endPoint',
+        data: data,
+        options: Options(headers: headers),
+        queryParameters: queryParameters);
+    return response.data;
+  }
 }

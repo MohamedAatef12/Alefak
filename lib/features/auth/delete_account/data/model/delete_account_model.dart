@@ -2,27 +2,29 @@ import 'package:alefk/features/auth/delete_account/domain/entity/delete_account_
 
 class DeleteAccountModel extends DeleteAccountEntity {
   const DeleteAccountModel({
-    required super.userId,
 
+    required super.password,
   });
 
-  Map<String, dynamic> toJson() =>{
-      'userId': userId,
-
-  };
+  Map<String, dynamic> toJson() => {
+        'userpassword' : password,
+      };
 
   factory DeleteAccountModel.fromJson(Map<String, dynamic> json) {
     return DeleteAccountModel(
-      userId: json['userId']?? '',
 
+      password: json['userpassword'] ?? '',
     );
   }
   DeleteAccountModel.fromEntity(DeleteAccountEntity entity)
-      : super(userId: entity.userId,);
+      : super(
+
+          password: entity.password,
+        );
   DeleteAccountEntity toEntity(DeleteAccountModel model) {
     return DeleteAccountEntity(
-      userId: model.userId,
 
+      password: model.password,
     );
   }
 }

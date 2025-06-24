@@ -3,8 +3,7 @@ import 'package:alefk/core/config/di/di_wrapper.dart';
 import 'package:alefk/core/constants/padding.dart';
 import 'package:alefk/core/constants/text_styles.dart';
 import 'package:alefk/core/themes/app_colors.dart';
-import 'package:alefk/features/auth/delete_account/presentation/bloc/delete_account_bloc.dart';
-import 'package:alefk/features/auth/delete_account/presentation/view/delete_dialog.dart';
+import 'package:alefk/features/auth/delete_account/presentation/view/dialog_view.dart';
 import 'package:alefk/features/settings/views/bloc/settings_bloc.dart';
 import 'package:alefk/features/settings/views/bloc/settings_events.dart';
 import 'package:alefk/features/settings/views/bloc/settings_states.dart';
@@ -14,9 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconly/iconly.dart';
-
-import '../../../../auth/delete_account/presentation/bloc/delete_account_events.dart';
-import '../../../../auth/delete_account/presentation/bloc/delete_account_states.dart';
 
 class SettingsBody extends StatelessWidget {
   const SettingsBody({super.key});
@@ -30,9 +26,8 @@ class SettingsBody extends StatelessWidget {
         AppColors.current = state.isDark ? defaultDarkColors : defaultLightColors;
       },
       builder: (context, state) {
-        return SingleChildScrollView(
-          physics: const NeverScrollableScrollPhysics(),
-          child: Column(
+        return ListView(
+          children:[Column(
             children: [
               // Account Settings Header
               GestureDetector(
@@ -44,7 +39,7 @@ class SettingsBody extends StatelessWidget {
                   title: Text('account_settings'.tr(), style: TextStyles.medium.copyWith(color: AppColors.current.text)),
                   trailing: Icon(
                     state.isAccountSettingsOpen ? IconlyBroken.arrow_down_2 : isArabic? IconlyBroken.arrow_left_2
-                    : IconlyBroken.arrow_right_2,
+                        : IconlyBroken.arrow_right_2,
                     color: AppColors.current.text,
                   ),
                 ),
@@ -62,43 +57,7 @@ class SettingsBody extends StatelessWidget {
                           title: Text('edit_profile'.tr(), style: TextStyles.medium.copyWith(color: AppColors.current.text)),
                         ),
                       ),
-                      BlocListener<DeleteAccountBloc, DeleteAccountState>(
-                        listener: (context, state) {
-                          if (state is DeleteAccountSuccess) {
-                            context.goNamed('login');
-                            DI.find<ICacheManager>().clearLogin();
-                          } else if (state is DeleteAccountFailure) {
-                            AwesomeDialog(
-                              context: context,
-                              dialogType: DialogType.error,
-                              title: 'error',
-                              desc: state.message,
-                              btnOkOnPress: () {},
-                            ).show();
-                          }
-                        },
-                        child: GestureDetector(
-                          onTap: () {
-                            DeleteAccountDialog.show(context, onConfirm: (password) {
-                              final userId = DI.find<ICacheManager>().getUserData()!.id;
-                              context.read<DeleteAccountBloc>().add(
-                                DeleteAccountRequestedWithPassword(userId: userId, password: password),
-                              );
-                            });
-                          },
-                          child: ListTile(
-                            leading: Icon(IconlyBroken.delete, color: AppColors.current.red),
-                            title: Text(
-                              'delete_account'.tr(),
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.normal,
-                                color: AppColors.current.red,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                      DeleteDialogView()
                     ],
                   ),
                 ),
@@ -216,7 +175,7 @@ class SettingsBody extends StatelessWidget {
                 ),
               ),
             ],
-          ),
+          ),]
         );
       },
     );

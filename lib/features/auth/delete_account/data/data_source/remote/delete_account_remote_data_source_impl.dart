@@ -18,10 +18,10 @@ class DeleteAccountRemoteDataSourceImpl
   @override
   Future<Either<Failure, void>> deleteAccount(DeleteAccountModel model) async {
     try {
-      await apiService.delete(
-        endPoint: '${Constants.usersEndpoint}/${id}',
-    data: model.toJson(),
-      );
+      await apiService.deleteUser(
+        endPoint: '${Constants.usersEndpoint}/$id',
+        data: '"${model.password}"',
+        headers: {'content-type': 'application/json'},  );
       return const Right(null);
     } catch (e) {
       throw Exception('Error deleting account: $e');

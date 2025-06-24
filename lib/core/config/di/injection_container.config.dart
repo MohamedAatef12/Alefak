@@ -23,6 +23,8 @@ import '../../../features/auth/delete_account/domain/repos/delete_account_repo.d
     as _i772;
 import '../../../features/auth/delete_account/domain/use_cases/delete_account_use_case.dart'
     as _i704;
+import '../../../features/auth/delete_account/presentation/bloc/delete_account_bloc.dart'
+    as _i325;
 import '../../../features/auth/login/data/data_sources/remote/login_remote_data_source.dart'
     as _i309;
 import '../../../features/auth/login/data/data_sources/remote/login_remote_data_source_impl.dart'
@@ -127,6 +129,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i704.DeleteAccountUseCase(gh<_i772.DeleteAccountRepo>()));
     gh.factory<_i274.RegisterUseCase>(
         () => _i274.RegisterUseCase(gh<_i726.RegisterDomainRepository>()));
+    gh.factory<_i325.DeleteAccountBloc>(
+        () => _i325.DeleteAccountBloc(gh<_i704.DeleteAccountUseCase>()));
     gh.factory<_i416.LoginUseCase>(
         () => _i416.LoginUseCase(gh<_i142.LoginDomainRepository>()));
     gh.factory<_i1071.EditProfileUseCase>(

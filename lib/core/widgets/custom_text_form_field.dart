@@ -85,6 +85,8 @@ class CustomTextFormField extends StatelessWidget {
         maxLines: maxLines,
         minLines: minLines,
         readOnly: readOnly,
+        style: textStyle , // ✅ لون النص المدخل
+        cursorColor: textStyle.color,
         enabled: enabled,
         decoration: InputDecoration(
           hintText: hintText,

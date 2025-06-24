@@ -17,14 +17,16 @@ class DeleteAccountRequested extends DeleteAccountEvent {
   List<Object?> get props => [entity];
 }
 class DeleteAccountRequestedWithPassword extends DeleteAccountEvent {
-  final int userId;
+
   final String password;
 
   const DeleteAccountRequestedWithPassword({
-    required this.userId,
+
     required this.password,
   });
 
   @override
-  List<Object?> get props => [userId, password];
+  List<Object?> get props => [password];
 }
+class DeleteAccountReset extends DeleteAccountEvent {}
+

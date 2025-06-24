@@ -32,8 +32,9 @@ class EmailField extends StatelessWidget {
             controller: bloc.emailController,
             prefixIcon: Icon(IconlyBroken.message, color: AppColors.current.blue),
             fillColor: true,
+            obscureText: false,
             fillColorValue: Colors.white,
-            validator: Validators.validateEmail
+            validator: Validators.validateEmail,
         ),
       ],
     );

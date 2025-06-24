@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
 
 class DeleteAccountEntity extends Equatable {
-  final int userId;
-  const DeleteAccountEntity({
-    required this.userId,
+  final String password;
+  const DeleteAccountEntity( {
+    required this.password,
   });
 
   @override
-  List<Object?> get props => [userId];
+  List<Object?> get props => [password];
 }

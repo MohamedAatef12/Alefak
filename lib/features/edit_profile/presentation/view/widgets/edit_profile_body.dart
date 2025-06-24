@@ -115,6 +115,7 @@ class EditProfileBody extends StatelessWidget {
             controller: bloc.phoneController,
             fillColorValue: AppColors.current.white,
             obscureText: false,
+
             keyboardType: TextInputType.number,
             validator: (value) {
               if (value == null || value.isEmpty) {
