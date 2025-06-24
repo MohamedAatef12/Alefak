@@ -1,6 +1,6 @@
 import 'package:alefk/core/constants/text_styles.dart';
 import 'package:alefk/core/themes/app_colors.dart' show AppColors;
-import 'package:alefk/features/mobile_app/about_us/presentation/view/widgets/contactus_body.dart';
+import 'package:alefk/features/about_us/presentation/view/widgets/contactus_body.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconly/iconly.dart';

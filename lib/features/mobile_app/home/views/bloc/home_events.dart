@@ -109,3 +109,5 @@ class DeleteLikeEvent extends HomeEvent {
   @override
   List<Object?> get props => [postId];
 }
+
+class ClearPostDetailsEvent extends HomeEvent {}

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:alefk/features/admin_panel/admin_home/presentation/views/admin_home_page.dart';
 import 'package:alefk/features/privacy_and_policy/presentation/view/privacy_and_policy_screen.dart';
 import 'package:alefk/features/terms_and_conditions/presentation/view/terms_and_conditions_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -115,26 +116,39 @@ GoRouter goRouter() {
         },
       ),
       GoRoute(
-          path: '/privacy_policy',
-          name: 'privacy_policy',
-          builder: (context, state) {
-            // Replace with your Privacy Policy page
-            return const PrivacyAndPolicyScreen(); // Assuming same screen for demo
-          }),
+        path: '/privacy_policy',
+        name: 'privacy_policy',
+        builder: (context, state) {
+          // Replace with your Privacy Policy page
+          return const PrivacyAndPolicyScreen(); // Assuming same screen for demo
+        },
+      ),
       GoRoute(
-          path: '/forgot_password',
-          name: 'forgot_password',
-          builder: (context, state) {
-            // Replace with your Privacy Policy page
-            return const ForgetPasswordScreen(); // Assuming same screen for demo
-          }),
+        path: '/forgot_password',
+        name: 'forgot_password',
+        builder: (context, state) {
+          // Replace with your Privacy Policy page
+          return const ForgetPasswordScreen(); // Assuming same screen for demo
+        },
+      ),
       GoRoute(
-          path: '/edit_profile',
-          name: 'edit_profile',
-          builder: (context, state) {
-            // Replace with your Edit Profile page
-            return const EditProfileScreen(); // Assuming same screen for demo
-          })
+        path: '/edit_profile',
+        name: 'edit_profile',
+        builder: (context, state) {
+          // Replace with your Edit Profile page
+          return const EditProfileScreen(); // Assuming same screen for demo
+        },
+      ),
+
+      // Admin Panel Routes
+
+      GoRoute(
+        path: '/admin_home',
+        name: 'admin_home',
+        builder: (context, state) {
+          return const AdminHomePage();
+        },
+      ),
     ],
     errorBuilder: (context, state) => const HomePage(),
   );

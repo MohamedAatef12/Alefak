@@ -1,4 +1,5 @@
 import 'package:alefk/core/config/api/failure.dart';
+import 'package:alefk/features/mobile_app/auth/register/domain/entities/register_domain_entity.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
@@ -9,13 +10,15 @@ import '../../domain/repos/home_domain_repo.dart';
 import '../models/comments_model.dart';
 import '../models/likes_model.dart';
 import '../models/post_model.dart';
+import '../sources/local/local_data_source.dart';
 import '../sources/remote/home_remote_data_source.dart';
 
 @Injectable(as: HomeDomainRepository)
 class HomeRepositoryImpl implements HomeDomainRepository {
   final RemoteDataSource remoteDataSource;
+  final GetUserLocalDataSource homeLocalDataSource;
 
-  HomeRepositoryImpl(this.remoteDataSource);
+  HomeRepositoryImpl(this.remoteDataSource, this.homeLocalDataSource);
 
   /// Posts
 
@@ -35,28 +38,12 @@ class HomeRepositoryImpl implements HomeDomainRepository {
                   authorID: model.authorID,
                   imageUrl: model.imageUrl,
                   author: model.author,
+                  commentsCount: model.commentsCount,
+                  likesCount: model.likesCount,
+                  liked: model.liked,
                 ),
               ))
           .toList()),
-    );
-  }
-
-  @override
-  Future<Either<Failure, PostEntity>> getPostDetails(int id) async {
-    final result = await remoteDataSource.getPostDetails(id);
-
-    return result.fold(
-      (failure) => Left(failure),
-      (model) => Right(model.toEntity(
-        PostModel(
-            id: model.id,
-            text: model.text,
-            username: model.username,
-            date: model.date,
-            authorID: model.authorID,
-            imageUrl: model.imageUrl,
-            author: model.author),
-      )),
     );
   }
 
@@ -80,26 +67,6 @@ class HomeRepositoryImpl implements HomeDomainRepository {
   /// Comments
 
   @override
-  Future<Either<Failure, List<CommentEntity>>> getComments() async {
-    final result = await remoteDataSource.getComments();
-
-    return result.fold(
-      (failure) => Left(failure),
-      (models) => Right(models
-          .map((model) => model.toEntity(
-                CommentModel(
-                  id: model.id,
-                  text: model.text,
-                  postID: model.postID,
-                  userID: model.userID,
-                  date: model.date,
-                ),
-              ))
-          .toList()),
-    );
-  }
-
-  @override
   Future<Either<Failure, List<CommentEntity>>> getPostComments(
       int postId) async {
     final result = await remoteDataSource.getPostComments(postId);
@@ -117,16 +84,6 @@ class HomeRepositoryImpl implements HomeDomainRepository {
                 ),
               ))
           .toList()),
-    );
-  }
-
-  @override
-  Future<Either<Failure, int>> getCommentCounts(int postId) async {
-    final result = await remoteDataSource.getCommentCounts(postId);
-
-    return result.fold(
-      (failure) => Left(failure),
-      (count) => Right(count),
     );
   }
 
@@ -169,24 +126,38 @@ class HomeRepositoryImpl implements HomeDomainRepository {
   }
 
   @override
-  Future<Either<Failure, int>> getLikeCounts(int postId) async {
-    final result = await remoteDataSource.getLikeCounts(postId);
+  Future<Either<Failure, LikesEntity>> likePost(int postId, int userId) async {
+    final result = await remoteDataSource.likePost(postId, userId);
 
+    return result.fold((failure) => Left(failure), (success) {
+      print('[Repo] Calling remoteDataSource.likePost()');
+
+      return Right(LikesModel(
+        id: 0,
+        postID: postId,
+        userID: userId,
+        date: DateTime.now().toIso8601String(),
+      ));
+    });
+  }
+
+  @override
+  Future<Either<Failure, void>> unlikePost(
+    int postId,
+  ) async {
+    final result = await remoteDataSource.unlikePost(postId);
     return result.fold(
       (failure) => Left(failure),
-      (count) => Right(count),
+      (success) => Right(null),
     );
   }
 
   @override
-  Future<Either<Failure, void>> likePost(int postId) async {
-    // Implement the method to like a post
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Either<Failure, void>> unlikePost(int postId) async {
-    // Implement the method to unlike a post
-    throw UnimplementedError();
+  Future<Either<Failure, RegisterEntity>> getCachedUserData() async {
+    try {
+      return Right(homeLocalDataSource.getUserData());
+    } catch (e) {
+      return Left(DioFailure.fromDioError(e));
+    }
   }
 }

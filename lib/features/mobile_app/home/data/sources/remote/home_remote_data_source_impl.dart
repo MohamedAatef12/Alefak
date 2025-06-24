@@ -4,6 +4,7 @@ import 'package:alefk/core/config/api/api_services.dart';
 import 'package:alefk/core/config/api/constants.dart';
 import 'package:alefk/core/config/api/failure.dart';
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../models/comments_model.dart';
@@ -39,6 +40,25 @@ class RemoteDataSourceImpl implements RemoteDataSource {
     }
   }
 
+  // Future<Either<Failure, List<PostModel>>> getPostsById(post.id) async {
+  //   try {
+  //     final data = await apiService.get(
+  //       endPoint: '${Constants.postsEndpoint}/${post.id}',
+  //     );
+  //
+  //     final posts = data.map((e) => PostModel.fromJson(e)).toList();
+  //
+  //     // Sort posts by date descending (latest first)
+  //     posts.sort(
+  //         (a, b) => DateTime.parse(b.date).compareTo(DateTime.parse(a.date)));
+  //
+  //     return Right(posts);
+  //   } catch (e) {
+  //     log('Error fetching posts: $e');
+  //     return Left(DioFailure.fromDioError(e));
+  //   }
+  // }
+
   @override
   Future<Either<Failure, void>> editPost(PostModel post) async {
     try {
@@ -72,17 +92,6 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
-  Future<Either<Failure, PostModel>> getPostDetails(int id) async {
-    try {
-      final data =
-          await apiService.get(endPoint: '${Constants.postsEndpoint}/$id');
-      return Right(PostModel.fromJson(data));
-    } catch (e) {
-      return Left(DioFailure.fromDioError(e));
-    }
-  }
-
-  @override
   Future<Either<Failure, void>> deletePost(int id) async {
     try {
       await apiService.delete(endPoint: '${Constants.postsEndpoint}/$id');
@@ -93,18 +102,6 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   // Comments
-
-  @override
-  Future<Either<Failure, List<CommentModel>>> getComments() async {
-    try {
-      final data =
-          await apiService.getList(endPoint: Constants.commentsEndpoint);
-      final comments = data.map((e) => CommentModel.fromJson(e)).toList();
-      return Right(comments);
-    } catch (e) {
-      return Left(DioFailure.fromDioError(e));
-    }
-  }
 
   @override
   Future<Either<Failure, List<CommentModel>>> getPostComments(
@@ -166,20 +163,6 @@ class RemoteDataSourceImpl implements RemoteDataSource {
     }
   }
 
-  @override
-  Future<Either<Failure, int>> getCommentCounts(int postId) async {
-    try {
-      final data = await apiService.get(
-        endPoint: '${Constants.commentsEndpoint}/CountsComments/$postId',
-      );
-      final count = data['CommentsCount'] as int? ?? 0;
-
-      return Right(count);
-    } catch (e) {
-      return Left(DioFailure.fromDioError(e));
-    }
-  }
-
   // Likes
 
   @override
@@ -204,12 +187,19 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
-  Future<Either<Failure, void>> likePost(int postId) async {
+  Future<Either<Failure, LikesModel>> likePost(int postId, int userId) async {
     try {
-      await apiService.post(
-        endPoint: '${Constants.likesEndpoint}/$postId/like',
+      final data = await apiService.post(
+        endPoint: Constants.likesEndpoint,
+        data: {
+          'postID': postId,
+          'userID': userId,
+          'date': DateTime.now().toIso8601String(),
+        },
       );
-      return const Right(null);
+      print('[RemoteDataSource] Sending like request for post $postId');
+
+      return Right(LikesModel.fromJson(data));
     } catch (e) {
       return Left(DioFailure.fromDioError(e));
     }
@@ -218,27 +208,15 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   @override
   Future<Either<Failure, void>> unlikePost(int postId) async {
     try {
-      await apiService.delete(
-        endPoint: '${Constants.postsEndpoint}/$postId/unlike',
-      );
-      return const Right(null);
-    } catch (e) {
-      return Left(DioFailure.fromDioError(e));
-    }
-  }
-
-  @override
-  Future<Either<Failure, int>> getLikeCounts(int postId) async {
-    try {
-      final data = await apiService.get(
-        endPoint: '${Constants.likesEndpoint}/Countslikes/$postId',
+      final response = await apiService.delete(
+        endPoint: '${Constants.likesEndpoint}/$postId',
       );
 
-      final count = data['LikesCount'] as int? ?? 0;
-
-      return Right(count);
-    } catch (e) {
-      return Left(DioFailure.fromDioError(e));
+      return Right(null);
+    } on DioException catch (dioError) {
+      return Left(DioFailure.fromDioError(dioError));
+    } catch (e, stackTrace) {
+      return Left(Failure('Unexpected error: ${e.toString()}'));
     }
   }
 }

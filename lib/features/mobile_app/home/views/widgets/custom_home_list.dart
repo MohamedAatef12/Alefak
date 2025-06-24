@@ -31,23 +31,22 @@ class CustomHomeList extends StatelessWidget {
           );
         }
         if (state.posts.isEmpty) {
-          return const SliverToBoxAdapter(
-            child: Center(child: Text('No posts available')),
-          );
+          return SliverToBoxAdapter(
+
+              // child: Center(
+              //   child: Image.asset(
+              //     'assets/images/no_data.jpg',
+              //     fit: BoxFit.cover,
+              //   ),
+              // ),
+              );
         }
         return SliverList(
           delegate: SliverChildBuilderDelegate(
             (context, index) {
               final post = state.posts[index];
               return FacebookPostCard(
-                avatarUrl: post.imageUrl,
-                postId: post.id,
-                userName: post.username,
-                timestamp: post.date,
-                content: post.text,
-                imageUrls: post.imageUrl == 'string' || post.imageUrl.isEmpty
-                    ? []
-                    : [post.imageUrl],
+                post: post,
               );
             },
             childCount: state.posts.length,

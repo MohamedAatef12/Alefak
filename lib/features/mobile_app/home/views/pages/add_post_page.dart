@@ -199,7 +199,7 @@ class AddPostPage extends StatelessWidget {
                         isLoading: state.isAddPostLoading,
                         onPressed: () async {
                           final post = PostEntity(
-                            id: Random().nextInt(1000),
+                            id: 0,
                             authorID: Random().nextInt(1000),
                             username: 'dawood',
                             text: bloc.postTextController.text.trim(),
@@ -222,6 +222,9 @@ class AddPostPage extends StatelessWidget {
                               idImage:
                                   'https://i.pinimg.com/736x/ad/a0/4b/ada04b70bc73e11555c7daabd96d2804.jpg',
                             ),
+                            commentsCount: 0,
+                            likesCount: 0,
+                            liked: false,
                           );
                           context.read<HomeBloc>().add(AddPostEvent(post));
                           bloc.postTextController.clear();

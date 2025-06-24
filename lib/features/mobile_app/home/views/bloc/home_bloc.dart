@@ -1,15 +1,16 @@
+import 'package:alefk/core/config/di/injection_container.dart';
+import 'package:alefk/features/mobile_app/home/domain/usecases/get_user_cached%20_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../domain/usecases/add_comment.dart';
 import '../../domain/usecases/add_post.dart';
 import '../../domain/usecases/delete_post.dart';
-import '../../domain/usecases/get_comments.dart';
-import '../../domain/usecases/get_comments_count_post.dart';
+import '../../domain/usecases/dislike_post.dart';
 import '../../domain/usecases/get_comments_id.dart';
-import '../../domain/usecases/get_likes_count_post.dart';
 import '../../domain/usecases/get_posts.dart';
 import '../../domain/usecases/get_posts_likes.dart';
+import '../../domain/usecases/like_post.dart';
 import 'home_events.dart';
 import 'home_states.dart';
 
@@ -17,35 +18,52 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final GetPostsUseCase getPostsUseCase;
   final AddPostUseCase addPostUseCase;
   final DeletePostUseCase deletePostUseCase;
-  final GetCommentsUseCase getCommentsUseCase;
   final AddCommentUseCase addCommentUseCase;
   final GetPostCommentsUseCase getCommentsIdUseCase;
   final GetPostLikesUseCase getPostsLikesUseCase;
-  final GetCommentsCountUseCase getCommentsCountUseCase;
-  final GetLikesCountUseCase getLikesCountUseCase;
+  final UnLikePostUseCase unlikePostUseCase;
+  final LikePostUseCase likePostUseCase;
+  final GetUserDataUseCase getUserDataUseCase;
 
+  final Set<int> throttledPostIds = {};
+  final Set<int> loadedBottomSheetPostIds = {};
+
+  final TextEditingController commentTextController = TextEditingController();
   final TextEditingController postTextController = TextEditingController();
 
+  factory HomeBloc.fromDI() {
+    return HomeBloc(
+      getPostsUseCase: getIt<GetPostsUseCase>(),
+      addPostUseCase: getIt<AddPostUseCase>(),
+      deletePostUseCase: getIt<DeletePostUseCase>(),
+      addCommentUseCase: getIt<AddCommentUseCase>(),
+      getCommentsIdUseCase: getIt<GetPostCommentsUseCase>(),
+      getPostsLikesUseCase: getIt<GetPostLikesUseCase>(),
+      unlikePostUseCase: getIt<UnLikePostUseCase>(),
+      likePostUseCase: getIt<LikePostUseCase>(),
+      getUserDataUseCase: getIt<GetUserDataUseCase>(),
+    );
+  }
   HomeBloc({
     required this.getPostsUseCase,
     required this.addPostUseCase,
     required this.deletePostUseCase,
-    required this.getCommentsUseCase,
     required this.addCommentUseCase,
     required this.getCommentsIdUseCase,
     required this.getPostsLikesUseCase,
-    required this.getCommentsCountUseCase,
-    required this.getLikesCountUseCase,
+    required this.unlikePostUseCase,
+    required this.likePostUseCase,
+    required this.getUserDataUseCase,
   }) : super(const HomeState()) {
     on<FetchPostsEvent>(_onFetchPosts);
     on<AddPostEvent>(_onAddPost);
     on<DeletePostEvent>(_onDeletePost);
-    on<FetchCommentsEvent>(_onFetchComments);
     on<FetchPostsCommentsEvent>(_onFetchPostsComments);
     on<AddCommentEvent>(_onAddComment);
     on<FetchPostsLikesEvent>(_onFetchPostsLikes);
-    on<FetchCommentCountEvent>(_onFetchCommentCount);
-    on<FetchLikesCountEvent>(_onFetchLikesCount);
+    on<AddLikeEvent>(_onLikePost);
+    on<DeleteLikeEvent>(_onUnlikePost);
+    on<ClearPostDetailsEvent>(_onClearPostDetails);
   }
 
   // Posts
@@ -59,11 +77,23 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         (failure) =>
             emit(state.copyWith(isPostsLoading: false, error: failure.message)),
         (posts) {
-      emit(state.copyWith(posts: posts, isPostsLoading: false, error: null));
-      for (final post in posts) {
-        add(FetchCommentCountEvent(post.id));
-        add(FetchLikesCountEvent(post.id));
+      final postLikesMap = <int, int>{};
+      final postCommentsMap = <int, int>{};
+      final likedPostIds = <int>{};
+      for (var post in posts) {
+        if (post.liked) {
+          likedPostIds.add(post.id);
+        }
+        postLikesMap[post.id] = post.likesCount;
+        postCommentsMap[post.id] = post.commentsCount;
       }
+      emit(state.copyWith(
+        posts: posts,
+        postLikesCount: postLikesMap,
+        likedPostIds: likedPostIds,
+        postCommentsCount: postCommentsMap,
+        isPostsLoading: false,
+      ));
     });
   }
 
@@ -113,18 +143,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   // Comments
 
-  Future<void> _onFetchComments(
-      FetchCommentsEvent event, Emitter<HomeState> emit) async {
-    emit(state.copyWith(isCommentsLoading: true, error: null));
-    final result = await getCommentsUseCase.call();
-    result.fold(
-      (failure) => emit(
-          state.copyWith(isCommentsLoading: false, error: failure.message)),
-      (comments) => emit(state.copyWith(
-          comments: comments, isCommentsLoading: false, error: null)),
-    );
-  }
-
   Future<void> _onFetchPostsComments(
       FetchPostsCommentsEvent event, Emitter<HomeState> emit) async {
     emit(state.copyWith(isCommentsLoading: true, error: null));
@@ -144,25 +162,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     );
   }
 
-  Future<void> _onFetchCommentCount(
-      FetchCommentCountEvent event, Emitter<HomeState> emit) async {
-    emit(state.copyWith(isCommentsLoading: true, error: null));
-    final result = await getCommentsCountUseCase.call(event.postId);
-    result.fold(
-      (failure) => emit(
-          state.copyWith(isCommentsLoading: false, error: failure.message)),
-      (count) {
-        final updatedCommentsCount = Map<int, int>.from(state.commentsCount);
-        updatedCommentsCount[event.postId] = count;
-        emit(state.copyWith(
-          commentsCount: updatedCommentsCount,
-          isCommentsLoading: false,
-          error: null,
-        ));
-      },
-    );
-  }
-
   Future<void> _onAddComment(
       AddCommentEvent event, Emitter<HomeState> emit) async {
     emit(state.copyWith(isCommentsLoading: true, error: null));
@@ -178,12 +177,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           (failure) => emit(
               state.copyWith(isCommentsLoading: false, error: failure.message)),
           (comments) {
-            final updatedCommentsCount =
-                Map<int, int>.from(state.commentsCount);
-            updatedCommentsCount[event.comment.postID] = comments.length;
             emit(state.copyWith(
               comments: comments,
-              commentsCount: updatedCommentsCount,
               isCommentsLoading: false,
               error: null,
             ));
@@ -200,29 +195,124 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(state.copyWith(isLikesLoading: true, error: null));
     final result = await getPostsLikesUseCase.call(event.postId);
     result.fold(
-      (failure) =>
-          emit(state.copyWith(isLikesLoading: false, error: failure.message)),
-      (likes) => emit(
-          state.copyWith(likes: likes, isLikesLoading: false, error: null)),
-    );
-  }
-
-  Future<void> _onFetchLikesCount(
-      FetchLikesCountEvent event, Emitter<HomeState> emit) async {
-    emit(state.copyWith(isLikesLoading: true, error: null));
-    final result = await getLikesCountUseCase.call(event.postId);
-    result.fold(
-      (failure) =>
-          emit(state.copyWith(isLikesLoading: false, error: failure.message)),
-      (count) {
-        final updatedLikesCount = Map<int, int>.from(state.likesCount);
-        updatedLikesCount[event.postId] = count;
+      (failure) => emit(state.copyWith(error: failure.message)),
+      (likes) {
         emit(state.copyWith(
-          likesCount: updatedLikesCount,
+          postLikesCount: {
+            ...state.postLikesCount,
+            event.postId: likes.length,
+          },
+          likes: likes,
           isLikesLoading: false,
-          error: null,
         ));
       },
     );
+  }
+
+  Future<void> _onLikePost(AddLikeEvent event, Emitter<HomeState> emit) async {
+    if (throttledPostIds.contains(event.postId)) return;
+
+    throttledPostIds.add(event.postId);
+
+    final updatedLiked = Set<int>.from(state.likedPostIds)..add(event.postId);
+    final currentCount = state.postLikesCount[event.postId] ?? 0;
+
+    // Optimistic update
+    emit(state.copyWith(
+      likedPostIds: updatedLiked,
+      postLikesCount: {
+        ...state.postLikesCount,
+        event.postId: currentCount + 1,
+      },
+    ));
+
+    final cached = await getUserDataUseCase.call();
+    await cached.fold(
+      (failure) {
+        // Revert if needed
+        final rollbackLiked = Set<int>.from(state.likedPostIds)
+          ..remove(event.postId);
+        emit(state.copyWith(
+          likedPostIds: rollbackLiked,
+          postLikesCount: {
+            ...state.postLikesCount,
+            event.postId: currentCount,
+          },
+        ));
+      },
+      (user) async {
+        final result = await likePostUseCase.call(event.postId, user.id);
+        result.fold(
+          (failure) {
+            _revertLike(event.postId, emit);
+          },
+          (_) {
+            print('[Bloc] AddLikeEvent received for post ${event.postId}');
+          },
+        );
+      },
+    );
+    throttledPostIds.remove(event.postId);
+  }
+
+  void _revertLike(int postId, Emitter<HomeState> emit) {
+    final updatedLiked = Set<int>.from(state.likedPostIds)..remove(postId);
+    final currentCount = state.postLikesCount[postId] ?? 1;
+    emit(state.copyWith(
+      likedPostIds: updatedLiked,
+      postLikesCount: {...state.postLikesCount, postId: currentCount - 1},
+    ));
+  }
+
+  Future<void> _onUnlikePost(
+      DeleteLikeEvent event, Emitter<HomeState> emit) async {
+    if (throttledPostIds.contains(event.postId)) return;
+    throttledPostIds.add(event.postId);
+
+    final updatedLiked = Set<int>.from(state.likedPostIds)
+      ..remove(event.postId);
+    final currentCount = state.postLikesCount[event.postId] ?? 1;
+    emit(state.copyWith(
+      likedPostIds: updatedLiked,
+      postLikesCount: {...state.postLikesCount, event.postId: currentCount - 1},
+    ));
+
+    final cached = await getUserDataUseCase.call();
+    await cached.fold(
+      (failure) {
+        _revertUnlike(event.postId, emit);
+      },
+      (user) async {
+        final result = await unlikePostUseCase.call(event.postId);
+        result.fold(
+          (failure) {
+            _revertUnlike(event.postId, emit);
+          },
+          (_) {},
+        );
+      },
+    );
+
+    throttledPostIds.remove(event.postId);
+  }
+
+  void _revertUnlike(int postId, Emitter<HomeState> emit) {
+    final updatedLiked = Set<int>.from(state.likedPostIds)..add(postId);
+    final currentCount = state.postLikesCount[postId] ?? 0;
+    emit(state.copyWith(
+      likedPostIds: updatedLiked,
+      postLikesCount: {...state.postLikesCount, postId: currentCount + 1},
+    ));
+  }
+
+  void _onClearPostDetails(
+      ClearPostDetailsEvent event, Emitter<HomeState> emit) {
+    emit(state.copyWith(
+      comments: [],
+      likes: [],
+      isCommentsLoading: false,
+      isLikesLoading: false,
+      error: null,
+    ));
   }
 }
