@@ -19,7 +19,7 @@ class CartPageState extends BottomNavigationState {
   int get index => 1;
 }
 
-class SettingsPageState extends BottomNavigationState {
+class ProfilePageState extends BottomNavigationState {
   @override
   int get index => 2;
 }

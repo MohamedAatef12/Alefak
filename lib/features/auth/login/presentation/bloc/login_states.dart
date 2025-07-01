@@ -10,7 +10,8 @@ class LoginLoading extends LoginState {}
 
 class LoginSuccess extends LoginState {
   final RegisterModel user;
-  LoginSuccess(this.user);
+  final String role;
+  LoginSuccess({required this.user, required this.role});
 }
 
 class LoginFailure extends LoginState {

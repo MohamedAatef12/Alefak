@@ -1,18 +1,16 @@
 import 'package:alefk/core/config/cache_manager/i_cache_manager.dart';
 import 'package:alefk/core/config/di/di_wrapper.dart';
-import 'package:alefk/core/constants/text_styles.dart';
 import 'package:alefk/core/themes/app_colors.dart';
 import 'package:alefk/core/widgets/custom_button.dart';
 import 'package:alefk/core/widgets/custom_text_form_field.dart';
-import 'package:alefk/features/edit_profile/domain/entity/edit_profile_entity.dart';
-import 'package:alefk/features/edit_profile/presentation/bloc/edit_profile_bloc.dart';
-import 'package:alefk/features/edit_profile/presentation/bloc/edit_profile_events.dart';
-import 'package:alefk/features/edit_profile/presentation/view/widgets/edit_profile_photo.dart';
-import 'package:alefk/features/edit_profile/presentation/view/widgets/select_age_widget.dart';
-import 'package:alefk/features/edit_profile/presentation/view/widgets/select_city.dart';
-import 'package:alefk/features/edit_profile/presentation/view/widgets/select_country.dart';
-import 'package:alefk/features/edit_profile/presentation/view/widgets/select_gender.dart';
-import 'package:alefk/features/edit_profile/presentation/view/widgets/select_personal_id_photo.dart';
+import 'package:alefk/features/profile/domain/entity/edit_profile_entity.dart';
+import 'package:alefk/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:alefk/features/profile/presentation/bloc/profile_events.dart';
+import 'package:alefk/features/profile/presentation/view/widgets/edit_profile/select_age_widget.dart';
+import 'package:alefk/features/profile/presentation/view/widgets/edit_profile/select_city.dart';
+import 'package:alefk/features/profile/presentation/view/widgets/edit_profile/select_country.dart';
+import 'package:alefk/features/profile/presentation/view/widgets/edit_profile/select_gender.dart';
+import 'package:alefk/features/profile/presentation/view/widgets/edit_profile/select_personal_id_photo.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,19 +27,6 @@ class EditProfileBody extends StatelessWidget {
       physics: const BouncingScrollPhysics(),
       child: Column(
         children: [
-          EditProfileImage(),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.02,
-          ),
-          Text(
-            DI.find<ICacheManager>().getUserData()!.userName.toString(),
-            style: TextStyles.largeBold.copyWith(
-              color: AppColors.current.text,
-            ),
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.04,
-          ),
           Row(
             children: [
               Expanded(
@@ -115,7 +100,6 @@ class EditProfileBody extends StatelessWidget {
             controller: bloc.phoneController,
             fillColorValue: AppColors.current.white,
             obscureText: false,
-
             keyboardType: TextInputType.number,
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -177,7 +161,12 @@ class EditProfileBody extends StatelessWidget {
                         .toString()
                         .isNotEmpty ??
                     false)
-                ? DI.find<ICacheManager>().getUserData()!.address.toString().tr()
+                ? DI
+                    .find<ICacheManager>()
+                    .getUserData()!
+                    .address
+                    .toString()
+                    .tr()
                 : 'enter_your_address'.tr(),
             prefixIcon:
                 Icon(IconlyBroken.location, color: AppColors.current.blue),
@@ -256,7 +245,7 @@ class EditProfileBody extends StatelessWidget {
                     : latestUser.city,
               );
               DI.find<ICacheManager>().setUserData(updatedUser);
-              context.pop();
+              context.pop(true);
             },
             backgroundColor: AppColors.current.blue,
             textColor: AppColors.current.white,

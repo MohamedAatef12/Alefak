@@ -1,6 +1,6 @@
 class Constants {
 
-  static const String baseUrl = 'http://alefak.runasp.net';
+  static const String baseUrl = 'https://ecde-81-10-3-167.ngrok-free.app';
 
   static const commentsEndpoint = '/api/Comments';
   static const usersEndpoint = '/api/Users';

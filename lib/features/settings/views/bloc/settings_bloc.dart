@@ -7,10 +7,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   SettingsBloc()
       : super(const SettingsState(
-    isDark: false,
-    isAccountSettingsOpen: false,
-    isApplicationSettingsOpen: false,
-  )) {
+          isDark: false,
+          isAccountSettingsOpen: false,
+          isApplicationSettingsOpen: false,
+        )) {
     on<ToggleDarkModeEvent>((event, emit) async {
       final newIsDark = !state.isDark;
       emit(state.copyWith(isDark: newIsDark));
@@ -26,7 +26,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     });
 
     on<ToggleApplicationSectionEvent>((event, emit) {
-      emit(state.copyWith(isApplicationSettingsOpen: !state.isApplicationSettingsOpen));
+      emit(state.copyWith(
+          isApplicationSettingsOpen: !state.isApplicationSettingsOpen));
     });
 
     _loadPreferences();

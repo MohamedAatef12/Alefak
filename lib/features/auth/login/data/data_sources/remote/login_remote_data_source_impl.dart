@@ -28,8 +28,9 @@ class LoginRemoteDataSourceImpl implements LoginRemoteDataSource {
         final userJson = response['user'];
         final userModel = RegisterModel.fromJson(userJson);
         final token = response['token'] as String;
+        final role = response['role'] as String?;
         await DI.find<ICacheManager>().setUserData(userModel);
-        return Right(LoginResponseEntity(user: userModel, token: token));
+        return Right(LoginResponseEntity(role:role,user: userModel, token: token));
       }
       return Left(Failure('Login failed'));
     } catch (e) {

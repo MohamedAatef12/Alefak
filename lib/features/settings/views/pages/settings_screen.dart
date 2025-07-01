@@ -9,6 +9,8 @@ import 'package:alefk/features/settings/views/pages/widgets/settings_body.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:iconly/iconly.dart';
 
 
 class SettingsScreen extends StatelessWidget {
@@ -19,6 +21,7 @@ class SettingsScreen extends StatelessWidget {
     return BlocBuilder<SettingsBloc, SettingsState>(
       builder: (context, themeState) {
         AppColors.current = themeState.isDark ? defaultDarkColors : defaultLightColors;
+        final isArabic = context.locale.languageCode == 'ar';
 
         return Scaffold(
           backgroundColor: AppColors.current.primary,
@@ -26,6 +29,12 @@ class SettingsScreen extends StatelessWidget {
             title: Text('settings'.tr(), style: TextStyles.largeBold.copyWith(color: AppColors.current.text)),
             centerTitle: true,
             backgroundColor: Colors.transparent,
+            leading: IconButton(
+              icon: isArabic ?  Icon(IconlyBroken.arrow_right_2) :Icon(IconlyBroken.arrow_left_2)  ,
+              onPressed: () {
+                context.pop();
+              },
+            ),
           ),
           body: BlocProvider(
             create: (context) => DeleteAccountBloc(

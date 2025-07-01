@@ -4,10 +4,12 @@ import 'package:equatable/equatable.dart';
 class LoginResponseEntity extends Equatable {
   final RegisterModel user; // or UserEntity if you have one
   final String token;
+  final String? role;
 
-  const LoginResponseEntity({
+  const LoginResponseEntity( {
     required this.token,
     required this.user,
+    required this.role,
   });
 
   @override
@@ -15,6 +17,7 @@ class LoginResponseEntity extends Equatable {
   List<Object?> get props =>[
     token,
     user,
+    role,
   ];
 
 

@@ -15,7 +15,7 @@ class BottomNavigationBloc
           emit(CartPageState());
           break;
         case 2:
-          emit(SettingsPageState());
+          emit(ProfilePageState());
           break;
       }
     });

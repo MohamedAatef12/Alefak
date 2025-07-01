@@ -70,15 +70,22 @@ class LoginBody extends StatelessWidget {
                 BlocConsumer<LoginBloc, LoginState>(
                   listener: (context, state) {
                     if (state is LoginSuccess) {
-                      Flushbar(
-                        message: 'Login Successful',
-                        margin: EdgeInsets.all(20),
-                        borderRadius: BorderRadius.circular(8),
-                        backgroundColor: AppColors.current.green,
-                        duration: Duration(seconds: 5),
-                        flushbarPosition: FlushbarPosition.TOP,
-                      ).show(context);
-                      context.pushReplacementNamed('bottom');
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        final role = state.role.toLowerCase();
+                        if (role == 'admin') {
+                          context.pushReplacementNamed('bottom');
+                        } else {
+                          context.go('/settings');
+                        }
+                        Flushbar(
+                          message: 'Login Successful',
+                          margin: EdgeInsets.all(20),
+                          borderRadius: BorderRadius.circular(8),
+                          backgroundColor: AppColors.current.green,
+                          duration: Duration(seconds: 5),
+                          flushbarPosition: FlushbarPosition.TOP,
+                        ).show(context);
+                      });
                     } else if (state is LoginFailure) {
                       Flushbar(
                         message: 'Login failed please try again.',
@@ -105,14 +112,14 @@ class LoginBody extends StatelessWidget {
                                 context.read<LoginBloc>().add(LoginSubmitted(
                                     model: model, rememberMe: bloc.rememberMe));
                               }
-                            //   log(DI
-                            //       .find<ICacheManager>()
-                            //       .isRemembered()
-                            //       .toString());
-                            //   log(DI
-                            //       .find<ICacheManager>()
-                            //       .getUserData()
-                            //       .toString());
+                              //   log(DI
+                              //       .find<ICacheManager>()
+                              //       .isRemembered()
+                              //       .toString());
+                              //   log(DI
+                              //       .find<ICacheManager>()
+                              //       .getUserData()
+                              //       .toString());
                             }
                             // log(DI.find<ICacheManager>().isRemembered().toString());
                             // log(DI.find<ICacheManager>().getUserData().toString());

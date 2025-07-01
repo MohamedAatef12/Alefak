@@ -2,26 +2,25 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:alefk/core/config/cache_manager/i_cache_manager.dart';
 import 'package:alefk/core/config/di/di_wrapper.dart';
-import 'package:alefk/core/constants/text_styles.dart';
-import 'package:alefk/core/themes/app_colors.dart';
-import 'package:alefk/features/edit_profile/domain/entity/edit_profile_entity.dart';
+import 'package:alefk/features/profile/domain/entity/edit_profile_entity.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../../bloc/edit_profile_bloc.dart';
-import '../../bloc/edit_profile_events.dart';
-import '../../bloc/edit_profile_states.dart';
+import '../../../bloc/profile_bloc.dart';
+import '../../../bloc/profile_events.dart';
+import '../../../bloc/profile_states.dart';
 
-class SelectPersonalIdImage extends StatelessWidget {
-  const SelectPersonalIdImage({super.key});
+class EditProfileImage extends StatelessWidget {
+  const EditProfileImage({super.key});
 
   Future<bool> requestCameraAndGalleryPermissions() async {
     final cameraStatus = await Permission.camera.request();
     final storageStatus = await Permission.storage.request();
     return cameraStatus.isGranted && storageStatus.isGranted;
   }
+
   Future<void> _pickAndSaveImage(BuildContext context, ImageSource source) async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: source);
@@ -30,8 +29,11 @@ class SelectPersonalIdImage extends StatelessWidget {
       final base64Image = base64Encode(bytes);
       final userData = DI.find<ICacheManager>().getUserData();
       if (userData != null) {
-        final updatedUserData = userData.copyWith(idImage: base64Image);
+        // Update cache
+        final updatedUserData = userData.copyWith(image: base64Image);
         await DI.find<ICacheManager>().setUserData(updatedUserData);
+
+        // Dispatch event to update API
         final updatedEntity = EditProfileEntity(
           id: userData.id,
           email: userData.email,
@@ -47,7 +49,8 @@ class SelectPersonalIdImage extends StatelessWidget {
           idImage: userData.idImage,
         );
         context.read<EditProfileBloc>().add(SaveProfileChangesEvent(updatedEntity));
-        context.read<EditProfileBloc>().add(PickIdImageEvent(base64Image));
+        // Trigger UI update with new Base64 image
+        context.read<EditProfileBloc>().add(PickProfileImageEvent(base64Image));
       }
     }
   }
@@ -96,104 +99,43 @@ class SelectPersonalIdImage extends StatelessWidget {
     return BlocBuilder<EditProfileBloc, EditProfileState>(
       builder: (context, state) {
         final userData = DI.find<ICacheManager>().getUserData();
-        final imagePath = userData?.idImage;
+        final imagePath = userData?.image;
 
-        Widget content;
+        ImageProvider imageProvider;
         if (imagePath != null && imagePath.isNotEmpty) {
           try {
             final bytes = base64Decode(imagePath);
-            content = Container(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.2,
-              decoration: BoxDecoration(
-                color: AppColors.current.white,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  color: AppColors.current.text,
-                  width: 0.7,
-                ),
-                image: DecorationImage(
-                  image: MemoryImage(bytes),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: Align(
-                alignment: Alignment.bottomRight,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                    onTap: () => _showPicker(context),
-                    child: const CircleAvatar(
-                      radius: 15,
-                      backgroundColor: Colors.blue,
-                      child: Icon(
-                        Icons.edit,
-                        size: 15,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            );
+            imageProvider = MemoryImage(bytes);
           } catch (_) {
-            content = _buildAddPhotoUI(context);
+            imageProvider = const AssetImage('assets/images/profile.png');
           }
         } else {
-          content = _buildAddPhotoUI(context);
+          imageProvider = const AssetImage('assets/images/profile.png');
         }
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-          child: content,
-        );
-      },
-    );
-  }
 
-  Widget _buildAddPhotoUI(BuildContext context) {
-    return GestureDetector(
-      onTap: () => _showPicker(context),
-      child: Container(
-        width: double.infinity,
-        height: MediaQuery.of(context).size.height * 0.2,
-        decoration: BoxDecoration(
-          color: AppColors.current.white,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-            color: AppColors.current.text,
-            width: 0.7,
-          ),
-        ),
-        child: Center(
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.7,
-            height: MediaQuery.of(context).size.height * 0.1,
-            decoration: BoxDecoration(
-              color: AppColors.current.white,
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: AppColors.current.text,
-                width: 0.7,
+        return Stack(
+          alignment: Alignment.bottomRight,
+          children: [
+            CircleAvatar(
+              radius: 70,
+              backgroundImage: imageProvider,
+              onBackgroundImageError: (_, __) {},
+            ),
+            GestureDetector(
+              onTap: () => _showPicker(context),
+              child: CircleAvatar(
+                radius: 18,
+                backgroundColor: Colors.blue,
+                child: const Icon(
+                  Icons.edit,
+                  size: 16,
+                  color: Colors.white,
+                ),
               ),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Add Your Personal Id Photo',
-                  style: TextStyles.smallBold.copyWith(
-                    color: AppColors.current.text,
-                  ),
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.02,
-                ),
-                Image.asset('assets/images/add_photo.png'),
-              ],
-            ),
-          ),
-        ),
-      ),
+          ],
+        );
+      },
     );
   }
 }

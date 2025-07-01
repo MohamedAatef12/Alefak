@@ -7,6 +7,7 @@ import 'package:alefk/features/settings/views/bloc/settings_bloc.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:talker_bloc_logger/talker_bloc_logger_observer.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 import 'core/config/di/injection_container.dart';
@@ -19,6 +20,13 @@ void main() async{
   configureDependencies();
   DI.setSingleton<ICacheManager>(() => CacheManager());
   await DI.find<ICacheManager>().init();
+  final storage = FlutterSecureStorage();  try {
+    await storage.write(key: "test", value: "hello");
+    final value = await storage.read(key: "test");
+    print("Test secure value: $value");
+  } catch (e) {
+    print("Secure storage error: $e");
+  }
   runApp(
     BlocProvider(
       create: (_) => SettingsBloc(),

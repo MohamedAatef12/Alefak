@@ -1,13 +1,14 @@
 import 'dart:convert';
 
 import 'package:alefk/features/auth/register/data/models/register_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'i_cache_manager.dart';
-
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class CacheManager implements ICacheManager {
   SharedPreferences? _prefs;
-
+  final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
   CacheManager();
 
   @override
@@ -88,4 +89,24 @@ class CacheManager implements ICacheManager {
   Future<bool> isThemeDark() async {
     return _prefs?.getBool('is_dark_theme') ?? false;
   }
+  // 👇 لحفظ بيانات حساسة
+  @override
+  Future<void> writeSecureData(String key, String value) async {
+    try {
+      await _secureStorage.write(key: key, value: value);
+    } catch (e) {
+      debugPrint('Error writing secure data: $e');
+    }
+  }
+
+  @override
+  Future<String?> readSecureData(String key) async {
+    return await _secureStorage.read(key: key);
+  }
+
+  @override
+  Future<void> deleteSecureData(String key) async {
+    await _secureStorage.delete(key: key);
+  }
+
 }

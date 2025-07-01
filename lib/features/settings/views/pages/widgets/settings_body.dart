@@ -48,18 +48,7 @@ class SettingsBody extends StatelessWidget {
               if (state.isAccountSettingsOpen) ...[
                 Padding(
                   padding: PaddingConstants.horizontalMedium,
-                  child: Column(
-                    children: [
-                      GestureDetector(
-                        onTap: () => context.pushNamed('edit_profile'),
-                        child: ListTile(
-                          leading: Icon(IconlyBroken.edit, color: AppColors.current.text),
-                          title: Text('edit_profile'.tr(), style: TextStyles.medium.copyWith(color: AppColors.current.text)),
-                        ),
-                      ),
-                      DeleteDialogView()
-                    ],
-                  ),
+                  child: DeleteDialogView(),
                 ),
               ],
 

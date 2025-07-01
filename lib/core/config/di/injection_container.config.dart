@@ -43,16 +43,7 @@ import '../../../features/auth/register/domain/repos/register_domain_repo.dart'
     as _i726;
 import '../../../features/auth/register/domain/usecases/register_domain_usecase.dart'
     as _i274;
-import '../../../features/edit_profile/data/data_source/remote/edit_profile_remote_data_source.dart'
-    as _i908;
-import '../../../features/edit_profile/data/data_source/remote/edit_profile_remote_data_source_impl.dart'
-    as _i503;
-import '../../../features/edit_profile/data/repos/edit_profile_repo_impl.dart'
-    as _i202;
-import '../../../features/edit_profile/domain/repos/edit_profile_repo.dart'
-    as _i485;
-import '../../../features/edit_profile/domain/use_case/edit_profile_use_case.dart'
-    as _i1071;
+
 import '../../../features/home/data/repos/home_repo_impl.dart' as _i1022;
 import '../../../features/home/data/sources/remote/home_remote_data_source.dart'
     as _i794;
@@ -70,6 +61,11 @@ import '../../../features/home/domain/usecases/get_likes_count_post.dart'
     as _i1046;
 import '../../../features/home/domain/usecases/get_posts.dart' as _i673;
 import '../../../features/home/domain/usecases/get_posts_likes.dart' as _i307;
+import '../../../features/profile/data/data_source/remote/edit_profile_remote_data_source.dart' as _i908;
+import '../../../features/profile/data/data_source/remote/edit_profile_remote_data_source_impl.dart' as _i503;
+import '../../../features/profile/data/repos/edit_profile_repo_impl.dart' as _i202;
+import '../../../features/profile/domain/repos/edit_profile_repo.dart' as _i485;
+import '../../../features/profile/domain/use_case/edit_profile_use_case.dart' as _i1071;
 import '../api/api_services.dart' as _i124;
 import 'injection_container.dart' as _i809;
 

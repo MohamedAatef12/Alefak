@@ -15,7 +15,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   @override
   LoginBloc(this.loginUseCase, ) : super(LoginInitial()) {
     on<CheckRemembered>(_checkRemembered);
-    on<LoginSubmitted>(_loginSubmitted);
+    on<LoginSubmitted>((event, emit) async => await _loginSubmitted(event, emit));
     on<TogglePasswordVisibility>((event, emit) {
       obscurePassword = !obscurePassword;
       emit(LoginPasswordVisibilityChanged());
@@ -26,21 +26,35 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     });
 }
   Future<void> _loginSubmitted(
-      LoginSubmitted event, Emitter<LoginState> emit) async {
+      LoginSubmitted event,
+      Emitter<LoginState> emit,
+      ) async {
     emit(LoginLoading());
+
     final result = await loginUseCase(event.model);
-    result.fold(
-          (failure) => emit(LoginFailure(failure.message)),
-          (loginResponse) {
+    await result.fold(
+          (failure) async {
+        if (!emit.isDone) emit(LoginFailure(failure.message));
+      },
+          (loginResponse) async {
         if (event.rememberMe) {
-          DI.find<ICacheManager>().saveLogin(true);
+          await DI.find<ICacheManager>().saveLogin(true);
         } else {
-          DI.find<ICacheManager>().clearLogin();
+          await DI.find<ICacheManager>().clearLogin();
         }
-        emit(LoginSuccess(loginResponse.user)); // or pass token if needed
+
+        final token = loginResponse.token;
+        final role = loginResponse.role;
+
+        final cache = DI.find<ICacheManager>();
+        await cache.writeSecureData('accessToken', token);
+        await cache.writeSecureData('role', role!);
+
+        if (!emit.isDone) emit(LoginSuccess(user: loginResponse.user, role: role));
       },
     );
   }
+
   Future<void> _checkRemembered(
       CheckRemembered event, Emitter<LoginState> emit) async {
     final isRemembered = await DI.find<ICacheManager>().isRemembered();

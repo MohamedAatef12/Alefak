@@ -14,4 +14,7 @@ abstract class ICacheManager {
   clearLogin();
   Future<void> setThemeDark(bool isDark);
   Future<bool> isThemeDark();
+  Future<void> writeSecureData(String key, String value);
+  Future<String?> readSecureData(String key);
+  Future<void> deleteSecureData(String key);
 }

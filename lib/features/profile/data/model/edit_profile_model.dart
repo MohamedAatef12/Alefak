@@ -1,4 +1,5 @@
-import 'package:alefk/features/edit_profile/domain/entity/edit_profile_entity.dart';
+
+import 'package:alefk/features/profile/domain/entity/edit_profile_entity.dart';
 
 class EditProfileModel extends EditProfileEntity {
   const EditProfileModel({

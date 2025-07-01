@@ -4,9 +4,9 @@ import 'package:alefk/features/bottom_bar/views/bloc/bottom_bar_bloc.dart';
 import 'package:alefk/features/bottom_bar/views/bloc/bottom_bar_events.dart';
 import 'package:alefk/features/bottom_bar/views/bloc/bottom_bar_states.dart';
 import 'package:alefk/features/home/views/pages/home_page.dart';
+import 'package:alefk/features/profile/presentation/view/profile_screen.dart';
 import 'package:alefk/features/settings/views/bloc/settings_bloc.dart';
 import 'package:alefk/features/settings/views/bloc/settings_states.dart';
-import 'package:alefk/features/settings/views/pages/settings_screen.dart';
 import 'package:alefk/features/shop/views/pages/shop_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,8 +29,8 @@ class BottomNavigationScreen extends StatelessWidget {
                 page = const HomePage();
               } else if (state is CartPageState) {
                 page = const ShopPage();
-              } else if (state is SettingsPageState) {
-                page = const SettingsScreen();
+              } else if (state is ProfilePageState) {
+                page = const ProfileScreen();
               } else {
                 page = const HomePage();
               }
@@ -68,7 +68,7 @@ class BottomNavigationScreen extends StatelessWidget {
                       BottomNavigationBarItem(
                           icon: IconlyBrokenIcons.shoppingCart, label: 'Cart'),
                       const BottomNavigationBarItem(
-                          icon: IconlyBrokenIcons.settings, label: 'Settings'),
+                          icon: IconlyBrokenIcons.profile, label: 'Profile'),
                     ],
                   ),
                 ),

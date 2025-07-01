@@ -1,45 +1,60 @@
+import 'package:alefk/core/config/cache_manager/i_cache_manager.dart';
+import 'package:alefk/core/config/di/di_wrapper.dart';
 import 'package:dio/dio.dart';
 import 'package:talker_dio_logger/talker_dio_logger_interceptor.dart';
 import 'package:talker_dio_logger/talker_dio_logger_settings.dart';
 import 'package:talker_flutter/talker_flutter.dart';
+import 'package:ansicolor/ansicolor.dart';
 
 class DioFactory {
-  /// private constructor as I don't want to allow creating an instance of this class
-  DioFactory._();
+  DioFactory._(); // private constructor
 
-  static Dio? dio;
+  static Dio? _dio;
 
   static Dio getDio() {
-    Duration timeOut = const Duration(seconds: 30);
+    if (_dio == null) {
+      final dio = Dio();
 
-    if (dio == null) {
-      dio = Dio();
-      dio!
-        ..options.connectTimeout = timeOut
-        ..options.receiveTimeout = timeOut;
+      // إعداد الوقت المستغرق
+      dio.options.connectTimeout = const Duration(seconds: 30);
+      dio.options.receiveTimeout = const Duration(seconds: 30);
 
-      addDioInterceptor();
-      return dio!;
-    } else {
-      return dio!;
+      _dio = dio;
+
+      _addInterceptors();
     }
+
+    return _dio!;
   }
 
-  static void addDioInterceptor() {
-    dio?.interceptors.add(
+  static void _addInterceptors() {
+    _dio?.interceptors.addAll([
+      // إضافة التوكن
+      InterceptorsWrapper(
+        onRequest: (options, handler) async {
+          try {
+            final token = await DI.find<ICacheManager>().readSecureData('accessToken');
+            if (token != null && token.isNotEmpty) {
+              options.headers['Authorization'] = 'Bearer $token';
+            }
+          } catch (e) {
+            // تجاهل الخطأ
+          }
+          return handler.next(options);
+        },
+      ),
+
+      // إضافة اللوجز من Talker
       TalkerDioLogger(
         settings: TalkerDioLoggerSettings(
           printRequestHeaders: true,
           printResponseHeaders: true,
           printResponseMessage: true,
-          // Blue http requests logs in console
           requestPen: AnsiPen()..blue(),
-          // Green http responses logs in console
           responsePen: AnsiPen()..green(),
-          // Error http logs in console
           errorPen: AnsiPen()..red(),
         ),
       ),
-    );
+    ]);
   }
 }
