@@ -192,17 +192,17 @@ class EditProfileBody extends StatelessWidget {
               final bloc = context.read<EditProfileBloc>();
               final latestUser = DI.find<ICacheManager>().getUserData();
               final updatedEntity = EditProfileEntity(
-                email: latestUser!.email,
+
                 userName:
-                    '${bloc.firstNameController.text.isNotEmpty ? bloc.firstNameController.text : latestUser.userName.split(' ').first} '
-                    '${bloc.lastNameController.text.isNotEmpty ? bloc.lastNameController.text : latestUser.userName.split(' ').last}',
+                    '${bloc.firstNameController.text.isNotEmpty ? bloc.firstNameController.text : latestUser!.userName.split(' ').first} '
+                    '${bloc.lastNameController.text.isNotEmpty ? bloc.lastNameController.text : latestUser!.userName.split(' ').last}',
                 phone: bloc.phoneController.text.isNotEmpty
                     ? bloc.phoneController.text
-                    : latestUser.phone.toString(),
+                    : latestUser!.phone.toString(),
                 image:
-                    latestUser.image, // always use the latest image from cache
+                    latestUser!.image, // always use the latest image from cache
                 id: latestUser.id,
-                password: latestUser.password,
+
                 country: bloc.countryController.text.isNotEmpty
                     ? bloc.countryController.text
                     : latestUser.country,

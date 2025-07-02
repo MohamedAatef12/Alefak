@@ -1,3 +1,4 @@
+import 'package:alefk/core/config/notifications/notification_service.dart';
 import 'package:alefk/core/themes/app_colors.dart';
 import 'package:alefk/core/widgets/custom_button.dart';
 import 'package:alefk/features/auth/login/data/models/login_model.dart';
@@ -70,21 +71,27 @@ class LoginBody extends StatelessWidget {
                 BlocConsumer<LoginBloc, LoginState>(
                   listener: (context, state) {
                     if (state is LoginSuccess) {
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) async {
+                        Flushbar(
+                          message: 'Login Successful',
+                          margin: EdgeInsets.all(20),
+                          borderRadius: BorderRadius.circular(8),
+                          backgroundColor: AppColors.current.green,
+                          duration: Duration(seconds: 2),
+                          flushbarPosition: FlushbarPosition.TOP,
+                        ).show(context);
+
+                        await NotificationService().showNotification(
+                          id: state.user.id,
+                          title: 'Alefak',
+                          body: 'Welcome back ${state.user.userName}',
+                        );
                         final role = state.role.toLowerCase();
                         if (role == 'admin') {
                           context.pushReplacementNamed('bottom');
                         } else {
                           context.go('/settings');
                         }
-                        Flushbar(
-                          message: 'Login Successful',
-                          margin: EdgeInsets.all(20),
-                          borderRadius: BorderRadius.circular(8),
-                          backgroundColor: AppColors.current.green,
-                          duration: Duration(seconds: 5),
-                          flushbarPosition: FlushbarPosition.TOP,
-                        ).show(context);
                       });
                     } else if (state is LoginFailure) {
                       Flushbar(

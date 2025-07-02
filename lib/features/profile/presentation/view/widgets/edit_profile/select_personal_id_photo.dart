@@ -34,11 +34,11 @@ class SelectPersonalIdImage extends StatelessWidget {
         await DI.find<ICacheManager>().setUserData(updatedUserData);
         final updatedEntity = EditProfileEntity(
           id: userData.id,
-          email: userData.email,
+
           userName: userData.userName,
           phone: userData.phone.toString(),
           image: base64Image,
-          password: userData.password,
+
           country: userData.country,
           city: userData.city,
           age: userData.age,

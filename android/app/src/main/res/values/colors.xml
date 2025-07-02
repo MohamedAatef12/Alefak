@@ -1,0 +1,3 @@
+<resources>
+    <color name="splash_color">#FF0000</color> <!-- ✅ Red splash background -->
+</resources>

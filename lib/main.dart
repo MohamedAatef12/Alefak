@@ -1,6 +1,7 @@
 import 'package:alefk/core/config/cache_manager/cache_manager.dart';
 import 'package:alefk/core/config/cache_manager/i_cache_manager.dart';
 import 'package:alefk/core/config/di/di_wrapper.dart';
+import 'package:alefk/core/config/notifications/notification_service.dart';
 import 'package:alefk/core/routes/router.dart';
 import 'package:alefk/core/themes/app_colors.dart';
 import 'package:alefk/features/settings/views/bloc/settings_bloc.dart';
@@ -16,6 +17,7 @@ import 'package:easy_localization/easy_localization.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  NotificationService().initNotification();
   await EasyLocalization.ensureInitialized();
   configureDependencies();
   DI.setSingleton<ICacheManager>(() => CacheManager());
