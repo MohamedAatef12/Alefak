@@ -15,6 +15,13 @@ class ProfileImagePicked extends EditProfileState {
   @override
   List<Object?> get props => [base64Image];
 }
+class IdImagePicked extends EditProfileState {
+  final String base64Image;
+  IdImagePicked(this.base64Image);
+
+  @override
+  List<Object?> get props => [base64Image];
+}
 class EditProfileLoading extends EditProfileState {}
 class EditProfileSuccess extends EditProfileState {}
 class EditProfileFailure extends EditProfileState {

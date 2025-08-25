@@ -1,4 +1,5 @@
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:alefk/core/constants/padding.dart';
 import 'package:alefk/core/themes/app_colors.dart';
@@ -14,13 +15,17 @@ class GenderDropdownWidget extends StatelessWidget {
     required this.onChanged,
   });
 
-  static const List<String> genderOptions = ['Male', 'Female', 'Other'];
-
   @override
   Widget build(BuildContext context) {
-    final genderOptions = ['Male', 'Female'];
+    final genderOptions = ['male'.tr(), 'female'.tr()];
     final value = genderOptions.contains(selectedGender) ? selectedGender : null;
-
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final textStyle = TextStyle(
+      fontWeight: FontWeight.bold,
+      color: isDark
+          ? AppColors.current.darkText
+          : AppColors.current.text,
+    );
     return Padding(
       padding: PaddingConstants.horizontalMedium,
       child: DropdownButtonFormField<String>(
@@ -28,9 +33,9 @@ class GenderDropdownWidget extends StatelessWidget {
         menuMaxHeight: 200,
         dropdownColor: AppColors.current.white,
         value: value,
+        style: textStyle,
         decoration: InputDecoration(
           prefixIcon: Icon(IconlyBroken.profile, color: AppColors.current.blue),
-          labelText: 'Gender',
           contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
           fillColor: AppColors.current.white,
           hoverColor: AppColors.current.white,
@@ -53,11 +58,11 @@ class GenderDropdownWidget extends StatelessWidget {
         items: genderOptions
             .map((gender) => DropdownMenuItem(
           value: gender,
-          child: Text(gender),
+          child: Text(gender.tr()),
         ))
             .toList(),
         onChanged: onChanged,
-        validator: (value) => value == null ? 'Please select your gender' : null,
+        validator: (value) => value == null ? "please_select_your_gender".tr() : null,
       ),
     );
   }

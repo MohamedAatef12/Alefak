@@ -79,4 +79,13 @@ class CacheManager implements ICacheManager {
     }
     return null;
   }
+  @override
+  Future<void> setThemeDark(bool isDark) async {
+    await _prefs?.setBool('is_dark_theme', isDark);
+  }
+
+  @override
+  Future<bool> isThemeDark() async {
+    return _prefs?.getBool('is_dark_theme') ?? false;
+  }
 }
