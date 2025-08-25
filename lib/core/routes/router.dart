@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:alefk/features/admin_panel/admin_home/presentation/views/admin_home_page.dart';
+import 'package:alefk/features/admin_panel/dashboard/presentation/pages/dashboard_view.dart';
 import 'package:alefk/features/privacy_and_policy/presentation/view/privacy_and_policy_screen.dart';
 import 'package:alefk/features/terms_and_conditions/presentation/view/terms_and_conditions_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,7 +27,7 @@ GoRouter goRouter() {
     initialLocation: '/',
     routes: <RouteBase>[
       GoRoute(
-        path: '/',
+        path: '/splash',
         name: 'splash',
         builder: (context, state) {
           return const SplashScreen();
@@ -141,12 +142,19 @@ GoRouter goRouter() {
       ),
 
       // Admin Panel Routes
-
+      // admin_home
       GoRoute(
-        path: '/admin_home',
+        path: '/',
         name: 'admin_home',
         builder: (context, state) {
           return const AdminHomePage();
+        },
+      ),
+      GoRoute(
+        path: '/admin/dashboard',
+        name: 'admin_dashboard',
+        builder: (context, state) {
+          return const DashboardView();
         },
       ),
     ],

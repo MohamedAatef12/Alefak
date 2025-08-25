@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:alefk/core/constants/icons.dart';
 import 'package:alefk/core/constants/sized_box.dart';
 import 'package:alefk/core/constants/text_styles.dart';
@@ -200,14 +198,14 @@ class AddPostPage extends StatelessWidget {
                         onPressed: () async {
                           final post = PostEntity(
                             id: 0,
-                            authorID: Random().nextInt(1000),
+                            authorID: 0,
                             username: 'dawood',
                             text: bloc.postTextController.text.trim(),
                             date: DateTime.now().toIso8601String(),
                             imageUrl:
                                 'https://i.pinimg.com/736x/ad/a0/4b/ada04b70bc73e11555c7daabd96d2804.jpg',
                             author: AuthorModel(
-                              id: Random().nextInt(1000),
+                              id: 0,
                               email: 'dawood@gmail.com',
                               password: '123456',
                               phone: '01012345678',

@@ -28,5 +28,4 @@ class F {
         return 'Admin';
     }
   }
-
 }

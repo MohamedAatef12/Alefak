@@ -32,14 +32,13 @@ class CustomHomeList extends StatelessWidget {
         }
         if (state.posts.isEmpty) {
           return SliverToBoxAdapter(
-
-              // child: Center(
-              //   child: Image.asset(
-              //     'assets/images/no_data.jpg',
-              //     fit: BoxFit.cover,
-              //   ),
-              // ),
-              );
+            child: Center(
+              child: Image.asset(
+                'assets/images/no_data.jpg',
+                fit: BoxFit.cover,
+              ),
+            ),
+          );
         }
         return SliverList(
           delegate: SliverChildBuilderDelegate(
