@@ -71,14 +71,19 @@ class ApiService {
     return response.data;
   }
 
-  Future<Map<String, dynamic>> delete({
+  Future<dynamic> delete({
     required String endPoint,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? data,
   }) async {
-    var response = await _dio.delete('${Constants.baseUrl}$endPoint',
-        options: Options(headers: headers), queryParameters: queryParameters);
+    final response = await _dio.delete(
+      '${Constants.baseUrl}$endPoint',
+      options: Options(headers: headers),
+      queryParameters: queryParameters,
+      data: data,
+    );
+
     return response.data;
   }
 }

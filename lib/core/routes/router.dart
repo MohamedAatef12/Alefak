@@ -1,31 +1,33 @@
 import 'dart:developer';
 
-import 'package:alefk/features/about_us/presentation/view/about_us_screen.dart';
-import 'package:alefk/features/auth/forget_password/presentation/views/forget_password_screen.dart';
-import 'package:alefk/features/auth/login/presentation/view/login_screen.dart';
-import 'package:alefk/features/auth/register/presentation/view/register_screen.dart';
-import 'package:alefk/features/bottom_bar/views/pages/bottom_bar_page.dart';
-import 'package:alefk/features/edit_profile/presentation/view/edit_profile_screen.dart';
-import 'package:alefk/features/home/views/bloc/home_bloc.dart';
-import 'package:alefk/features/home/views/pages/add_post_page.dart';
-import 'package:alefk/features/home/views/pages/home_page.dart';
-import 'package:alefk/features/home/views/widgets/post_details_page.dart';
+import 'package:alefk/features/admin_panel/admin_home/presentation/views/admin_home_page.dart';
+import 'package:alefk/features/admin_panel/dashboard/presentation/pages/dashboard_view.dart';
 import 'package:alefk/features/privacy_and_policy/presentation/view/privacy_and_policy_screen.dart';
-import 'package:alefk/features/settings/views/pages/settings_screen.dart';
-import 'package:alefk/features/shop/views/pages/categories_page.dart';
-import 'package:alefk/features/shop/views/pages/product_details.dart';
-import 'package:alefk/features/shop/views/pages/shop_page.dart';
-import 'package:alefk/features/splash/presentation/view/splash_screen.dart';
 import 'package:alefk/features/terms_and_conditions/presentation/view/terms_and_conditions_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../features/mobile_app/auth/forget_password/presentation/views/forget_password_screen.dart';
+import '../../features/mobile_app/auth/login/presentation/view/login_screen.dart';
+import '../../features/mobile_app/auth/register/presentation/view/register_screen.dart';
+import '../../features/mobile_app/bottom_bar/views/pages/bottom_bar_page.dart';
+import '../../features/mobile_app/edit_profile/presentation/view/edit_profile_screen.dart';
+import '../../features/mobile_app/home/views/bloc/home_bloc.dart';
+import '../../features/mobile_app/home/views/pages/add_post_page.dart';
+import '../../features/mobile_app/home/views/pages/home_page.dart';
+import '../../features/mobile_app/home/views/widgets/post_details_page.dart';
+import '../../features/mobile_app/settings/views/pages/settings_screen.dart';
+import '../../features/mobile_app/shop/views/pages/categories_page.dart';
+import '../../features/mobile_app/shop/views/pages/product_details.dart';
+import '../../features/mobile_app/shop/views/pages/shop_page.dart';
+import '../../features/mobile_app/splash/presentation/view/splash_screen.dart';
 
 GoRouter goRouter() {
   return GoRouter(
     initialLocation: '/',
     routes: <RouteBase>[
       GoRoute(
-        path: '/',
+        path: '/splash',
         name: 'splash',
         builder: (context, state) {
           return const SplashScreen();
@@ -64,6 +66,14 @@ GoRouter goRouter() {
         name: 'shop',
         builder: (context, state) {
           return const ShopPage();
+        },
+      ),
+      GoRoute(
+        path: '/posts/:id',
+        builder: (context, state) {
+          final postId = int.parse(state.pathParameters['id']!);
+          log('Post ID: $postId');
+          return PostDetailsPage(postId: postId);
         },
       ),
       GoRoute(
@@ -107,43 +117,47 @@ GoRouter goRouter() {
         },
       ),
       GoRoute(
-          path: '/privacy_policy',
-          name: 'privacy_policy',
-          builder: (context, state) {
-            // Replace with your Privacy Policy page
-            return const PrivacyAndPolicyScreen(); // Assuming same screen for demo
-          }),
-      GoRoute(
-          path: '/about_us',
-          name: 'about_us',
-          builder: (context, state) {
-            // Replace with your Privacy Policy page
-            return const AboutUsScreen(); // Assuming same screen for demo
-          }),
-
-      GoRoute(
-        path: '/posts/:id',
+        path: '/privacy_policy',
+        name: 'privacy_policy',
         builder: (context, state) {
-          final postId = int.parse(state.pathParameters['id']!);
-          log('Post ID: $postId');
-          return PostDetailsPage(postId: postId);
+          // Replace with your Privacy Policy page
+          return const PrivacyAndPolicyScreen(); // Assuming same screen for demo
         },
       ),
       GoRoute(
-          path: '/forgot_password',
-          name: 'forgot_password',
-          builder: (context, state) {
-            // Replace with your Privacy Policy page
-            return const ForgetPasswordScreen(); // Assuming same screen for demo
-          }),
+        path: '/forgot_password',
+        name: 'forgot_password',
+        builder: (context, state) {
+          // Replace with your Privacy Policy page
+          return const ForgetPasswordScreen(); // Assuming same screen for demo
+        },
+      ),
       GoRoute(
-      path: '/edit_profile',
-      name: 'edit_profile',
-      builder: (context, state) {
-        // Replace with your Edit Profile page
-        return const EditProfileScreen(); // Assuming same screen for demo
-      }
-      )
+        path: '/edit_profile',
+        name: 'edit_profile',
+        builder: (context, state) {
+          // Replace with your Edit Profile page
+          return const EditProfileScreen(); // Assuming same screen for demo
+        },
+      ),
+
+      // Admin Panel Routes
+      // admin_home
+      GoRoute(
+        path: '/',
+        name: 'admin_home',
+        builder: (context, state) {
+          return const AdminHomePage();
+        },
+      ),
+      GoRoute(
+        path: '/admin/dashboard',
+        name: 'admin_dashboard',
+        builder: (context, state) {
+          return const DashboardView();
+        },
+      ),
     ],
+    errorBuilder: (context, state) => const HomePage(),
   );
 }

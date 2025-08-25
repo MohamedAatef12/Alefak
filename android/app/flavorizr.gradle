@@ -1,0 +1,36 @@
+android {
+    flavorDimensions += "app"
+
+    productFlavors {
+        customerDev {
+            dimension "app"
+            applicationId "com.example.customerDev"
+            resValue "string", "app_name", "Customer Dev"
+        }
+        customerProd {
+            dimension "app"
+            applicationId "com.example.customer"
+            resValue "string", "app_name", "Customer"
+        }
+        traderDev {
+            dimension "app"
+            applicationId "com.example.traderDev"
+            resValue "string", "app_name", "Trader Dev"
+        }
+        traderProd {
+            dimension "app"
+            applicationId "com.example.trader"
+            resValue "string", "app_name", "Trader"
+        }
+        adminDev {
+            dimension "app"
+            applicationId "com.example.adminDev"
+            resValue "string", "app_name", "Admin Dev"
+        }
+        adminProd {
+            dimension "app"
+            applicationId "com.example.admin"
+            resValue "string", "app_name", "Admin"
+        }
+    }
+}
